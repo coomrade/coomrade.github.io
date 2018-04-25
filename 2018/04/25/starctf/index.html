@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,javaScript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 simpleweb之前*CTF在打的时候其实我没有时间去打，这篇是后来整理的。">
+<meta name="keywords" content="CTF,javaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="starCTF">
+<meta property="og:url" content="http://yoursite.com/2018/04/25/starctf/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="0x00 simpleweb之前*CTF在打的时候其实我没有时间去打，这篇是后来整理的。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/starctf/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/starctf/2.png">
+<meta property="og:updated_time" content="2018-04-25T14:47:49.585Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="starCTF">
+<meta name="twitter:description" content="0x00 simpleweb之前*CTF在打的时候其实我没有时间去打，这篇是后来整理的。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/starctf/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/25/starctf/"/>
+
+
+
+
+
+  <title>starCTF | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不择手段地前进</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/25/starctf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">starCTF</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-04-25T22:11:26+08:00">
+                2018-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-simpleweb"><a href="#0x00-simpleweb" class="headerlink" title="0x00 simpleweb"></a>0x00 simpleweb</h2><p>之前*CTF在打的时候其实我没有时间去打，这篇是后来整理的。<br><a id="more"></a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> net = <span class="built_in">require</span>(<span class="string">'net'</span>);</span><br><span class="line"></span><br><span class="line">flag=<span class="string">'fake_flag'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = net.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">socket</span>) </span>&#123;</span><br><span class="line">	socket.on(<span class="string">'data'</span>, (data) =&gt; &#123; </span><br><span class="line">		<span class="comment">//m = data.toString().replace(/[\n\r]*$/, '');</span></span><br><span class="line">		ok = <span class="literal">true</span>;</span><br><span class="line">		arr = data.toString().split(<span class="string">' '</span>);</span><br><span class="line">		arr = arr.map(<span class="built_in">Number</span>);</span><br><span class="line">		<span class="keyword">if</span> (arr.length != <span class="number">5</span>) </span><br><span class="line">			ok = <span class="literal">false</span>;</span><br><span class="line">		arr1 = arr.slice(<span class="number">0</span>);</span><br><span class="line">		arr1.sort();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++)</span><br><span class="line">			<span class="keyword">if</span> (arr1[i+<span class="number">1</span>] == arr1[i] || arr[i] &lt; <span class="number">0</span> || arr1[i+<span class="number">1</span>] &gt; <span class="number">127</span>)</span><br><span class="line">				ok = <span class="literal">false</span>;</span><br><span class="line">		arr2 = []</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++)</span><br><span class="line">			arr2.push(arr1[i] + arr1[i+<span class="number">1</span>]);</span><br><span class="line">		val = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++)</span><br><span class="line">			val = val * <span class="number">0x100</span> + arr2[i];</span><br><span class="line">		<span class="keyword">if</span> (val != <span class="number">0x23332333</span>)</span><br><span class="line">			ok = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">if</span> (ok)</span><br><span class="line">			socket.write(flag+<span class="string">'\n'</span>);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			socket.write(<span class="string">'nope\n'</span>);</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="comment">//socket.write('Echo server\r\n');</span></span><br><span class="line">	<span class="comment">//socket.pipe(socket);</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">HOST = <span class="string">'0.0.0.0'</span></span><br><span class="line">PORT = <span class="number">23333</span></span><br><span class="line"></span><br><span class="line">server.listen(PORT, HOST);</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，获取到输入之后，以空格为界限把数据存入了arr中，然后，把所有项的数据类型转换为数字。然后，一开始有点不懂<code>slice(0)</code>有什么用，看到Stack Overflow上面有个回答如下：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/starctf/1.png" alt="image"><code>slice(0)</code>返回的数组与输入完全相同，所以这其实是一个复制数组的廉价方法。然后，分析可以知道:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((arr2[0]*0x100+arr2[1])*0x100+arr2[2])*0x100+arr2[3]=0x23332333</span><br></pre></td></tr></table></figure></p>
+<p>其中，<code>arr2[i]=arr1[i]+arr1[i+1]</code><br><br>然后，列出含有五个未知数的四条方程:</p>
+<ul>
+<li>arr1[0]+arr1[1]=35(0x23)</li>
+<li>arr1[1]+arr1[2]=51(0x33)</li>
+<li>arr1[2]+arr1[3]=35</li>
+<li>arr1[3]+arr1[4]=51<br>然后，还有一个条件，就是arr1是经过了sort()排序的，这里要提到一下JavaScript的sort()方法：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/starctf/2.png" alt="image">一目了然。可以得到，arr1是：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">15 20 31 4 47</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="Smart-Contract"><a href="#Smart-Contract" class="headerlink" title="Smart?Contract"></a>Smart?Contract</h2><p>Yet another blockchain challenge with tokens in the smart contract. Be careful that the blockchain is stored in the cookie and a browser might ignore set-cookie header if it is too long, which prevents the blockchain being updated. So send the requests using scripts.<br><br><a href="http://47.75.9.127:10012/6af948d659f0b7c5d3950a/" target="_blank" rel="noopener">http://47.75.9.127:10012/6af948d659f0b7c5d3950a/</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># written in python 2.7</span></span><br><span class="line">__author__ = <span class="string">'garzon'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> hashlib, json, rsa, uuid, os</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, session, redirect, url_for, escape, request</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.secret_key = <span class="string">'*********************'</span></span><br><span class="line">url_prefix = <span class="string">'/6af948d659f0b7c5d3950a'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">FLAG</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Here is your flag: *ctf&#123;******************&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hash</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.sha256(hashlib.md5(x).digest()).hexdigest()</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hash_reducer</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> hash(hash(x)+hash(y))</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">has_attrs</span><span class="params">(d, attrs)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> type(d) != type(&#123;&#125;): <span class="keyword">raise</span> Exception(<span class="string">"Input should be a dict/JSON"</span>)</span><br><span class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> attrs:</span><br><span class="line">        <span class="keyword">if</span> attr <span class="keyword">not</span> <span class="keyword">in</span> d:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">"&#123;&#125; should be presented in the input"</span>.format(attr))</span><br><span class="line"></span><br><span class="line">EMPTY_HASH = <span class="string">'0'</span>*<span class="number">64</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addr_to_pubkey</span><span class="params">(address)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> rsa.PublicKey(int(address, <span class="number">16</span>), <span class="number">65537</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pubkey_to_address</span><span class="params">(pubkey)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> pubkey.e == <span class="number">65537</span></span><br><span class="line">    hexed = hex(pubkey.n)</span><br><span class="line">    <span class="keyword">if</span> hexed.endswith(<span class="string">'L'</span>): hexed = hexed[:<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">if</span> hexed.startswith(<span class="string">'0x'</span>): hexed = hexed[<span class="number">2</span>:]</span><br><span class="line">    <span class="keyword">return</span> hexed</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_addr_key_pair</span><span class="params">()</span>:</span></span><br><span class="line">    pubkey, privkey = rsa.newkeys(<span class="number">384</span>)</span><br><span class="line">    <span class="keyword">return</span> pubkey_to_address(pubkey), privkey</span><br><span class="line"></span><br><span class="line">bank_address, bank_privkey = gen_addr_key_pair()</span><br><span class="line">hacker_address, hacker_privkey = gen_addr_key_pair()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sign_input_utxo</span><span class="params">(input_utxo_id, privkey)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> rsa.sign(input_utxo_id, privkey, <span class="string">'SHA-1'</span>).encode(<span class="string">'hex'</span>)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hash_utxo</span><span class="params">(utxo)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> reduce(hash_reducer, [utxo[<span class="string">'id'</span>], utxo[<span class="string">'addr'</span>], str(utxo[<span class="string">'amount'</span>])])</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_output_utxo</span><span class="params">(addr_to, amount)</span>:</span></span><br><span class="line">    utxo = &#123;<span class="string">'id'</span>: str(uuid.uuid4()), <span class="string">'addr'</span>: addr_to, <span class="string">'amount'</span>: amount&#125;</span><br><span class="line">    utxo[<span class="string">'hash'</span>] = hash_utxo(utxo)</span><br><span class="line">    <span class="keyword">return</span> utxo</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hash_tx</span><span class="params">(tx)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> reduce(hash_reducer, [</span><br><span class="line">        reduce(hash_reducer, tx[<span class="string">'input'</span>], EMPTY_HASH),</span><br><span class="line">        reduce(hash_reducer, [utxo[<span class="string">'hash'</span>] <span class="keyword">for</span> utxo <span class="keyword">in</span> tx[<span class="string">'output'</span>]], EMPTY_HASH)</span><br><span class="line">    ])</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_tx</span><span class="params">(input_utxo_ids, output_utxo, privkey_from=None)</span>:</span></span><br><span class="line">    tx = &#123;<span class="string">'input'</span>: input_utxo_ids, <span class="string">'signature'</span>: [sign_input_utxo(id, privkey_from) <span class="keyword">for</span> id <span class="keyword">in</span> input_utxo_ids], <span class="string">'output'</span>: output_utxo&#125;</span><br><span class="line">    tx[<span class="string">'hash'</span>] = hash_tx(tx)</span><br><span class="line">    <span class="keyword">return</span> tx</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hash_block</span><span class="params">(block)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> reduce(hash_reducer, [block[<span class="string">'prev'</span>], block[<span class="string">'nonce'</span>], reduce(hash_reducer, [tx[<span class="string">'hash'</span>] <span class="keyword">for</span> tx <span class="keyword">in</span> block[<span class="string">'transactions'</span>]], EMPTY_HASH)])</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_block</span><span class="params">(prev_block_hash, nonce_str, transactions)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> type(prev_block_hash) == type(<span class="string">u''</span>): prev_block_hash = str(prev_block_hash)</span><br><span class="line">    <span class="keyword">if</span> type(prev_block_hash) != type(<span class="string">''</span>): <span class="keyword">raise</span> Exception(<span class="string">'prev_block_hash should be hex-encoded hash value'</span>)</span><br><span class="line">    nonce = str(nonce_str)</span><br><span class="line">    <span class="keyword">if</span> len(nonce) &gt; <span class="number">128</span>: <span class="keyword">raise</span> Exception(<span class="string">'the nonce is too long'</span>)</span><br><span class="line">    block = &#123;<span class="string">'prev'</span>: prev_block_hash, <span class="string">'nonce'</span>: nonce, <span class="string">'transactions'</span>: transactions&#125;</span><br><span class="line">    block[<span class="string">'hash'</span>] = hash_block(block)</span><br><span class="line">    <span class="keyword">return</span> block</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_blockchain_tail</span><span class="params">(blocks=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> blocks <span class="keyword">is</span> <span class="keyword">None</span>: blocks = session[<span class="string">'blocks'</span>]</span><br><span class="line">    <span class="keyword">return</span> max(blocks.values(), key=<span class="keyword">lambda</span> block: block[<span class="string">'height'</span>])</span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SRC20SmartContract</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, addr, privkey)</span>:</span></span><br><span class="line">        self.starTokenNum = <span class="number">0</span></span><br><span class="line">        self.balanceOfAddr = &#123;addr: <span class="number">999999999</span>&#125;</span><br><span class="line">        self.addr = addr</span><br><span class="line">        self.privkey = privkey</span><br><span class="line">        self.owned_token_utxos = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">onCall_withdraw</span><span class="params">(self, tx)</span>:</span></span><br><span class="line">        <span class="comment"># by calling this you can convert your StarTokens into StarCoins!</span></span><br><span class="line">        <span class="keyword">if</span> len(tx[<span class="string">'input'</span>]) == <span class="number">1</span> <span class="keyword">and</span> len(tx[<span class="string">'output'</span>]) == <span class="number">1</span> <span class="keyword">and</span> len(tx[<span class="string">'signature'</span>]) == <span class="number">0</span> <span class="keyword">and</span> tx[<span class="string">'input'</span>][<span class="number">0</span>] <span class="keyword">in</span> self.owned_token_utxos:</span><br><span class="line">            <span class="comment"># which means that you would like to redeem StarCoins in the input utxo using your StarTokens</span></span><br><span class="line">            recv_addr = tx[<span class="string">'output'</span>][<span class="number">0</span>][<span class="string">'addr'</span>]</span><br><span class="line">            amount_to_redeem = self.owned_token_utxos[tx[<span class="string">'input'</span>][<span class="number">0</span>]][<span class="string">'amount'</span>]</span><br><span class="line">            self.sendTokenAtTx(tx, recv_addr, self.addr, amount_to_redeem)</span><br><span class="line">            tx[<span class="string">'signature'</span>].append(sign_input_utxo(tx[<span class="string">'input'</span>][<span class="number">0</span>], self.privkey))</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">onCall_buyTokens</span><span class="params">(self, utxos, tx)</span>:</span></span><br><span class="line">        <span class="comment"># by calling this you can buy some StarTokens using StarCoins!</span></span><br><span class="line">        <span class="keyword">if</span> len(tx[<span class="string">'input'</span>]) == <span class="number">1</span> <span class="keyword">and</span> len(tx[<span class="string">'output'</span>]) == <span class="number">1</span> <span class="keyword">and</span> tx[<span class="string">'output'</span>][<span class="number">0</span>][<span class="string">'addr'</span>] == self.addr:</span><br><span class="line">            self.sendTokenAtTx(tx, self.addr, utxos[tx[<span class="string">'input'</span>][<span class="number">0</span>]][<span class="string">'addr'</span>], tx[<span class="string">'output'</span>][<span class="number">0</span>][<span class="string">'amount'</span>])</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getTokenBalance</span><span class="params">(self, addr)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> addr <span class="keyword">not</span> <span class="keyword">in</span> self.balanceOfAddr: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> self.balanceOfAddr[addr]</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sendTokenAtTx</span><span class="params">(self, tx, from_addr, to_addr, amount)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.getTokenBalance(from_addr) &lt; amount: <span class="keyword">raise</span> Exception(<span class="string">"no enough StarToken at "</span> + from_addr)</span><br><span class="line">        <span class="keyword">if</span> to_addr == self.addr:</span><br><span class="line">            from_addr, to_addr = to_addr, from_addr</span><br><span class="line">            amount = -amount</span><br><span class="line">        utxo_used_to_record_SRCToken = create_output_utxo(to_addr, <span class="number">0</span>)</span><br><span class="line">        obj = &#123;<span class="string">'utxo_id'</span>: utxo_used_to_record_SRCToken[<span class="string">'id'</span>], <span class="string">'tokenNum'</span>: amount&#125;</span><br><span class="line">        payload = json.dumps(obj)</span><br><span class="line">        signature = self.signSRCTokenUtxoPayload(payload)</span><br><span class="line">        info = signature + <span class="string">'$$$'</span> + payload</span><br><span class="line">        utxo_used_to_record_SRCToken[<span class="string">'extra'</span>] = info</span><br><span class="line">        tx[<span class="string">'output'</span>].append(utxo_used_to_record_SRCToken)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">signSRCTokenUtxoPayload</span><span class="params">(self, payload)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> rsa.sign(payload, self.privkey, <span class="string">'SHA-1'</span>).encode(<span class="string">'hex'</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">verifySRCTokenUtxoPayload</span><span class="params">(self, payload, signature)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> rsa.verify(payload, signature.decode(<span class="string">'hex'</span>), addr_to_pubkey(self.addr))</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">extractInfoFromUtxos</span><span class="params">(self, utxos)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> utxo_id, utxo <span class="keyword">in</span> utxos.items():</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'extra'</span> <span class="keyword">in</span> utxo:</span><br><span class="line">                info = utxo[<span class="string">'extra'</span>]</span><br><span class="line">                <span class="keyword">if</span> type(info) == type(<span class="string">u''</span>): info = str(info)</span><br><span class="line">                <span class="keyword">if</span> type(info) != type(<span class="string">''</span>): <span class="keyword">raise</span> Exception(<span class="string">"unknown type of 'extra' in utxo"</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="string">'$$$'</span> <span class="keyword">not</span> <span class="keyword">in</span> info: <span class="keyword">raise</span> Exception(<span class="string">"signature of SRC20 token is not found"</span>)</span><br><span class="line">                signature = info[:info.index(<span class="string">'$$$'</span>)]</span><br><span class="line">                payload = info[info.index(<span class="string">'$$$'</span>)+<span class="number">3</span>:]</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> self.verifySRCTokenUtxoPayload(payload, signature): <span class="keyword">raise</span> Exception(<span class="string">"this SRC20 token is fake"</span>)</span><br><span class="line">                obj = json.loads(payload)</span><br><span class="line">                <span class="keyword">if</span> obj[<span class="string">'utxo_id'</span>] != utxo[<span class="string">'id'</span>]: <span class="keyword">raise</span> Exception(<span class="string">"the id of utxo does not match the one on the token"</span>)</span><br><span class="line">                <span class="keyword">if</span> utxo[<span class="string">'addr'</span>] <span class="keyword">not</span> <span class="keyword">in</span> self.balanceOfAddr: self.balanceOfAddr[utxo[<span class="string">'addr'</span>]] = <span class="number">0</span></span><br><span class="line">                self.balanceOfAddr[utxo[<span class="string">'addr'</span>]] += obj[<span class="string">'tokenNum'</span>]</span><br><span class="line">            <span class="keyword">if</span> utxo[<span class="string">'addr'</span>] == self.addr: self.owned_token_utxos[utxo[<span class="string">'id'</span>]] = utxo</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_utxo</span><span class="params">(blockchain_tail)</span>:</span></span><br><span class="line">    starToken_contract = SRC20SmartContract(bank_address, bank_privkey)</span><br><span class="line">    curr_block = blockchain_tail</span><br><span class="line">    blockchain = [curr_block]</span><br><span class="line">    <span class="keyword">while</span> curr_block[<span class="string">'hash'</span>] != session[<span class="string">'genesis_block_hash'</span>]:</span><br><span class="line">        curr_block = session[<span class="string">'blocks'</span>][curr_block[<span class="string">'prev'</span>]]</span><br><span class="line">        blockchain.append(curr_block)</span><br><span class="line">    blockchain = blockchain[::<span class="number">-1</span>]</span><br><span class="line">    utxos = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> block <span class="keyword">in</span> blockchain:</span><br><span class="line">        <span class="keyword">for</span> tx <span class="keyword">in</span> block[<span class="string">'transactions'</span>]:</span><br><span class="line">            <span class="keyword">for</span> input_utxo_id <span class="keyword">in</span> tx[<span class="string">'input'</span>]:</span><br><span class="line">                <span class="keyword">del</span> utxos[input_utxo_id]</span><br><span class="line">            <span class="keyword">for</span> utxo <span class="keyword">in</span> tx[<span class="string">'output'</span>]:</span><br><span class="line">                utxos[utxo[<span class="string">'id'</span>]] = utxo</span><br><span class="line">    starToken_contract.extractInfoFromUtxos(utxos)</span><br><span class="line">    <span class="keyword">return</span> utxos, starToken_contract</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_balance</span><span class="params">(utxos)</span>:</span></span><br><span class="line">    balance = &#123;bank_address: <span class="number">0</span>, hacker_address: <span class="number">0</span>&#125;</span><br><span class="line">    <span class="keyword">for</span> utxo <span class="keyword">in</span> utxos.values():</span><br><span class="line">        <span class="keyword">if</span> utxo[<span class="string">'addr'</span>] <span class="keyword">not</span> <span class="keyword">in</span> balance:</span><br><span class="line">            balance[utxo[<span class="string">'addr'</span>]] = <span class="number">0</span></span><br><span class="line">        balance[utxo[<span class="string">'addr'</span>]] += utxo[<span class="string">'amount'</span>]</span><br><span class="line">    <span class="keyword">return</span> balance</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify_utxo_signature</span><span class="params">(address, utxo_id, signature)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> rsa.verify(utxo_id, signature.decode(<span class="string">'hex'</span>), addr_to_pubkey(address))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">append_block</span><span class="params">(block, difficulty=int<span class="params">(<span class="string">'f'</span>*<span class="number">64</span>, <span class="number">16</span>)</span>)</span>:</span></span><br><span class="line">    has_attrs(block, [<span class="string">'prev'</span>, <span class="string">'nonce'</span>, <span class="string">'transactions'</span>])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> type(block[<span class="string">'prev'</span>]) == type(<span class="string">u''</span>): block[<span class="string">'prev'</span>] = str(block[<span class="string">'prev'</span>])</span><br><span class="line">    <span class="keyword">if</span> type(block[<span class="string">'nonce'</span>]) == type(<span class="string">u''</span>): block[<span class="string">'nonce'</span>] = str(block[<span class="string">'nonce'</span>])</span><br><span class="line">    <span class="keyword">if</span> block[<span class="string">'prev'</span>] != find_blockchain_tail()[<span class="string">'hash'</span>]: <span class="keyword">raise</span> Exception(<span class="string">"You do not have the dominant mining power so you can only submit tx to the last block."</span>)</span><br><span class="line">    tail = session[<span class="string">'blocks'</span>][block[<span class="string">'prev'</span>]]</span><br><span class="line">    utxos, contract = calculate_utxo(tail)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> type(block[<span class="string">'transactions'</span>]) != type([]): <span class="keyword">raise</span> Exception(<span class="string">'Please put a transaction array in the block'</span>)</span><br><span class="line">    new_utxo_ids = set()</span><br><span class="line">    <span class="keyword">for</span> tx <span class="keyword">in</span> block[<span class="string">'transactions'</span>]:</span><br><span class="line">        has_attrs(tx, [<span class="string">'input'</span>, <span class="string">'output'</span>, <span class="string">'signature'</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> utxo <span class="keyword">in</span> tx[<span class="string">'output'</span>]:</span><br><span class="line">            has_attrs(utxo, [<span class="string">'amount'</span>, <span class="string">'addr'</span>, <span class="string">'id'</span>])</span><br><span class="line">            <span class="keyword">if</span> type(utxo[<span class="string">'id'</span>]) == type(<span class="string">u''</span>): utxo[<span class="string">'id'</span>] = str(utxo[<span class="string">'id'</span>])</span><br><span class="line">            <span class="keyword">if</span> type(utxo[<span class="string">'addr'</span>]) == type(<span class="string">u''</span>): utxo[<span class="string">'addr'</span>] = str(utxo[<span class="string">'addr'</span>])</span><br><span class="line">            <span class="keyword">if</span> type(utxo[<span class="string">'id'</span>]) != type(<span class="string">''</span>): <span class="keyword">raise</span> Exception(<span class="string">"unknown type of id of output utxo"</span>)</span><br><span class="line">            <span class="keyword">if</span> utxo[<span class="string">'id'</span>] <span class="keyword">in</span> new_utxo_ids: <span class="keyword">raise</span> Exception(<span class="string">"output utxo of same id(&#123;&#125;) already exists."</span>.format(utxo[<span class="string">'id'</span>]))</span><br><span class="line">            new_utxo_ids.add(utxo[<span class="string">'id'</span>])</span><br><span class="line">            <span class="keyword">if</span> type(utxo[<span class="string">'amount'</span>]) != type(<span class="number">1</span>): <span class="keyword">raise</span> Exception(<span class="string">"unknown type of amount of output utxo"</span>)</span><br><span class="line">            <span class="keyword">if</span> utxo[<span class="string">'amount'</span>] &lt; <span class="number">0</span>: <span class="keyword">raise</span> Exception(<span class="string">"invalid amount of output utxo"</span>)</span><br><span class="line">            <span class="keyword">if</span> type(utxo[<span class="string">'addr'</span>]) != type(<span class="string">''</span>): <span class="keyword">raise</span> Exception(<span class="string">"unknown type of address of output utxo"</span>)</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                addr_to_pubkey(utxo[<span class="string">'addr'</span>])</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">raise</span> Exception(<span class="string">"invalid type of address(&#123;&#125;)"</span>.format(utxo[<span class="string">'addr'</span>]))</span><br><span class="line">            utxo[<span class="string">'hash'</span>] = hash_utxo(utxo)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> new_id <span class="keyword">in</span> new_utxo_ids:</span><br><span class="line">            <span class="keyword">if</span> new_id <span class="keyword">in</span> utxos:</span><br><span class="line">                <span class="keyword">raise</span> Exception(<span class="string">"invalid id of output utxo. utxo id(&#123;&#125;) exists"</span>.format(utxo_id))</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">if</span> type(tx[<span class="string">'input'</span>]) != type([]): <span class="keyword">raise</span> Exception(<span class="string">"type of input utxo ids in tx should be array"</span>)</span><br><span class="line">        <span class="keyword">if</span> type(tx[<span class="string">'signature'</span>]) != type([]): <span class="keyword">raise</span> Exception(<span class="string">"type of input utxo signatures in tx should be array"</span>)</span><br><span class="line">        </span><br><span class="line">        tx[<span class="string">'input'</span>] = [str(i) <span class="keyword">if</span> type(i) == type(<span class="string">u''</span>) <span class="keyword">else</span> i <span class="keyword">for</span> i <span class="keyword">in</span> tx[<span class="string">'input'</span>]]</span><br><span class="line">        <span class="keyword">for</span> utxo_id <span class="keyword">in</span> tx[<span class="string">'input'</span>]:</span><br><span class="line">            <span class="keyword">if</span> type(utxo_id) != type(<span class="string">''</span>): <span class="keyword">raise</span> Exception(<span class="string">"unknown type of id of input utxo"</span>)</span><br><span class="line">            <span class="keyword">if</span> utxo_id <span class="keyword">not</span> <span class="keyword">in</span> utxos: <span class="keyword">raise</span> Exception(<span class="string">"invalid id of input utxo. Input utxo(&#123;&#125;) does not exist or it has been consumed."</span>.format(utxo_id))</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">if</span> contract <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'call_smart_contract'</span> <span class="keyword">in</span> tx:</span><br><span class="line">                <span class="keyword">if</span> tx[<span class="string">'call_smart_contract'</span>] == <span class="string">'buyTokens'</span>: contract.onCall_buyTokens(utxos, tx)</span><br><span class="line">                <span class="keyword">if</span> tx[<span class="string">'call_smart_contract'</span>] == <span class="string">'withdraw'</span>: contract.onCall_withdraw(tx)</span><br><span class="line">        </span><br><span class="line">        tot_input = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> len(tx[<span class="string">'input'</span>]) != len(tx[<span class="string">'signature'</span>]): <span class="keyword">raise</span> Exception(<span class="string">"lengths of arrays of ids and signatures of input utxos should be the same"</span>)</span><br><span class="line">        tx[<span class="string">'signature'</span>] = [str(i) <span class="keyword">if</span> type(i) == type(<span class="string">u''</span>) <span class="keyword">else</span> i <span class="keyword">for</span> i <span class="keyword">in</span> tx[<span class="string">'signature'</span>]]</span><br><span class="line">        <span class="keyword">for</span> utxo_id, signature <span class="keyword">in</span> zip(tx[<span class="string">'input'</span>], tx[<span class="string">'signature'</span>]):</span><br><span class="line">            utxo = utxos[utxo_id]</span><br><span class="line">            <span class="keyword">if</span> type(signature) != type(<span class="string">''</span>): <span class="keyword">raise</span> Exception(<span class="string">"unknown type of signature of input utxo"</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> verify_utxo_signature(utxo[<span class="string">'addr'</span>], utxo_id, signature):</span><br><span class="line">                <span class="keyword">raise</span> Exception(<span class="string">"Signature of input utxo is not valid. You are not the owner of this input utxo(&#123;&#125;)!"</span>.format(utxo_id))</span><br><span class="line">            tot_input += utxo[<span class="string">'amount'</span>]</span><br><span class="line">            <span class="keyword">del</span> utxos[utxo_id]</span><br><span class="line">            </span><br><span class="line">        tot_output = sum([utxo[<span class="string">'amount'</span>] <span class="keyword">for</span> utxo <span class="keyword">in</span> tx[<span class="string">'output'</span>]])</span><br><span class="line">        <span class="keyword">if</span> tot_output &gt; tot_input:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">"You don't have enough amount of StarCoins in the input utxo! &#123;&#125;/&#123;&#125;"</span>.format(tot_input, tot_output))</span><br><span class="line">        tx[<span class="string">'hash'</span>] = hash_tx(tx)</span><br><span class="line">    </span><br><span class="line">    block = create_block(block[<span class="string">'prev'</span>], block[<span class="string">'nonce'</span>], block[<span class="string">'transactions'</span>])</span><br><span class="line">    block_hash = int(block[<span class="string">'hash'</span>], <span class="number">16</span>)</span><br><span class="line">    <span class="comment">#We are users in this challenge, so leave the Proof-of-Work thing to the non-existent miners</span></span><br><span class="line">    <span class="comment">#if block_hash &gt; difficulty: raise Exception('Please provide a valid Proof-of-Work')</span></span><br><span class="line">    block[<span class="string">'height'</span>] = tail[<span class="string">'height'</span>]+<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> len(session[<span class="string">'blocks'</span>]) &gt; <span class="number">10</span>: <span class="keyword">raise</span> Exception(<span class="string">'The blockchain is too long. Use ./reset to reset the blockchain'</span>)</span><br><span class="line">    <span class="keyword">if</span> block[<span class="string">'hash'</span>] <span class="keyword">in</span> session[<span class="string">'blocks'</span>]: <span class="keyword">raise</span> Exception(<span class="string">'A same block is already in the blockchain'</span>)</span><br><span class="line">    session[<span class="string">'blocks'</span>][block[<span class="string">'hash'</span>]] = block</span><br><span class="line">    session.modified = <span class="keyword">True</span></span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">'blocks'</span> <span class="keyword">not</span> <span class="keyword">in</span> session:</span><br><span class="line">        session[<span class="string">'blocks'</span>] = &#123;&#125;</span><br><span class="line">    </span><br><span class="line">        <span class="comment"># At first, the bank issued some StarCoins, and give you 100</span></span><br><span class="line">        currency_issued = create_output_utxo(bank_address, <span class="number">200</span>)</span><br><span class="line">        airdrop = create_output_utxo(hacker_address, <span class="number">100</span>)</span><br><span class="line">        genesis_transaction = create_tx([], [currency_issued, airdrop]) <span class="comment"># create StarCoins from nothing</span></span><br><span class="line">        genesis_block = create_block(EMPTY_HASH, <span class="string">'The Times 03/Jan/2009 Chancellor on brink of second bailout for bank'</span>, [genesis_transaction])</span><br><span class="line">        </span><br><span class="line">        session[<span class="string">'genesis_block_hash'</span>] = genesis_block[<span class="string">'hash'</span>]</span><br><span class="line">        genesis_block[<span class="string">'height'</span>] = <span class="number">0</span></span><br><span class="line">        session[<span class="string">'blocks'</span>][genesis_block[<span class="string">'hash'</span>]] = genesis_block</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_balance_of_all</span><span class="params">()</span>:</span></span><br><span class="line">    init()</span><br><span class="line">    tail = find_blockchain_tail()</span><br><span class="line">    utxos, contract = calculate_utxo(tail)</span><br><span class="line">    <span class="keyword">return</span> calculate_balance(utxos), utxos, tail, contract</span><br><span class="line">    </span><br><span class="line"><span class="meta">@app.route(url_prefix+'/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">homepage</span><span class="params">()</span>:</span></span><br><span class="line">    announcement = <span class="string">''</span></span><br><span class="line">    balance, utxos, _, contract = get_balance_of_all()</span><br><span class="line">    genesis_block_info = <span class="string">'hash of genesis block: '</span> + session[<span class="string">'genesis_block_hash'</span>]</span><br><span class="line">    addr_info = <span class="string">'the bank\'s addr: '</span> + bank_address + <span class="string">', your addr: '</span> + hacker_address + <span class="string">', your privkey: '</span> + pickle.dumps(hacker_privkey).encode(<span class="string">'hex'</span>)</span><br><span class="line">    balance_info = <span class="string">'StarCoins balance of all addresses: '</span> + json.dumps(balance)</span><br><span class="line">    starcoins_utxo_info = <span class="string">'All utxos: '</span> + json.dumps(utxos)</span><br><span class="line">    startokens_info = <span class="string">'StarTokens balance of all addresses: '</span> + json.dumps(contract.balanceOfAddr)</span><br><span class="line">    blockchain_info = <span class="string">'Blockchain Explorer: '</span> + json.dumps(session[<span class="string">'blocks'</span>])</span><br><span class="line">    view_source_code_link = <span class="string">"&lt;a href='source_code'&gt;View source code&lt;/a&gt;"</span></span><br><span class="line">    <span class="keyword">return</span> announcement+(<span class="string">'.&lt;br /&gt;&lt;br /&gt;\r\n\r\n'</span>.join([view_source_code_link, genesis_block_info, addr_info, balance_info, starcoins_utxo_info, startokens_info, blockchain_info]))</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">DIFFICULTY = int(<span class="string">'00000'</span> + <span class="string">'f'</span> * <span class="number">59</span>, <span class="number">16</span>)</span><br><span class="line"><span class="meta">@app.route(url_prefix+'/create_block', methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_block_api</span><span class="params">()</span>:</span></span><br><span class="line">    init()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        block = json.loads(request.data)</span><br><span class="line">        append_block(block, DIFFICULTY)</span><br><span class="line">        msg = <span class="string">'transaction finished.'</span></span><br><span class="line">    <span class="keyword">except</span> Exception, e:</span><br><span class="line">        <span class="keyword">return</span> str(e)</span><br><span class="line">        </span><br><span class="line">    balance, utxos, tail, contract = get_balance_of_all()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> balance[hacker_address] == <span class="number">200</span>:</span><br><span class="line">        msg += <span class="string">' Congratulations~ '</span> + FLAG()</span><br><span class="line">    <span class="keyword">return</span> msg</span><br><span class="line">    </span><br><span class="line">        </span><br><span class="line"><span class="comment"># if you mess up the blockchain, use this to reset the blockchain.</span></span><br><span class="line"><span class="meta">@app.route(url_prefix+'/reset')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reset_blockchain</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">'blocks'</span> <span class="keyword">in</span> session: <span class="keyword">del</span> session[<span class="string">'blocks'</span>]</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'genesis_block_hash'</span> <span class="keyword">in</span> session: <span class="keyword">del</span> session[<span class="string">'genesis_block_hash'</span>]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'reset.'</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">@app.route(url_prefix+'/source_code')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_source_code</span><span class="params">()</span>:</span></span><br><span class="line">    source = open(<span class="string">'serve.py'</span>, <span class="string">'r'</span>)</span><br><span class="line">    html = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> source:</span><br><span class="line">        line = line.decode(<span class="string">'utf8'</span>, <span class="string">'ignore'</span>)</span><br><span class="line">        html += line.replace(<span class="string">'&amp;'</span>,<span class="string">'&amp;amp;'</span>).replace(<span class="string">'\t'</span>, <span class="string">'&amp;nbsp;'</span>*<span class="number">4</span>).replace(<span class="string">' '</span>,<span class="string">'&amp;nbsp;'</span>).replace(<span class="string">'&lt;'</span>, <span class="string">'&amp;lt;'</span>).replace(<span class="string">'&gt;'</span>,<span class="string">'&amp;gt;'</span>).replace(<span class="string">'\n'</span>, <span class="string">'&lt;br /&gt;'</span>)</span><br><span class="line">    source.close()</span><br><span class="line">    <span class="keyword">return</span> html</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="keyword">False</span>, host=<span class="string">'0.0.0.0'</span>, port=<span class="number">10012</span>)</span><br></pre></td></tr></table></figure></p>
+<p>区块链的题..这题我会找时间再看，区块链一定要懂的，继续努力。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/javaScript/" rel="tag"># javaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/23/crawler/" rel="next" title="python requests使用笔记">
+                <i class="fa fa-chevron-left"></i> python requests使用笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-simpleweb"><span class="nav-number">1.</span> <span class="nav-text">0x00 simpleweb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smart-Contract"><span class="nav-number">2.</span> <span class="nav-text">Smart?Contract</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
