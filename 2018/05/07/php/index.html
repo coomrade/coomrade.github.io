@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在红帽杯的比赛里面，文件包含漏洞的利用使用了php://filter去获取后台文件的源码，这里就写一下php://filter的一些使用">
+<meta name="keywords" content="PHP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php伪协议之php:&#x2F;&#x2F;">
+<meta property="og:url" content="http://yoursite.com/2018/05/07/php/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="在红帽杯的比赛里面，文件包含漏洞的利用使用了php://filter去获取后台文件的源码，这里就写一下php://filter的一些使用">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/10.png">
+<meta property="og:updated_time" content="2018-05-07T11:38:10.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php伪协议之php:&#x2F;&#x2F;">
+<meta name="twitter:description" content="在红帽杯的比赛里面，文件包含漏洞的利用使用了php://filter去获取后台文件的源码，这里就写一下php://filter的一些使用">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/11.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/07/php/"/>
+
+
+
+
+
+  <title>php伪协议之php:// | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">多渴望滴下为自由流的汗.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/php/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">php伪协议之php://</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-05-07T02:32:25+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在红帽杯的比赛里面，文件包含漏洞的利用使用了<code>php://filter</code>去获取后台文件的源码，这里就写一下<code>php://filter</code>的一些使用<a id="more"></a><br><code>php://filter</code>在文件包含漏洞的利用中经常会用到，PHP提供了一些杂项输入/输出（IO）流，允许访问PHP的输入输出流、标准输入输出和错误描述符， 内存中、磁盘备份的临时文件流以及可以操作其他读取写入文件资源的过滤器。有<code>php://stdin</code>, <code>php://stdout</code> , <code>php://stderr</code>,<code>php://input</code>,<code>php://output</code>等等。<br>先提一下，<code>php://input</code>可以获取到POST过来的数据，这是我觉得挺有趣的一个地方。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    readfile(<span class="string">"php://input"</span>);<span class="comment">#readfile用于读取信息流或文件，并写入输出缓冲</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/11.png" alt="image"></p>
+<h2 id="巧用编码和解码"><a href="#巧用编码和解码" class="headerlink" title="巧用编码和解码"></a>巧用编码和解码</h2><p>然后，来看<code>php://filter</code>，它有很多妙用。先写一个test.php文件，内容如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span>(<span class="string">"shell.php"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>我在该文件的目录下有一个叫<code>shell.php</code>的文件，代码如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$username=admin;</span><br><span class="line">$password=<span class="number">123456</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"go back!!"</span><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>那么，此时访问localhost中的test.php，结果如下<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/1.png" alt="image">但是，如果把test.php中的代码改为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span>(<span class="string">"php://filter/convert.base64-encode/resource=shell.php"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这时候再访问localhost<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/3.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/2.png" alt="image">可以看到，获取到了<code>shell.php</code>的源码，在红帽杯中的biubiubiu那题，也对一个文件包含漏洞应用了这个，详细的可以看我写的红帽杯writeup那篇。然后，有的ctf题中会有这样的代码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$content = <span class="string">'&lt;?php exit; ?&gt;'</span>;</span><br><span class="line">$content .= $_POST[<span class="string">'txt'</span>];</span><br><span class="line">file_put_contents($_POST[<span class="string">'filename'</span>], $content);</span><br></pre></td></tr></table></figure></p>
+<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了（这个过程在实战中十分常见，通常出现在缓存、配置文件等等地方，不允许用户直接访问的文件，都会被加上<code>if(!defined(xxx))exit</code>;之类的限制）。那么这种情况下，如何绕过这个“死亡exit”？<br>幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法：使用<code>php://filter</code>流的<code>base64-decode</code>方法，将<code>$content</code>解码，利用php base64_decode函数特性去除“死亡exit”。<br>众所周知，base64编码中只包含64个可打印字符，而PHP在解码base64时，遇到不在其中的字符时，将会跳过这些字符，仅将合法字符组成一个新的字符串进行解码。<br>所以，一个正常的base64_decode实际上可以理解为如下两个步骤：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_GET[<span class="string">'txt'</span>] = preg_replace(<span class="string">'|[^a-z0-9A-Z+/]|s'</span>, <span class="string">''</span>, $_GET[<span class="string">'txt'</span>]);</span><br><span class="line">base64_decode($_GET[<span class="string">'txt'</span>]);</span><br></pre></td></tr></table></figure></p>
+<p>所以，当<code>$content</code>被加上了<code>&lt;?php exit;?&gt;</code>以后，我们可以使用<code>php://filter/write=convert.base64-decode</code>来首先对其解码。在解码的过程中，字符&lt;、?、;、&gt;、空格等一共有7个字符不符合base64编码的字符范围将被忽略，所以最终被解码的字符仅有“phpexit”和我们传入的其他字符。<br><code>“phpexit”</code>一共7个字符，因为base64算法解码时是4个byte一组，所以给他增加1个“a”一共8个字符。这样，”phpexita”被正常解码，而后面我们传入的webshell的base64内容也被正常解码。结果就是<code>&lt;?php exit;?&gt;</code>没有了。我把test.php改成了上面那段代码，然后POST数据：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/4.png" alt="image">然后打开shell.php，发现代码已经修改成功，太强了！<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/5.png" alt="image"></p>
+<h2 id="利用字符串操作方法"><a href="#利用字符串操作方法" class="headerlink" title="利用字符串操作方法"></a>利用字符串操作方法</h2><p>其实，除了使用base64特性的方法外，我们还可以利用php://filter字符串处理方法来去除“死亡exit”。我们观察一下，这个&lt;?php exit; ?&gt;实际上是什么？<br>实际上是一个XML标签，既然是XML标签，我们就可以利用strip_tags函数去除它，而php://filter刚好是支持这个方法的。<br>编写如下测试代码即可查看 php://filter/read=string.strip_tags/resource=php://input 的效果：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readfile(<span class="string">'php://filter/read=string.strip_tags/resource=php://input'</span>);</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/12.png" alt="image">可见，<code>&lt;?php exit; ?&gt;</code>被去除了。这里有一个很有意思的地方，如果代码是<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> readfile(<span class="string">'php://filter/read=string.strip_tags/resource=php://input'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>仅仅是加了一个echo，则会返回字符串加字符串长度<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/13.png" alt="image">回到上面的题目，我们最终的目的是写入一个webshell，而写入的webshell也是php代码，如果使用<code>strip_tags</code>同样会被去除。万幸的是，<code>php://filte</code>允许使用多个过滤器，我们可以先将webshell用base64编码。在调用完成<code>strip_tags</code>后再进行<code>base64-decode</code>。“死亡exit”在第一步被去除，而webshell在第二步被还原。<br>最终的数据包如下：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/6.png" alt="image">然后可以看到，shell.php中的代码也写入成功了！太强了！<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/7.png" alt="image">除此之外，我们还可以利用rot13编码独立完成任务。原理和上面类似，核心是将“死亡exit”去除。&lt;?php exit; ?&gt;在经过rot13编码后会变成&lt;?cuc rkvg; ?&gt;，在PHP不开启short_open_tag时，php不认识这个字符串，当然也就不会执行了：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/phpfilter/10.png" alt="image">当然，这个方法的条件就是不开启短标签。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://rk700.github.io/2015/03/25/php-protocol-filter/" target="_blank" rel="noopener">http://rk700.github.io/2015/03/25/php-protocol-filter/</a><br><a href="https://blog.csdn.net/ni9htmar3/article/details/69812306" target="_blank" rel="noopener">https://blog.csdn.net/ni9htmar3/article/details/69812306</a><br><a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html?page=1#reply-list" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/php-filter-magic.html?page=1#reply-list</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/06/RedHat/" rel="next" title="2018-第二届红帽杯-writeup">
+                <i class="fa fa-chevron-left"></i> 2018-第二届红帽杯-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#巧用编码和解码"><span class="nav-number">1.</span> <span class="nav-text">巧用编码和解码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用字符串操作方法"><span class="nav-number">2.</span> <span class="nav-text">利用字符串操作方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
