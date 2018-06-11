@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="python 沙箱逃逸前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
+<meta name="description" content="前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
 <meta name="keywords" content="CTF,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python沙箱逃逸">
 <meta property="og:url" content="http://yoursite.com/2018/06/12/python沙箱逃逸/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
-<meta property="og:description" content="python 沙箱逃逸前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
+<meta property="og:description" content="前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:updated_time" content="2018-06-11T18:43:55.742Z">
+<meta property="og:updated_time" content="2018-06-11T18:51:12.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python沙箱逃逸">
-<meta name="twitter:description" content="python 沙箱逃逸前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
+<meta name="twitter:description" content="前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
 
 
 
@@ -322,7 +322,7 @@
       
 
       
-        <h2 id="python-沙箱逃逸"><a href="#python-沙箱逃逸" class="headerlink" title="python 沙箱逃逸"></a>python 沙箱逃逸</h2><p>前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。<br><a id="more"></a></p>
+        <p>前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。<br><a id="more"></a></p>
 <h3 id="一些调用shell命令的方法"><a href="#一些调用shell命令的方法" class="headerlink" title="一些调用shell命令的方法"></a>一些调用shell命令的方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,subprocess,commands,timeit</span><br><span class="line">os.system(<span class="string">'ifconfig'</span>)</span><br><span class="line">os.popen(<span class="string">'ifconfig'</span>)<span class="comment">#返回file read对象，需要用read()或者readlines()去读</span></span><br><span class="line">commands.getoutput(<span class="string">'ifconfig'</span>)</span><br><span class="line">commands.getstatusoutput(<span class="string">'ifconfig'</span>)</span><br><span class="line">subprocess.call([<span class="string">'cat /flag'</span>],shell=<span class="keyword">True</span>)</span><br><span class="line">timeit.timeit(<span class="string">"__import__('os').system('ifconfig'))"</span>,number=<span class="number">1</span>)<span class="comment">#这个模块中的timeit函数本来返回的是命令执行时间的，但是我们也可以利用它来执行任意命令</span></span><br><span class="line"><span class="keyword">print</span> platform.popen(<span class="string">'dir'</span>).read()</span><br><span class="line">map(os.system,[<span class="string">"ls /tmp"</span>])</span><br></pre></td></tr></table></figure>
 <h3 id="import相关的基础"><a href="#import相关的基础" class="headerlink" title="import相关的基础"></a>import相关的基础</h3><p>检测敏感包<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">code = open(<span class="string">'code.py'</span>).read()</span><br><span class="line">pattern  = re.compile(<span class="string">'import\s+(os|commands|subprocess|sys)'</span>)</span><br><span class="line">match = re.search(pattern,code)</span><br><span class="line"><span class="keyword">if</span> match:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"forbidden module import detected"</span></span><br><span class="line">    <span class="keyword">raise</span> Exception</span><br></pre></td></tr></table></figure></p>
 <p>引入包的方式：<br><code>import</code>函数:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=__import__(<span class="string">'pbzznaqf'</span>.decode(<span class="string">'rot_13'</span>))<span class="comment">#pbzznaqf=&gt;rot13=&gt;commands</span></span><br><span class="line">a.getoutput(<span class="string">'ifconfig'</span>)</span><br></pre></td></tr></table></figure></p>
@@ -513,7 +513,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#python-沙箱逃逸"><span class="nav-number">1.</span> <span class="nav-text">python 沙箱逃逸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些调用shell命令的方法"><span class="nav-number">1.1.</span> <span class="nav-text">一些调用shell命令的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import相关的基础"><span class="nav-number">1.2.</span> <span class="nav-text">import相关的基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import进阶"><span class="nav-number">1.3.</span> <span class="nav-text">import进阶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dir-与dict"><span class="nav-number">1.4.</span> <span class="nav-text">dir()与dict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内联函数"><span class="nav-number">1.5.</span> <span class="nav-text">内联函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">1.7.</span> <span class="nav-text">References</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些调用shell命令的方法"><span class="nav-number">1.</span> <span class="nav-text">一些调用shell命令的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import相关的基础"><span class="nav-number">2.</span> <span class="nav-text">import相关的基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import进阶"><span class="nav-number">3.</span> <span class="nav-text">import进阶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dir-与dict"><span class="nav-number">4.</span> <span class="nav-text">dir()与dict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内联函数"><span class="nav-number">5.</span> <span class="nav-text">内联函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
             
 
           </div>
