@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,反序列化," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="phar介绍PHP5.3之后支持了类似java的jar包，名为phar，可以用来将多个文件打包成一个phar文件，phar可以选择是否进行压缩，可以选择压缩的格式。">
+<meta name="keywords" content="CTF,反序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过phar拓宽反序列化漏洞攻击面">
+<meta property="og:url" content="http://yoursite.com/2018/09/11/phar-unser/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="phar介绍PHP5.3之后支持了类似java的jar包，名为phar，可以用来将多个文件打包成一个phar文件，phar可以选择是否进行压缩，可以选择压缩的格式。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536590149531.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536594110908.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536594366769.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536595776357.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536595750741.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536647872196.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536650601564.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536650763505.png">
+<meta property="og:updated_time" content="2018-09-12T04:09:57.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过phar拓宽反序列化漏洞攻击面">
+<meta name="twitter:description" content="phar介绍PHP5.3之后支持了类似java的jar包，名为phar，可以用来将多个文件打包成一个phar文件，phar可以选择是否进行压缩，可以选择压缩的格式。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536590149531.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/11/phar-unser/"/>
+
+
+
+
+
+  <title>通过phar拓宽反序列化漏洞攻击面 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/phar-unser/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">通过phar拓宽反序列化漏洞攻击面</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-09-11T15:29:15+08:00">
+                2018-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="phar介绍"><a href="#phar介绍" class="headerlink" title="phar介绍"></a>phar介绍</h1><p>PHP5.3之后支持了类似java的jar包，名为phar，可以用来将多个文件打包成一个phar文件，phar可以选择是否进行压缩，可以选择压缩的格式。<a id="more"></a></p>
+<h2 id="phar格式"><a href="#phar格式" class="headerlink" title="phar格式"></a>phar格式</h2><h3 id="a-Stub"><a href="#a-Stub" class="headerlink" title="a Stub"></a>a Stub</h3><p>phar必须设置一个stub，可理解为一个标志，格式为<code>xxx&lt;?php xxx;__HALT_COMPILER();?&gt;</code>，前面内容不限，但必须以<code>__HALT_COMPILER();?&gt;</code>来结尾，否则phar扩展将无法识别这个文件为phar文件。</p>
+<h3 id="a-manifest-describing-the-contents"><a href="#a-manifest-describing-the-contents" class="headerlink" title="a manifest describing the contents"></a>a manifest describing the contents</h3><p>phar文件本质上是一种压缩文件，其中每个被压缩文件的权限、属性等信息都放在这部分。这部分还会以序列化的形式存储用户自定义的meta-data，有序列化就有反序列化，这是上述攻击手法最核心的地方。</p>
+<h3 id="the-contents"><a href="#the-contents" class="headerlink" title="the contents"></a>the contents</h3><p>被压缩文件的内容。</p>
+<h3 id="signature"><a href="#signature" class="headerlink" title="signature"></a>signature</h3><p>签名，放在文件末尾。</p>
+<h1 id="phar例子"><a href="#phar例子" class="headerlink" title="phar例子"></a>phar例子</h1><p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536590149531.png" alt="enter description here">示例代码添加了一个内容为’comrade’的文本文件到phar中，然后把metaData设置为testObject的对象。要注意的是，addFromString是一定要有的，不然不会生成phar(phar一定要有被压缩文件内容)。可以看到，testObject是以序列化后的字符串的形式存在phar中的。用metadata进行反序列化，思路如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.本地构造好带有恶意metadata的phar</span><br><span class="line">2.php有很多的文件处理函数在通过php://phar解析phar文件时，都会将metadata反序列化，从而触发反序列化漏洞</span><br></pre></td></tr></table></figure></p>
+<p>写一个简单的例子<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536594110908.png" alt="enter description here">可以看到，<code>$data</code>被替换成了<code>comradezzz</code>，形成了反序列化漏洞。在这里，把<code>file_exists()</code>换成很多其他的文件处理函数都可以触发反序列化。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536594366769.png" alt="enter description here"></p>
+<h1 id="将phar伪装成其他格式的文件"><a href="#将phar伪装成其他格式的文件" class="headerlink" title="将phar伪装成其他格式的文件"></a>将phar伪装成其他格式的文件</h1><p>php识别phar文件只需要stub有<code>xxx&lt;?php xxx;__HALT_COMPILER();?&gt;</code>格式就可以，所以，在<code>&lt;?php</code>之前的内容是可以任意构造的，比如说，将文件头改为<code>GIF89a</code>来伪装成gif文件：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536595776357.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536595750741.png" alt="enter description here">可以看到，phar被识别成了gif。这里提一下，在用php的Phar生成phar文件的时候，文件后缀必须是phar，不然会报错，但是，在生成完之后再自己重命名一下，这时候仍然是可以正常触发反序列化漏洞的，文件名并没有影响。</p>
+<h1 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h1><p>这里模拟一个限制上传文件类型的环境：<br><code>file_upload.php</code>，后端检测文件上传，文件类型是否为gif，文件后缀名是否为gif<br><code>file_upload.html</code>，文件上传表单<br><code>unseri.php</code>，有<code>file_exists()</code>，而且存在<code>__destruct()</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//file_upload.php</span></span><br><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">judge</span><span class="params">($filename)</span></span>&#123;</span><br><span class="line">$file = fopen($filename, <span class="string">"rb"</span>);</span><br><span class="line">$bin = fread($file, <span class="number">2</span>); </span><br><span class="line"><span class="keyword">echo</span> $bin;</span><br><span class="line">fclose($file);</span><br><span class="line">$strInfo = @unpack(<span class="string">"c2chars"</span>, $bin);</span><br><span class="line">$typeCode = intval($strInfo[<span class="string">'chars1'</span>].$strInfo[<span class="string">'chars2'</span>]);</span><br><span class="line">$fileType = <span class="string">''</span>;</span><br><span class="line"><span class="keyword">switch</span> ($typeCode) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">7790</span>:</span><br><span class="line">        $fileType = <span class="string">'exe'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">7784</span>:</span><br><span class="line">        $fileType = <span class="string">'midi'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">8297</span>:</span><br><span class="line">        $fileType = <span class="string">'rar'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">255216</span>:</span><br><span class="line">        $fileType = <span class="string">'jpg'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">7173</span>:</span><br><span class="line">        $fileType = <span class="string">'gif'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">6677</span>:</span><br><span class="line">        $fileType = <span class="string">'bmp'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">13780</span>:</span><br><span class="line">        $fileType = <span class="string">'png'</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'unknown'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> $fileType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$sandbox = <span class="string">'/var/www/html/unser/upload'</span>;</span><br><span class="line">@mkdir($sandbox);</span><br><span class="line">@chdir($sandbox);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>($_FILES[<span class="string">'file'</span>])) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!in_array($_FILES[<span class="string">'file'</span>][<span class="string">'type'</span>], [<span class="string">'image/jpeg'</span>, <span class="string">'image/png'</span>, <span class="string">'image/gif'</span>])) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'not allowed!MIME'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $filename =$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>];</span><br><span class="line">    <span class="keyword">if</span> (!is_array($filename)) &#123;</span><br><span class="line">        $file = explode(<span class="string">'.'</span>, strtolower($filename));</span><br><span class="line">    &#125;</span><br><span class="line">    $ext = end($file);</span><br><span class="line">    <span class="keyword">if</span> (!in_array($ext, [<span class="string">'jpg'</span>, <span class="string">'png'</span>, <span class="string">'gif'</span>])) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'not allowed!suffix'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], $sandbox . <span class="string">'/'</span> . $filename)) &#123;</span><br><span class="line">        $type=judge($sandbox.<span class="string">'/'</span>.$filename);</span><br><span class="line">        <span class="keyword">if</span>(!in_array($type,[<span class="string">'jpeg'</span>, <span class="string">'png'</span>, <span class="string">'gif'</span>]))&#123;</span><br><span class="line">        @unlink( $sandbox . <span class="string">'/'</span> . $filename);</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'not allowed!illegal file header'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'upload success!!'</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'filepath:'</span> . $sandbox . <span class="string">'/'</span> . $filename;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'upload failed!!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个后端检测了文件头，文件名和MIME，算是比较严格的检测了。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//file_upload.html</span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>file_upload<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">'file_upload.php'</span> <span class="attr">method</span>=<span class="string">'POST'</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">'fffuck'</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//unser.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$filename=$_GET[<span class="string">'filename'</span>];</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">comrade</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $data=<span class="string">'phpinfo();'</span>;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">eval</span>(<span class="keyword">$this</span>-&gt;data);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">file_exists($filename);</span><br></pre></td></tr></table></figure>
+<p>首先我们在本地构造一个phar<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536647872196.png" alt="enter description here">然后将它的后缀改成gif，上传成功<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536650601564.png" alt="enter description here">这时候，在<code>unseri.php</code>处传入<code>filename=phar://upload/comrade.gif</code>即可触发反序列化漏洞<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536650763505.png" alt="enter description here">要注意的是，生成了phar之后，就不要去手动改文件头了，那样会触发反序列化失败，修改文件头要在生成phar的时候就完成。</p>
+<h1 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h1><p><a href="https://xz.aliyun.com/t/2715" target="_blank" rel="noopener">https://xz.aliyun.com/t/2715</a><br><a href="http://rango.swoole.com/archives/168" target="_blank" rel="noopener">http://rango.swoole.com/archives/168</a><br><a href="https://paper.seebug.org/680/#23-phar" target="_blank" rel="noopener">https://paper.seebug.org/680/#23-phar</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/反序列化/" rel="tag"># 反序列化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/11/php-serialize-handler/" rel="next" title="PHP反序列化与序列化(反序列化)处理器">
+                <i class="fa fa-chevron-left"></i> PHP反序列化与序列化(反序列化)处理器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/12/time-base-order-injection/" rel="prev" title="命令注入中的时间盲注">
+                命令注入中的时间盲注 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#phar介绍"><span class="nav-number">1.</span> <span class="nav-text">phar介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#phar格式"><span class="nav-number">1.1.</span> <span class="nav-text">phar格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-Stub"><span class="nav-number">1.1.1.</span> <span class="nav-text">a Stub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-manifest-describing-the-contents"><span class="nav-number">1.1.2.</span> <span class="nav-text">a manifest describing the contents</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-contents"><span class="nav-number">1.1.3.</span> <span class="nav-text">the contents</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#signature"><span class="nav-number">1.1.4.</span> <span class="nav-text">signature</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#phar例子"><span class="nav-number">2.</span> <span class="nav-text">phar例子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将phar伪装成其他格式的文件"><span class="nav-number">3.</span> <span class="nav-text">将phar伪装成其他格式的文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#demo"><span class="nav-number">4.</span> <span class="nav-text">demo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">5.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

