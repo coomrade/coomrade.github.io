@@ -98,7 +98,10 @@
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536907182529.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536907248340.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536907273362.png">
-<meta property="og:updated_time" content="2018-09-20T15:27:06.993Z">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538814341560.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538814351688.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538814365499.png">
+<meta property="og:updated_time" content="2018-10-06T08:26:32.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="命令执行技巧">
 <meta name="twitter:description" content="命令执行技巧PHP中执行命令的函数 system:            system(&amp;quot;whoami&amp;quot;); eval:              eval(&amp;quot;phpinfo();&amp;quot;);">
@@ -330,7 +333,7 @@
 <li>;符号<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655771668.png" alt="enter description here"></li>
 <li>&amp;&amp;符号<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655866716.png" alt="enter description here"></li>
 </ul>
-<h2 id="利用-执行命令"><a href="#利用-执行命令" class="headerlink" title="利用$()执行命令"></a>利用<code>$()</code>执行命令</h2><p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655924218.png" alt="enter description here">两者结合，可以绕过一些限制<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536656792169.png" alt="enter description here">命令执行有时候要用$()去读flag，然后用wget或者curl带到VPS，但是如果flag在php里，执行第一行就会报错，无法读flag，分别wget和curl的情况：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907182529.png" alt="enter description here">这时候要用sed -n ‘x,xp’ 去读第x行，比如第二行：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907248340.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907273362.png" alt="enter description here"></p>
+<h2 id="利用-执行命令"><a href="#利用-执行命令" class="headerlink" title="利用$()执行命令"></a>利用<code>$()</code>执行命令</h2><p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655924218.png" alt="enter description here">两者结合，可以绕过一些限制<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536656792169.png" alt="enter description here">命令执行有时候要用$()去读flag，然后用wget或者curl带到VPS，但是如果flag在php里，执行第一行就会报错，无法读flag，分别wget和curl的情况：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907182529.png" alt="enter description here">这时候可以用sed -n ‘x,xp’ 去读第x行，比如第二行：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907248340.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907273362.png" alt="enter description here">当然更方便的方法是先进行编码<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814341560.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814351688.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814365499.png" alt="enter description here"></p>
 
       
     </div>
