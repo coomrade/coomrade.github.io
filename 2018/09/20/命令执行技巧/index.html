@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="命令执行技巧PHP中执行命令的函数 system:            system(&amp;quot;whoami&amp;quot;); eval:              eval(&amp;quot;phpinfo();&amp;quot;);">
+<meta name="description" content="PHP中执行命令的函数 system:            system(&amp;quot;whoami&amp;quot;); eval:              eval(&amp;quot;phpinfo();&amp;quot;);">
 <meta property="og:type" content="article">
 <meta property="og:title" content="命令执行技巧">
 <meta property="og:url" content="http://yoursite.com/2018/09/20/命令执行技巧/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
-<meta property="og:description" content="命令执行技巧PHP中执行命令的函数 system:            system(&amp;quot;whoami&amp;quot;); eval:              eval(&amp;quot;phpinfo();&amp;quot;);">
+<meta property="og:description" content="PHP中执行命令的函数 system:            system(&amp;quot;whoami&amp;quot;); eval:              eval(&amp;quot;phpinfo();&amp;quot;);">
 <meta property="og:locale" content="zh-hk">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536654679169.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536654722692.png">
@@ -101,10 +101,10 @@
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538814341560.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538814351688.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1538814365499.png">
-<meta property="og:updated_time" content="2018-10-06T08:26:32.947Z">
+<meta property="og:updated_time" content="2018-10-07T14:53:30.110Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="命令执行技巧">
-<meta name="twitter:description" content="命令执行技巧PHP中执行命令的函数 system:            system(&amp;quot;whoami&amp;quot;); eval:              eval(&amp;quot;phpinfo();&amp;quot;);">
+<meta name="twitter:description" content="PHP中执行命令的函数 system:            system(&amp;quot;whoami&amp;quot;); eval:              eval(&amp;quot;phpinfo();&amp;quot;);">
 <meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536654679169.png">
 
 
@@ -315,7 +315,7 @@
       
 
       
-        <h1 id="命令执行技巧"><a href="#命令执行技巧" class="headerlink" title="命令执行技巧"></a>命令执行技巧</h1><h2 id="PHP中执行命令的函数"><a href="#PHP中执行命令的函数" class="headerlink" title="PHP中执行命令的函数"></a>PHP中执行命令的函数</h2><ul>
+        <h1 id="PHP中执行命令的函数"><a href="#PHP中执行命令的函数" class="headerlink" title="PHP中执行命令的函数"></a>PHP中执行命令的函数</h1><ul>
 <li>system:            <code>system(&quot;whoami&quot;);</code></li>
 <li>eval:              <code>eval(&quot;phpinfo();&quot;);</code><a id="more"></a></li>
 <li>assert:            <code>assert(&quot;phpinfo()&quot;);</code></li>
@@ -323,17 +323,17 @@
 <li>passthru:          <code>passthru(&quot;whoami&quot;);</code></li>
 <li>shell_exec:        <code>echo shell_exec(&quot;whoami&quot;);</code></li>
 </ul>
-<h2 id="Bypass空格过滤"><a href="#Bypass空格过滤" class="headerlink" title="Bypass空格过滤"></a>Bypass空格过滤</h2><ul>
+<h1 id="Bypass空格过滤"><a href="#Bypass空格过滤" class="headerlink" title="Bypass空格过滤"></a>Bypass空格过滤</h1><ul>
 <li>&lt;符号<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536654679169.png" alt="enter description here"></li>
 <li>$IFS<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536654722692.png" alt="enter description here"></li>
 <li>制表符<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655678699.png" alt="enter description here"></li>
 </ul>
-<h2 id="命令分隔符"><a href="#命令分隔符" class="headerlink" title="命令分隔符"></a>命令分隔符</h2><ul>
+<h1 id="命令分隔符"><a href="#命令分隔符" class="headerlink" title="命令分隔符"></a>命令分隔符</h1><ul>
 <li>|符号<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655743404.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655839577.png" alt="enter description here"></li>
 <li>;符号<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655771668.png" alt="enter description here"></li>
 <li>&amp;&amp;符号<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655866716.png" alt="enter description here"></li>
 </ul>
-<h2 id="利用-执行命令"><a href="#利用-执行命令" class="headerlink" title="利用$()执行命令"></a>利用<code>$()</code>执行命令</h2><p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655924218.png" alt="enter description here">两者结合，可以绕过一些限制<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536656792169.png" alt="enter description here">命令执行有时候要用$()去读flag，然后用wget或者curl带到VPS，但是如果flag在php里，执行第一行就会报错，无法读flag，分别wget和curl的情况：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907182529.png" alt="enter description here">这时候可以用sed -n ‘x,xp’ 去读第x行，比如第二行：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907248340.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907273362.png" alt="enter description here">当然更方便的方法是先进行编码<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814341560.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814351688.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814365499.png" alt="enter description here"></p>
+<h1 id="利用-执行命令"><a href="#利用-执行命令" class="headerlink" title="利用$()执行命令"></a>利用<code>$()</code>执行命令</h1><p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536655924218.png" alt="enter description here">两者结合，可以绕过一些限制<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536656792169.png" alt="enter description here">命令执行有时候要用$()去读flag，然后用wget或者curl带到VPS，但是如果flag在php里，执行第一行就会报错，无法读flag，分别wget和curl的情况：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907182529.png" alt="enter description here">这时候可以用sed -n ‘x,xp’ 去读第x行，比如第二行：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907248340.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536907273362.png" alt="enter description here">当然更方便的方法是先进行编码<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814341560.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814351688.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538814365499.png" alt="enter description here"></p>
 
       
     </div>
@@ -506,7 +506,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#命令执行技巧"><span class="nav-number">1.</span> <span class="nav-text">命令执行技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP中执行命令的函数"><span class="nav-number">1.1.</span> <span class="nav-text">PHP中执行命令的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bypass空格过滤"><span class="nav-number">1.2.</span> <span class="nav-text">Bypass空格过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令分隔符"><span class="nav-number">1.3.</span> <span class="nav-text">命令分隔符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用-执行命令"><span class="nav-number">1.4.</span> <span class="nav-text">利用$()执行命令</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP中执行命令的函数"><span class="nav-number">1.</span> <span class="nav-text">PHP中执行命令的函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bypass空格过滤"><span class="nav-number">2.</span> <span class="nav-text">Bypass空格过滤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#命令分隔符"><span class="nav-number">3.</span> <span class="nav-text">命令分隔符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用-执行命令"><span class="nav-number">4.</span> <span class="nav-text">利用$()执行命令</span></a></li></ol></div>
             
 
           </div>
