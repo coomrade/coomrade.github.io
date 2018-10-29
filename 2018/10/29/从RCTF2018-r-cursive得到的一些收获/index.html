@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,代码执行," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="open_basedir介绍open_basedir是PHP设置中为了防御PHP跨目录进行文件（目录）读写的方法，所有PHP中有关文件读、写的函数都会经过open_basedir的检查。open_basedir实际上是一些目录的集合，在定义了open_basedir以后，php可以读写的文件、目录都将被限制在这些目录中。">
+<meta name="keywords" content="CTF,代码执行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从RCTF2018_r-cursive得到的一些收获">
+<meta property="og:url" content="http://yoursite.com/2018/10/29/从RCTF2018-r-cursive得到的一些收获/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="open_basedir介绍open_basedir是PHP设置中为了防御PHP跨目录进行文件（目录）读写的方法，所有PHP中有关文件读、写的函数都会经过open_basedir的检查。open_basedir实际上是一些目录的集合，在定义了open_basedir以后，php可以读写的文件、目录都将被限制在这些目录中。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540805028084.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540805169799.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540805565071.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540806307632.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540807938309.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540807927493.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540808088518.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540808145670.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540809730535.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540810895415.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540811062225.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540812038896.png">
+<meta property="og:updated_time" content="2018-10-29T11:26:01.228Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从RCTF2018_r-cursive得到的一些收获">
+<meta name="twitter:description" content="open_basedir介绍open_basedir是PHP设置中为了防御PHP跨目录进行文件（目录）读写的方法，所有PHP中有关文件读、写的函数都会经过open_basedir的检查。open_basedir实际上是一些目录的集合，在定义了open_basedir以后，php可以读写的文件、目录都将被限制在这些目录中。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540805028084.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/29/从RCTF2018-r-cursive得到的一些收获/"/>
+
+
+
+
+
+  <title>从RCTF2018_r-cursive得到的一些收获 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/29/从RCTF2018-r-cursive得到的一些收获/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从RCTF2018_r-cursive得到的一些收获</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-10-29T19:21:32+08:00">
+                2018-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="open-basedir"><a href="#open-basedir" class="headerlink" title="open_basedir"></a>open_basedir</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><code>open_basedir</code>是PHP设置中为了防御PHP跨目录进行文件（目录）读写的方法，所有PHP中有关文件读、写的函数都会经过<code>open_basedir</code>的检查。<code>open_basedir</code>实际上是一些目录的集合，在定义了<code>open_basedir</code>以后，php可以读写的文件、目录都将被限制在这些目录中。<a id="more"></a><br>设置<code>open_basedir</code>的方法，在linux下，不同的目录由”:”分割，如<code>&quot;/var/www/:/tmp/&quot;</code>；在Windows下不同目录由”;”分割，如<code>&quot;c:/www;c:/windows/temp&quot;</code>。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540805028084.png" alt="enter description here">这里我把它设成了<code>/tmp</code>和<code>/var/www/html/sandbox</code>两个目录，这时候我们无论是从<code>sandbox</code>的文件读取或者是直接访问其他目录的文件，都是不行的。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540805169799.png" alt="enter description here"></p>
+<h1 id="r-cursive"><a href="#r-cursive" class="headerlink" title="r-cursive"></a>r-cursive</h1><p>这道题目好多个月前的了，不过那时候我太菜了，不知道这道题目的质量高，现在蓦然回首，发现很不错。题目代码如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">$token = sha1($_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</span><br><span class="line">$dir = <span class="string">'../sandbox/'</span>.$token.<span class="string">'/'</span>;</span><br><span class="line">is_dir($dir) ?: mkdir($dir);</span><br><span class="line">is_file($dir.<span class="string">'index.php'</span>) ?: file_put_contents($dir.<span class="string">'index.php'</span>, str_replace(<span class="string">'#SHA1#'</span>, $token, file_get_contents(<span class="string">'./template'</span>)));</span><br><span class="line"><span class="keyword">switch</span>($_GET[<span class="string">'action'</span>] ?: <span class="string">''</span>)&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'go'</span>:</span><br><span class="line">        header(<span class="string">'Location: http://'</span>.$token.<span class="string">'.sandbox.r-cursive.ml:1337/'</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'reset'</span>:</span><br><span class="line">        system(<span class="string">'rm -rf '</span>.$dir);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>访问<code>?action=go</code>之后，我们会自动跳到属于自己ip的沙盒中，打开题目，我们就能看到源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">sha1($_SERVER[<span class="string">'REMOTE_ADDR'</span>]) === <span class="string">'f6e5575f93a408c5cb709c73eaa822cb09b4d0f7'</span> ?: <span class="keyword">die</span>();</span><br><span class="line"><span class="string">';'</span> === preg_replace(<span class="string">'/[^\W_]+\((?R)?\)/'</span>, <span class="keyword">NULL</span>, $_GET[<span class="string">'cmd'</span>]) ? <span class="keyword">eval</span>($_GET[<span class="string">'cmd'</span>]) : show_source(<span class="keyword">__FILE__</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这个正则表达式是PHP中的一种递归模式，匹配形如<code>a(b(c()))</code>的字符串，然后在最后加一个<code>;</code>。题目还存在一个<code>open_basedir</code>的限制，我就用我本地的环境来模拟。首先<code>phpinfo()</code>肯定可以执行<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540805565071.png" alt="enter description here">通过<code>phpinfo</code>我们也能找到<code>open_basedir</code>的相关信息<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540806307632.png" alt="enter description here">接下来就要思考可以去执行什么命令，不能有参数，说明很多函数都是无法执行的。这里用的方法是<code>eval(end(getallheaders()))</code>，其中<code>end</code>可以替换为其他函数，反正<code>getallheaders()</code>返回的是一个数组，就看你使用的<code>header</code>在什么位置。然后就可以构造<code>header</code>来进行任意命令执行。题目还仅用了执行系统命令，经过测试，系统命令是不受<code>open_basedir</code>的限制的。由于限制的存在，当我们想列出上一个目录的时候，报错了。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540807938309.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540807927493.png" alt="enter description here">所以首先，我们需要绕过限制来列目录，参考了这篇<a href="https://www.leavesongs.com/PHP/php-bypass-open-basedir-list-directory.html" target="_blank" rel="noopener">文章</a>用到的<code>payload</code>是这样的<code>$file_list = array();$it = new DirectoryIterator(&quot;glob:///*&quot;);foreach($it as $f) {$file_list[] =$f-&gt;__toString();}print_r($file_list);</code>成功列出根目录<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540808088518.png" alt="enter description here">网站根目录<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540808145670.png" alt="enter description here">假设我们的flag是网站根目录下的<code>flag.php</code>，要怎么去读到他呢？<br>这时候我们要想到一个问题，它是怎么去设置<code>open_basedir</code>的？在这道题目里面，每个ip都被分配到了一个根据你的ip sha1加密后的目录，都是独立的，如果这样的话，通过<code>apache</code>静态配置是不可行的，只能用php去动态设置。这里它用到的方法是用<code>auto_prepend_file</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540809730535.png" alt="enter description here">它利用<code>auto_prepend_file</code>去载入<code>/var/www/sandbox/init.php</code>来达到动态设置<code>open_basedir</code>的目的。还可以发现，配置里使用了<code>mod_vhost_alias</code>模块<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540810895415.png" alt="enter description here">看一下文档里对这个模块的描述<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540811062225.png" alt="enter description here">又因为题目里的<code>Host</code>是长成这样的<code>Host: 39093088bf9a9d33d5dd5b973cc1232e2145ee49.sandbox.r-cursive.ml</code>，联想到，有可能动态设置<code>open_basedir</code>的时候是通过<code>Host</code>去获取的，所以，这里把<code>Host</code>头的<code>39093088bf9a9d33d5dd5b973cc1232e2145ee49.sandbox</code>去掉，就达成了沙箱逃逸的目的。然后拿flag即可<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540812038896.png" alt="enter description here"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/代码执行/" rel="tag"># 代码执行</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/28/SSRF攻击MySQL/" rel="next" title="SSRF攻击MySQL">
+                <i class="fa fa-chevron-left"></i> SSRF攻击MySQL
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#open-basedir"><span class="nav-number">1.</span> <span class="nav-text">open_basedir</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#r-cursive"><span class="nav-number">2.</span> <span class="nav-text">r-cursive</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
