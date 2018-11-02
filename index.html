@@ -1355,7 +1355,7 @@
           <h1 id="SQL注入小tricks"><a href="#SQL注入小tricks" class="headerlink" title="SQL注入小tricks"></a>SQL注入小tricks</h1><ul>
 <li>or的两边可以没空格，可以是’)(</li>
 <li><code>%09</code>(制表符),<code>%0a</code>(换行符)有时候可绕过空格过滤</li>
-<li><code>regexp</code>与<code>rlike</code>相同
+<li><code>union select</code>被过滤，可以用<code>union%0bselect</code>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/10/06/SQL盲注的多种姿势/#more" rel="contents">
