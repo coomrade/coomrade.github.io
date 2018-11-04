@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,session," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="this challenge is from XCTF2018-Final这是一道代码审计题，代码并不多，但是耗了很多时间才做出来。">
+<meta name="keywords" content="CTF,session">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XCTF2018-Final_bestphp">
+<meta property="og:url" content="http://yoursite.com/2018/11/05/XCTF2018-Final-bestphp/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="this challenge is from XCTF2018-Final这是一道代码审计题，代码并不多，但是耗了很多时间才做出来。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541256421048.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541257277545.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541258168175.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541258339331.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541260281564.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541261489662.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541261780809.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541262085509.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541262375209.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541265234580.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541265240631.png">
+<meta property="og:updated_time" content="2018-11-04T19:29:53.953Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XCTF2018-Final_bestphp">
+<meta name="twitter:description" content="this challenge is from XCTF2018-Final这是一道代码审计题，代码并不多，但是耗了很多时间才做出来。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541256421048.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/05/XCTF2018-Final-bestphp/"/>
+
+
+
+
+
+  <title>XCTF2018-Final_bestphp | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">This is la vie en rose.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/XCTF2018-Final-bestphp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">XCTF2018-Final_bestphp</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-11-05T03:28:26+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>this challenge is from XCTF2018-Final<br>这是一道代码审计题，代码并不多，但是耗了很多时间才做出来。<a id="more"></a><img src="https://www.github.com/coomrade/Img/raw/master/pics/1541256421048.png" alt="enter description here"><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">ini_set(<span class="string">'open_basedir'</span>, <span class="string">'/var/www/html:/tmp'</span>);</span><br><span class="line">$file=<span class="string">'function.php'</span>;</span><br><span class="line">$func=<span class="keyword">isset</span>($_GET[<span class="string">'function'</span>])?$_GET[<span class="string">'function'</span>]:<span class="string">'filters'</span>;</span><br><span class="line">call_user_func($func,$_GET);</span><br><span class="line"><span class="keyword">include</span>($file);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[<span class="string">'name'</span>]=$_POST[<span class="string">'name'</span>];</span><br><span class="line"><span class="keyword">if</span>($_SESSION[<span class="string">'name'</span>]==<span class="string">'admin'</span>)&#123;</span><br><span class="line">	header(<span class="string">'location:admin.php'</span>);</span><br><span class="line">&#125;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>根据代码，尝试了访问<code>admin.php</code>，没有发现东西。这里的<code>include</code>是重点，有一个思路是传入<code>function=extract</code>，然后进行变量覆盖，改变<code>$file</code>的值。such as<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541257277545.png" alt="enter description here">自然地，我们可以通过伪协议来读文件，当然，由于<code>open_basedir</code>的限制，我们能读的文件是非常有限的。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541258168175.png" alt="enter description here"><code>admin.php</code>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($_SESSION[<span class="string">'name'</span>]))&#123;</span><br><span class="line">        session_start();</span><br><span class="line">        <span class="comment">#echo 'hello ' + $_SESSION['name'];</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'you must login with admin'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>function.php</code>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filters</span><span class="params">($data)</span></span>&#123;</span><br><span class="line">        <span class="keyword">foreach</span>($data <span class="keyword">as</span> $key=&gt;$value)&#123;</span><br><span class="line">                <span class="keyword">if</span>(preg_match(<span class="string">'/eval|assert|exec|passthru|glob|system|popen/i'</span>,$value))&#123;</span><br><span class="line">                        <span class="keyword">die</span>(<span class="string">'Do not hack me!'</span>);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在后续的发掘中，我们还发现了一个<code>test.php</code>文件<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541258339331.png" alt="enter description here">源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">   print_r(get_defined_functions());</span><br></pre></td></tr></table></figure></p>
+<p>刚开始当然是很迷的，首先，<code>function.php</code>可以说是毫无作用的，因为它里面的<code>filter</code>函数在<code>include</code>之前就被<code>call_user_func</code>调用了，那时候还没定义它。其次，<code>admin.php</code>也显得十分鸡肋，因为它没有任何有用的操作，甚至写的代码可以用诡异来形容，还没使用<code>session_start</code>就使用<code>$_SESSION</code>，而且唯一的一句执行的<code>echo</code>还被注释掉了。另外，这里用到的函数是<code>call_user_func</code>，而不是<code>call_user_func_array</code>，数组会被当作一个整体传到函数里，这就让很多能想到的函数失去了作用。</p>
+<h1 id="strip-tags-爆破"><a href="#strip-tags-爆破" class="headerlink" title="strip_tags+爆破"></a>strip_tags+爆破</h1><p>很快，我想到了之前看过的一篇王一航师傅写的<a href="https://www.jianshu.com/p/dfd049924258" target="_blank" rel="noopener">文章</a>，这个点我前几天的文章里也有提到，就是用<code>string.strip_tags</code>导致php崩溃，然后包含<code>/tmp</code>目录下的<code>tmp_file</code>。我当时测了一下，发现是会导致崩溃的，说明php版本是符合这个做法的。但是当时队里大佬们看了之后没有太在意，因为爆破量实在太大，临时文件的文件名是<code>php??????</code>,6位的随机大小写字母加数字组合，更重要的一点是，当时题目把环境改好之后，有两个队伍几乎秒出，所以包括我在内都觉得可能不是这个方法，但是后来证明，这个方法也是可以的，先爆破生成大量<code>tmp_file</code>就可以，不需要太久的耗时就能出来。像这样构造数据包，然后多线程爆破<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541260281564.png" alt="enter description here">这时候<code>/tmp</code>目录下一堆<code>tmp_file</code>了<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541261489662.png" alt="enter description here">另一方面，爆破文件包含<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541261780809.png" alt="enter description here">坚持住，会爆出来的。</p>
+<h1 id="更改session的存储路径"><a href="#更改session的存储路径" class="headerlink" title="更改session的存储路径"></a>更改session的存储路径</h1><p>这个方法是Gaia大佬发现的~<br>我们平时在使用<code>session_start</code>的时候，恐怕绝大多数情况都是直接<code>session_start()</code>吧，根本没有人在意，这个函数是可以传参数的，而且，传进去的就是一个数组!<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541262085509.png" alt="enter description here">传进去的数组的作用就是，修改<code>session</code>的配置，而且会动态覆盖掉<code>php.ini</code>里的<code>session</code>配置。属性非常多<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541262375209.png" alt="enter description here">第一个就非常醒目，<code>session.save_path</code>!没错，我们要做的就是，利用题目里的<code>session</code>操作，修改<code>session</code>的存储路径，把<code>session</code>记录存到<code>/tmp</code>目录下,然后直接包含<code>/tmp/sess_{PHPSESSID}</code>文件就可以了。其实这个操作也可以由<code>session_save_path()</code>函数来完成，但是这个函数传入的参数是个字符串，不适用于此题。过程：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541265234580.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1541265240631.png" alt="enter description here">然后执行系统命令找flag即可(系统命令函数不受<code>open_basedir</code>影响)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/session/" rel="tag"># session</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/05/第四届上海市大学生网络安全大赛-web/" rel="next" title="第四届上海市大学生网络安全大赛-web">
+                <i class="fa fa-chevron-left"></i> 第四届上海市大学生网络安全大赛-web
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#strip-tags-爆破"><span class="nav-number">1.</span> <span class="nav-text">strip_tags+爆破</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更改session的存储路径"><span class="nav-number">2.</span> <span class="nav-text">更改session的存储路径</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
