@@ -79,24 +79,14 @@
 
 
 
-<meta name="description" content="序列化与反序列化PHP中有两个函数，serialize和unserialize，serialize被用来将php的对象转变成一个有特定格式的字符串，方便之后的传输和使用，而unserialize则被用来从字符串创建相应的对象">
+<meta name="description" content="session序列化与序列化(反序列化)处理器先来看一下php的序列化(反序列化)处理器：  php_binary:存储方式是，键名的长度对应的ASCII字符+键名+经过serialize()函数序列化处理的值php:存储方式是，键名+竖线+经过serialize()函数序列处理的值php_serialize(php&amp;gt;5.5.4):存储方式是，经过serialize()函数序列化处理的值">
 <meta name="keywords" content="CTF,反序列化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP反序列化与序列化(反序列化)处理器">
+<meta property="og:title" content="PHP序列化(反序列化)处理器">
 <meta property="og:url" content="http://yoursite.com/2018/09/11/php-serialize-handler/index.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
-<meta property="og:description" content="序列化与反序列化PHP中有两个函数，serialize和unserialize，serialize被用来将php的对象转变成一个有特定格式的字符串，方便之后的传输和使用，而unserialize则被用来从字符串创建相应的对象">
+<meta property="og:description" content="session序列化与序列化(反序列化)处理器先来看一下php的序列化(反序列化)处理器：  php_binary:存储方式是，键名的长度对应的ASCII字符+键名+经过serialize()函数序列化处理的值php:存储方式是，键名+竖线+经过serialize()函数序列处理的值php_serialize(php&amp;gt;5.5.4):存储方式是，经过serialize()函数序列化处理的值">
 <meta property="og:locale" content="zh-hk">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536566037642.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536541983556.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536542080415.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536542332781.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536542717177.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536543604664.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536543609299.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536545390296.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536545184964.png">
-<meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536545305699.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536545457100.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536554869594.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536555095656.png">
@@ -106,11 +96,11 @@
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536563271968.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536563538128.png">
 <meta property="og:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536564494681.png">
-<meta property="og:updated_time" content="2018-09-15T10:17:54.533Z">
+<meta property="og:updated_time" content="2019-03-04T03:07:37.279Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP反序列化与序列化(反序列化)处理器">
-<meta name="twitter:description" content="序列化与反序列化PHP中有两个函数，serialize和unserialize，serialize被用来将php的对象转变成一个有特定格式的字符串，方便之后的传输和使用，而unserialize则被用来从字符串创建相应的对象">
-<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536566037642.png">
+<meta name="twitter:title" content="PHP序列化(反序列化)处理器">
+<meta name="twitter:description" content="session序列化与序列化(反序列化)处理器先来看一下php的序列化(反序列化)处理器：  php_binary:存储方式是，键名的长度对应的ASCII字符+键名+经过serialize()函数序列化处理的值php:存储方式是，键名+竖线+经过serialize()函数序列处理的值php_serialize(php&amp;gt;5.5.4):存储方式是，经过serialize()函数序列化处理的值">
+<meta name="twitter:image" content="https://www.github.com/coomrade/Img/raw/master/pics/1536545457100.png">
 
 
 
@@ -146,7 +136,7 @@
 
 
 
-  <title>PHP反序列化与序列化(反序列化)处理器 | C0mRaDe's Blog</title>
+  <title>PHP序列化(反序列化)处理器 | C0mRaDe's Blog</title>
   
 
 
@@ -280,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">PHP反序列化与序列化(反序列化)处理器</h1>
+          <h1 class="post-title" itemprop="name headline">PHP序列化(反序列化)处理器</h1>
         
 
         <div class="post-meta">
@@ -352,18 +342,7 @@
       
 
       
-        <h1 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h1><p>PHP中有两个函数，serialize和unserialize，serialize被用来将php的对象转变成一个有特定格式的字符串，方便之后的传输和使用，而unserialize则被用来从字符串创建相应的对象<a id="more"></a><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536566037642.png" alt="enter description here"></p>
-<h1 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h1><p>当unserialize的参数可控时，我们就可以构造一个精心设计的字符串，从而改变对象的变量。</p>
-<h1 id="Magic-function"><a href="#Magic-function" class="headerlink" title="Magic function"></a>Magic function</h1><p>PHP中有一类函数叫Magic function，在命名自己的类方法时不能使用这些函数名（除非是想使用他们的魔术特性）。PHP 将所有以 <code>__</code>（两个下划线）开头的类方法保留为魔术方法。<br>在这里着重关注几个：</p>
-<ul>
-<li>构造函数<code>__construct()</code>:对象被创建时会被调用，但是unserialize的时候不会调用</li>
-<li>析构函数<code>__destruct()</code>:对象被销毁时自动调用</li>
-<li><code>__wakeup()</code>:unserialize时会自动调用</li>
-</ul>
-<p>做个实验<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536541983556.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536542080415.png" alt="enter description here">由前面可以看到，unserilaize可以导致<code>__wakeup()</code>和<code>__destruct()</code>被调用，因此当一些有危害的代码出现在这两个方法中，我们就可以构造一个序列化后的字符串去对其进行利用。我们可以做个实验<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536542332781.png" alt="enter description here">类comrade中的$test的值本来是’zzzz’，但是我们在unserialize的时候传入了一个构造好的字符串<code>O:7:&quot;comrade&quot;:1:{s:4:&quot;test&quot;;s:7:&quot;comrade&quot;;}</code>，这样就会触发反序列化漏洞，生成的对象的$test值被修改成了’comrade’，<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536542717177.png" alt="enter description here">如果<code>__wakeup()</code>里面进行了将变量写入文件的操作，我们就可以通过构造一句话木马的方式将木马写到网站上。</p>
-<h2 id="其他Magic-function的利用"><a href="#其他Magic-function的利用" class="headerlink" title="其他Magic function的利用"></a>其他Magic function的利用</h2><p>比如<code>__construct()</code>，虽然反序列化的时候不能直接利用，但是并不代表完全不能利用，比如说，<code>__wakeup()</code>中调用了<code>__construct()</code>的情况，比如<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536543604664.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1536543609299.png" alt="enter description here"></p>
-<h1 id="普通函数的利用"><a href="#普通函数的利用" class="headerlink" title="普通函数的利用"></a>普通函数的利用</h1><p>之前说的都是会自动触发的Magic function，如果危险代码是在类的普通方法中，又应该怎么利用呢？可以看看下面这段代码<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536545390296.png" alt="enter description here">comrade类的构造函数把a1的对象传给了$test,然后在<code>__destruct</code>的时候调用$test的action方法，把fuck给echo了出来。这里我们也可以利用，先进行下面的构造<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536545184964.png" alt="enter description here">然后再把构造出来的字符串传入<img src="https://www.github.com/coomrade/Img/raw/master/pics/1536545305699.png" alt="enter description here">可以看到，phpinfo被成功执行</p>
-<h1 id="session序列化与序列化-反序列化-处理器"><a href="#session序列化与序列化-反序列化-处理器" class="headerlink" title="session序列化与序列化(反序列化)处理器"></a>session序列化与序列化(反序列化)处理器</h1><p>先来看一下php的序列化(反序列化)处理器：</p>
+        <h1 id="session序列化与序列化-反序列化-处理器"><a href="#session序列化与序列化-反序列化-处理器" class="headerlink" title="session序列化与序列化(反序列化)处理器"></a>session序列化与序列化(反序列化)处理器</h1><p>先来看一下php的序列化(反序列化)处理器：</p>
 <blockquote>
 <p>php_binary:存储方式是，键名的长度对应的ASCII字符+键名+经过serialize()函数序列化处理的值<br>php:存储方式是，键名+竖线+经过serialize()函数序列处理的值<br>php_serialize(php&gt;5.5.4):存储方式是，经过serialize()函数序列化处理的值</p>
 </blockquote>
@@ -550,7 +529,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#序列化与反序列化"><span class="nav-number">1.</span> <span class="nav-text">序列化与反序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反序列化漏洞"><span class="nav-number">2.</span> <span class="nav-text">反序列化漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Magic-function"><span class="nav-number">3.</span> <span class="nav-text">Magic function</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#其他Magic-function的利用"><span class="nav-number">3.1.</span> <span class="nav-text">其他Magic function的利用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#普通函数的利用"><span class="nav-number">4.</span> <span class="nav-text">普通函数的利用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#session序列化与序列化-反序列化-处理器"><span class="nav-number">5.</span> <span class="nav-text">session序列化与序列化(反序列化)处理器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用"><span class="nav-number">6.</span> <span class="nav-text">利用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">7.</span> <span class="nav-text">Referer</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#session序列化与序列化-反序列化-处理器"><span class="nav-number">1.</span> <span class="nav-text">session序列化与序列化(反序列化)处理器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用"><span class="nav-number">2.</span> <span class="nav-text">利用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referer"><span class="nav-number">3.</span> <span class="nav-text">Referer</span></a></li></ol></div>
             
 
           </div>
