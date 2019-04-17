@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="XSS,爬虫," />
+  <meta name="keywords" content=",," />
 
 
 
@@ -81,9 +81,9 @@
 
 <meta name="description" content="最近发现了一个比较尴尬的问题，就是自己虽然写过不少爬虫，但是并没有遇到过有动态URL（页面用JavaScript生成）的情况，这里就需要有一个东西可以代替我们去通过浏览器访问网页，解析JS。接下来的内容主要用英语写，没什么特别原因，就是想写。">
 <meta name="keywords" content="XSS,爬虫">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="How-To-Identify-Dynamic-URLs?">
-<meta property="og:url" content="http://yoursite.com/2019/03/02/dynamic-crawler/index.html">
+<meta property="og:url" content="http://yoursite.com/dynamic-crawler.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
 <meta property="og:description" content="最近发现了一个比较尴尬的问题，就是自己虽然写过不少爬虫，但是并没有遇到过有动态URL（页面用JavaScript生成）的情况，这里就需要有一个东西可以代替我们去通过浏览器访问网页，解析JS。接下来的内容主要用英语写，没什么特别原因，就是想写。">
 <meta property="og:locale" content="zh-hk">
@@ -125,7 +125,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/02/dynamic-crawler/"/>
+  <link rel="canonical" href="http://yoursite.com/dynamic-crawler.html"/>
 
 
 
@@ -236,108 +236,24 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/dynamic-crawler/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="C0mRaDe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gabe-crow.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="C0mRaDe's Blog">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">How-To-Identify-Dynamic-URLs?</h1>
-        
+	<h1 class="post-title" itemprop="name headline">How-To-Identify-Dynamic-URLs?</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-02T02:17:20+08:00">
-                2019-03-02
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分類於</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/信息安全/" itemprop="url" rel="index">
-                    <span itemprop="name">信息安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <p>最近发现了一个比较尴尬的问题，就是自己虽然写过不少爬虫，但是并没有遇到过有动态URL（页面用JavaScript生成）的情况，这里就需要有一个东西可以代替我们去通过浏览器访问网页，解析JS。接下来的内容主要用英语写，没什么特别原因，就是想写。<a id="more"></a></p>
+      <div class="post-body">
+        
+        
+          <p>最近发现了一个比较尴尬的问题，就是自己虽然写过不少爬虫，但是并没有遇到过有动态URL（页面用JavaScript生成）的情况，这里就需要有一个东西可以代替我们去通过浏览器访问网页，解析JS。接下来的内容主要用英语写，没什么特别原因，就是想写。<a id="more"></a></p>
 <h1 id="how2solve"><a href="#how2solve" class="headerlink" title="how2solve?"></a>how2solve?</h1><p>To solve this problem, we need a browser’s kernal. I use the combination of <code>selenium</code> and <code>geckodriver</code> here.</p>
 <h1 id="selenium"><a href="#selenium" class="headerlink" title="selenium"></a>selenium</h1><p>According to the document:</p>
 <blockquote>
@@ -351,69 +267,15 @@
 <p>test.php<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">	<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">function RndNum(n)&#123;</span></span><br><span class="line"><span class="undefined">    var rnd="";</span></span><br><span class="line"><span class="undefined">    for(var i=0;i&lt;n;i++)</span></span><br><span class="line"><span class="undefined">        rnd+=Math.floor(Math.random()*10);</span></span><br><span class="line"><span class="undefined">    return rnd;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">	</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"xxx"</span> <span class="attr">id</span>=<span class="string">'zxc'</span>&gt;</span>qweqwe<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">	document.getElementById('zxc').innerHTML=RndNum(22);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>This webpage is able to generate a dynamic URL, if we use <code>Requests</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1551463573811.png" alt="enter description here">We get no shit. When we use <code>selenium</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1551463709059.png" alt="enter description here">We can get the random number generated by JavaScript, Hooray! Apparently, we can build a XSS bot with <code>selenium</code> and <code>geckodriver</code>, I’ll try it later. For now, I NEED SLEEP.</p>
 
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/XSS/" rel="tag"># XSS</a>
-          
-            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/03/02/ThinkPHP5-0-x-system-orders/" rel="next" title="ThinkPHP5.0.x命令执行分析">
-                <i class="fa fa-chevron-left"></i> ThinkPHP5.0.x命令执行分析
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2099/02/17/SQL盲注的多种姿势/" rel="prev" title="SQL盲注的多种姿势">
-                SQL盲注的多种姿势 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -475,7 +337,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
