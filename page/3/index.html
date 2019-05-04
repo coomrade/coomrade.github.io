@@ -239,7 +239,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/20/PHP弱类型的一些总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/SQL盲注的多种姿势/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="C0mRaDe">
@@ -258,7 +258,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/20/PHP弱类型的一些总结/" itemprop="url">PHP弱类型的一些总结</a></h1>
+                <a class="post-title-link" href="/2018/09/17/SQL盲注的多种姿势/" itemprop="url">SQL盲注的多种姿势</a></h1>
         
 
         <div class="post-meta">
@@ -270,8 +270,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-09-20T18:03:14+08:00">
-                2018-09-20
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-09-17T15:52:14+08:00">
+                2018-09-17
               </time>
             
 
@@ -331,14 +331,15 @@
 
       
         
-          <h1 id="新疆大学校赛"><a href="#新疆大学校赛" class="headerlink" title="新疆大学校赛"></a>新疆大学校赛</h1><p>description:</p>
-<blockquote>
-<p>小明shell下的编辑器用的比较6</p>
-</blockquote>
-<p><code>index.php.swo</code>泄露了源码
+          <h1 id="SQL注入小tricks"><a href="#SQL注入小tricks" class="headerlink" title="SQL注入小tricks"></a>SQL注入小tricks</h1><ul>
+<li>or的两边可以没空格，可以是’)(</li>
+<li><code>%09</code>(制表符),<code>%0a</code>(换行符)有时候可绕过空格过滤</li>
+<li><code>union select</code>被过滤，可以用<code>union%0bselect</code></li>
+<li><code>regexp</code>与<code>rlike</code>相同</li>
+<li><code>select * from users where name=&#39;John&#39;</code>与<code>select * from users where name in(&#39;John&#39;)</code>相同<img src="https://www.github.com/coomrade/Img/raw/master/pics/1538808209072.png" alt="enter description here">
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/20/PHP弱类型的一些总结/#more" rel="contents">
+            <a class="btn" href="/2018/09/17/SQL盲注的多种姿势/#more" rel="contents">
               閱讀全文 &raquo;
             </a>
           </div>
