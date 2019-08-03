@@ -78,7 +78,7 @@
 
 
 
-  <meta name="keywords" content="CTF,反序列化,SSRF," />
+  <meta name="keywords" content=",,," />
 
 
 
@@ -90,10 +90,10 @@
 
 
 <meta name="description" content="昨天打了第四届上海市大学生网络安全大赛，这里记录下四道web的解题过程。 web1题目描述:what are you doing?这题说实话比较脑洞。。进来之后，页面没什么东西，注释有提示">
-<meta name="keywords" content="CTF,反序列化,SSRF">
-<meta property="og:type" content="article">
+<meta name="keywords" content="反序列化,CTF,SSRF">
+<meta property="og:type" content="website">
 <meta property="og:title" content="第四届上海市大学生网络安全大赛-web">
-<meta property="og:url" content="http://yoursite.com/2018/11/05/第四届上海市大学生网络安全大赛-web/index.html">
+<meta property="og:url" content="http://yoursite.com/第四届上海市大学生网络安全大赛-web.html">
 <meta property="og:site_name" content="C0mRaDe&#39;s Blog">
 <meta property="og:description" content="昨天打了第四届上海市大学生网络安全大赛，这里记录下四道web的解题过程。 web1题目描述:what are you doing?这题说实话比较脑洞。。进来之后，页面没什么东西，注释有提示">
 <meta property="og:locale" content="zh-hk">
@@ -173,7 +173,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/05/第四届上海市大学生网络安全大赛-web/"/>
+  <link rel="canonical" href="http://yoursite.com/第四届上海市大学生网络安全大赛-web.html"/>
 
 
 
@@ -284,108 +284,24 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/第四届上海市大学生网络安全大赛-web/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="C0mRaDe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/gabe-crow.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="C0mRaDe's Blog">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">第四届上海市大学生网络安全大赛-web</h1>
-        
+	<h1 class="post-title" itemprop="name headline">第四届上海市大学生网络安全大赛-web</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-11-05T02:57:26+08:00">
-                2018-11-05
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分類於</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/信息安全/" itemprop="url" rel="index">
-                    <span itemprop="name">信息安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <p>昨天打了第四届上海市大学生网络安全大赛，这里记录下四道web的解题过程。</p>
+      <div class="post-body">
+        
+        
+          <p>昨天打了第四届上海市大学生网络安全大赛，这里记录下四道web的解题过程。</p>
 <h1 id="web1"><a href="#web1" class="headerlink" title="web1"></a>web1</h1><p>题目描述:what are you doing?<br>这题说实话比较脑洞。。<br>进来之后，页面没什么东西，注释有提示<a id="more"></a><img src="https://www.github.com/coomrade/Img/raw/master/pics/1541352876371.png" alt="enter description here"><code>robots.txt</code>：<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541352909168.png" alt="enter description here"><code>flag.php</code>应该是放flag的，直接看<code>source.php</code>有什么<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541352950689.png" alt="enter description here">还是注释有提示，根据注释，添加header:<code>X-Client-IP:127.0.0.1</code>以及post <code>admin=1</code>就可以看到下一步关键提示<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353058663.png" alt="enter description here">按照提示post过去<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353214880.png" alt="enter description here">给了一个图片的链接，访问一下发现是没东西的<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353294763.png" alt="enter description here">一开始以为是要拼速度啥的，写了脚本，发现不是。回头再来看有没有被遗漏的点。发现url这个参数的解析符合<code>parse_url</code>的特征<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353386712.png" alt="enter description here">可以看这篇<a href="https://paper.seebug.org/561/" target="_blank" rel="noopener">文章</a>对<code>parse_url</code>的特性讲解。从而想到有可能是SSRF，尝试一波<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353505881.png" alt="enter description here">这里要想一下回显可能在哪里，自然地想到很可能就是在图片那了。访问图片，发现确实打到了东西<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353572441.png" alt="enter description here">然后直接构造<code>url=file://@www.ichunqiu.com/var/www/html/flag.php</code>，再访问图片即可读到flag。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353653830.png" alt="enter description here"></p>
 <h1 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h1><p>题目描述：Can you hack me?<br>进来之后同样是一个没东西的页面<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353718176.png" alt="enter description here">这次注释也没东西，那么直接扫一波目录，发现有<code>.index.php.swp</code>，下载下来，用<code>vim -r</code>复原<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353802553.png" alt="enter description here">所有代码如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">come</span></span>&#123;    </span><br><span class="line">    <span class="keyword">private</span> $method;</span><br><span class="line">    <span class="keyword">private</span> $args;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($method, $args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;method = $method;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;args = $args;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="keyword">$this</span>-&gt;args <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;args[$k] = <span class="keyword">$this</span>-&gt;waf(trim($v));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">waf</span><span class="params">($str)</span></span>&#123;</span><br><span class="line">        $str=preg_replace(<span class="string">"/[&lt;&gt;*;|?\n ]/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">        $str=str_replace(<span class="string">'flag'</span>,<span class="string">''</span>,$str);</span><br><span class="line">        <span class="keyword">return</span> $str;</span><br><span class="line">    &#125;           </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">echo</span><span class="params">($host)</span></span>&#123;</span><br><span class="line">        system(<span class="string">"echo $host"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (in_array(<span class="keyword">$this</span>-&gt;method, <span class="keyword">array</span>(<span class="string">"echo"</span>))) &#123;</span><br><span class="line">            call_user_func_array(<span class="keyword">array</span>(<span class="keyword">$this</span>, <span class="keyword">$this</span>-&gt;method), <span class="keyword">$this</span>-&gt;args);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$first=<span class="string">'hi'</span>;</span><br><span class="line">$var=<span class="string">'var'</span>;</span><br><span class="line">$bbb=<span class="string">'bbb'</span>;</span><br><span class="line">$ccc=<span class="string">'ccc'</span>;</span><br><span class="line">$i=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">foreach</span>($_GET <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">        <span class="keyword">if</span>($i===<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            $i++;</span><br><span class="line">            $$key = $value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;<span class="keyword">break</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>($first===<span class="string">"doller"</span>)</span><br><span class="line">&#123;</span><br><span class="line">    @parse_str($_GET[<span class="string">'a'</span>]);</span><br><span class="line"><span class="keyword">if</span>($var===<span class="string">'give'</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>($bbb===<span class="string">'me'</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>($ccc===<span class="string">'flag'</span>)&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"&lt;br&gt;welcome&lt;/br&gt;"</span>;</span><br><span class="line">            $come=@$_POST[<span class="string">'come'</span>];</span><br><span class="line">            unserialize($come);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;br&gt;think about it&lt;/br&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"no"</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"can you hack me?"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>前面是一个类的声明，然后看这个部分<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541353889979.png" alt="enter description here">它只能进行一次变量覆盖，我们看后面的代码，有一个<code>parse_str</code>，那时候再进行其它变量的覆盖也不迟，所以这里首先处理<code>$first</code>,传入<code>first=doller</code>，然后是一个<code>parse_str</code>，只需要把想改变值的变量传进a就可以了，注意<code>&amp;</code>要进行url编码，最终到达内层的<code>payload</code>是<code>first=doller&amp;a=var=give%26bbb=me%26ccc=flag</code><img src="https://www.github.com/coomrade/Img/raw/master/pics/1541354126830.png" alt="enter description here">然后就是一个反序列化，我们来看看这个类<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541354210120.png" alt="enter description here">首先可以看到，<code>__wakeup()</code>里面对<code>$args</code>进行了一个<code>foreach</code>的操作，每个<code>$v</code>都要进行<code>waf(trim($v))</code>的处理，这里很明显，<code>$args</code>得是一个数组。<br>然后再看，<code>waf</code>函数禁用了一些东西，但是好像本来就没打算用得上，还把flag替换为空，简单双写即可绕过。<br>再看<code>echo</code>函数，调用了<code>system()</code>，而且参数可控，明显可以命令注入。<br>最后看<code>__destruct</code>，这里限定了传进去的<code>$method</code>只能是<code>echo</code>，然后用<code>echo</code>函数对<code>$args</code>数组进行处理。<br>所以，我们可以这么构造<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541354871582.png" alt="enter description here">然后传入<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541354929913.png" alt="enter description here">再构造一次，读flag即可<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541354974026.png" alt="enter description here"><img src="https://www.github.com/coomrade/Img/raw/master/pics/1541354999152.png" alt="enter description here"></p>
@@ -396,71 +312,15 @@
 <h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p>进来之后有一个id输入框，还有个登录框<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541355942768.png" alt="enter description here">第一时间测测SQL注入，发现id是存在注入的。<code>id=sd&#39; or 1#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541355988746.png" alt="enter description here"><code>id=sd&#39; or 0#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356012733.png" alt="enter description here">这里有个值得注意的地方，就是这句<code>$content=str_replace($value,&quot;&quot;,$content)</code>，很明显它在提示我们，后台很有可能把某些关键词替换为空了。fuzz一下，发现<code>load_file</code>和<code>union</code>和<code>information_schema.???</code>(手动测的)系列都被ban了<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356167540.png" alt="enter description here">想了一下，觉得首先要找到它把什么替换为空了才能突破。进行了漫长的测试后，发现<code>from</code>和<code>select</code>都被替换为空。<code>id=sd&#39; or (selselectect 1)#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356380869.png" alt="enter description here"><code>id=sd&#39; or (selselectect 1 fromfromfrom)#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356404121.png" alt="enter description here">知道了这两个词被替换为空，那么能不能把他们插入到被ban的关键词中，从而实现绕过呢?<code>id=unifromon</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356584338.png" alt="enter description here">没有报<code>get out hacker!!</code>，说明是可以的。然后进行注入，发现这是令人愉悦的有回显的注入(其实是后面才想起来，一开始完全就是当布尔盲注做的)<br><code>id=sd&#39; unifromon selselectect (seselectlect database()),2#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356798390.png" alt="enter description here"><code>id=sd&#39; unifromon selselectect (seselectlect group_concat(table_name)frfromom information_schemafrom.tables where table_schema=&#39;web&#39;),2#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356853512.png" alt="enter description here"><code>id=sd&#39; unifromon selselectect (seselectlect group_concat(column_name)frfromom information_schemafrom.columns where table_name=&#39;user&#39; and table_schema=&#39;web&#39;),2#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356886176.png" alt="enter description here"><code>id=sd&#39; unifromon selselectect (seselectlect group_concat(username,&#39;:&#39;,password)frfromom web.user),2#</code>:<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541356969868.png" alt="enter description here">注出<code>admin</code>的密码的md5，拿去解密<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541357022732.png" alt="enter description here">然后登录</p>
 <h2 id="“文件上传”"><a href="#“文件上传”" class="headerlink" title="“文件上传”"></a>“文件上传”</h2><p>登录进来之后看到一个文件上传的表单<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541357082680.png" alt="enter description here">尝试传点东西，发现不能直接传php，看看数据包<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541357198738.png" alt="enter description here">发现无论传过去的文件名是什么，后台都会在最后面加个<code>.txt</code>，而且提示说要<code>upload to ./flag.php</code>，而且这是个假的上传，访问返回的链接是没有东西的。这里首先发现，最终的文件名是<code>uploaddir</code>和<code>fileField</code>的文件名共同组成的，两者配合可以弄出一个php的后缀。<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541357353355.png" alt="enter description here">剩下的问题就只有如何去掉这个<code>.txt</code>，第一感觉当然就是截断了，尝试了#,00截断都不行。卡住了好久好久，甚至回到sql注入那里看看能不能<code>load_file</code>读读后台到底是怎么写的，但是不行。最后还是觉得要截断，试了几个常见的，<code>%0a,%09</code>，都不行，实在是没办法了，打算把不可见字符都试一遍，试到<code>%02</code>的时候，成了。??<img src="https://www.github.com/coomrade/Img/raw/master/pics/1541357778933.png" alt="enter description here"></p>
 
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/CTF/" rel="tag"># CTF</a>
-          
-            <a href="/tags/反序列化/" rel="tag"># 反序列化</a>
-          
-            <a href="/tags/SSRF/" rel="tag"># SSRF</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/10/30/secconctf2018-GHOSTKINGDOM/" rel="next" title="SECCONCTF2018-GhostKingdom">
-                <i class="fa fa-chevron-left"></i> SECCONCTF2018-GhostKingdom
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/05/XCTF2018-Final-bestphp/" rel="prev" title="XCTF2018-Final_bestphp">
-                XCTF2018-Final_bestphp <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -522,7 +382,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
